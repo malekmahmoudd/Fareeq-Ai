@@ -21,6 +21,7 @@ from app.core.lang import request_locale, translate_detail
 from app.core.observability import install as install_observability
 from app.db.base import Base
 from app.db.session import SessionLocal, engine
+from app.documents.service import fail_interrupted_uploads
 from app.users.guest_cleanup import purge_expired_guests
 
 logging.basicConfig(level=logging.INFO)
@@ -86,6 +87,9 @@ async def lifespan(app: FastAPI):
         Base.metadata.create_all(bind=engine)
     try:
         with SessionLocal() as db:
+            interrupted = fail_interrupted_uploads(db)
+            if interrupted:
+                logger.info("Marked %d interrupted uploads for retry", interrupted)
             n = sync_agents(db)
             db.commit()
             logger.info("Synced %d agents into the registry table", n)

@@ -76,3 +76,31 @@ def test_document_ingestion_is_serialized(monkeypatch):
 
     asyncio.run(run())
     assert peak == 1
+
+
+def test_restart_marks_only_incomplete_uploads_for_retry(db):
+    from app.db.models import Document
+    from app.documents.service import fail_interrupted_uploads
+
+    guest = User(id="g_upload", display_name="Guest")
+    db.add(guest)
+    db.flush()
+    rows = [
+        Document(
+            user_id=guest.id,
+            agent_id="study",
+            filename="verification.txt",
+            kind="txt",
+            size_bytes=100,
+            sha256=(status[0] * 64),
+            status=status,
+        )
+        for status in ("processing", "ready", "failed")
+    ]
+    db.add_all(rows)
+    db.commit()
+    assert fail_interrupted_uploads(db) == 1
+    db.commit()
+    db.refresh(rows[0])
+    assert rows[0].status == "failed" and "upload the file again" in rows[0].error
+    assert rows[1].status == "ready" and rows[2].status == "failed"

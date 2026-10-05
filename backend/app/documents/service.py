@@ -16,7 +16,7 @@ import re
 import unicodedata
 from functools import lru_cache
 
-from sqlalchemy import func, select
+from sqlalchemy import func, select, update
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
@@ -176,3 +176,16 @@ def get_document(db: Session, user_id: str, document_id: str) -> Document | None
     return db.scalar(
         select(Document).where(Document.id == document_id, Document.user_id == user_id)
     )
+
+
+def fail_interrupted_uploads(db) -> int:
+    """Raw upload bytes are transient; a process restart cannot resume parsing."""
+    changed = db.execute(
+        update(Document)
+        .where(Document.status == "processing")
+        .values(
+            status="failed",
+            error="Processing was interrupted by a server restart. Please upload the file again.",
+        )
+    )
+    return changed.rowcount
