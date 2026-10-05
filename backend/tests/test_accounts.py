@@ -47,7 +47,11 @@ def _login(client, email="alice@example.com", password=PASSWORD):
 def test_signup_is_closed_unless_switched_on(client, open_signup, monkeypatch):
     monkeypatch.setattr(settings, "signup_enabled", False)
     assert _signup(client).status_code == 404
-    assert client.get("/api/auth/status").json() == {"required": True, "signup_enabled": False}
+    assert client.get("/api/auth/status").json() == {
+        "required": True,
+        "signup_enabled": False,
+        "guest_enabled": False,
+    }
 
 
 def test_signup_creates_a_signed_in_account_with_recovery_codes(client, open_signup, db):

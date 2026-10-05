@@ -9,6 +9,11 @@ import type { MessageKey } from "@/lib/i18n/en";
 type Counted = `${string}_${"zero" | "two" | "few" | "many"}`;
 
 export const ar: Record<MessageKey, string> & Partial<Record<Counted, string>> = {
+  "guest.try": "جرّب بدون تسجيل الدخول",
+  "guest.save": "إنشاء حساب",
+  "guest.title": "تستخدم فريق كضيف",
+  "guest.help": "لا تحتاج إلى إنشاء حساب. يُحفظ عملك على الخادم ويرتبط بجلسة هذا المتصفح. أنشئ حسابًا للعودة إليه من أجهزة أخرى. تجنّب رفع معلومات حساسة.",
+  "guest.unavailable": "الدخول كضيف غير متاح مؤقتًا. حاول مجددًا بعد قليل.",
   // --- common ---
   "common.save": "حفظ",
   "common.saving": "جارٍ الحفظ…",

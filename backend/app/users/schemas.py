@@ -91,6 +91,7 @@ class ProfileUpdate(BaseModel):
 class UserRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: str
+    is_guest: bool = False
     email: str | None
     display_name: str
     onboarded: bool

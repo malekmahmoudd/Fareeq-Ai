@@ -21,7 +21,7 @@ global.window = {localStorage, sessionStorage,
   localStorage['fareeq.draft.study.new'] = 'Legacy private draft';
   localStorage['ui-preference'] = 'keep';
   sessionStorage['fareeq.handoff'] = 'Private quoted reply';
-  global.fetch = async () => new Response('', {status: 401});
+  global.fetch = async url => url.endsWith('/auth/status') ? Response.json({guest_enabled: false}) : new Response('', {status: 401});
   await assert.rejects(apiFetch('/users/me'), ApiError);
   assert.equal(readDraft(alice), '');
   assert.equal(localStorage['fareeq.draft.study.new'], undefined);
@@ -36,5 +36,20 @@ global.window = {localStorage, sessionStorage,
   global.fetch = async () => Response.json({signed_in: true});
   await apiFetch('/auth/login');
   assert.equal(readDraft(alice), '');
+  window.location.pathname = '/';
+  let guestCalls = 0, signedIn = false;
+  global.fetch = async url => {
+    if (url.endsWith('/auth/status')) return Response.json({guest_enabled: true});
+    if (url.endsWith('/auth/guest')) { guestCalls++; await new Promise(resolve => setTimeout(resolve, 10)); signedIn = true; return Response.json({signed_in: true}); }
+    return signedIn ? Response.json({id: 'isolated-guest'}) : new Response('', {status: 401});
+  };
+  const results = await Promise.all([apiFetch('/users/me'), apiFetch('/goals')]);
+  assert.equal(guestCalls, 1, 'concurrent requests share a guest bootstrap');
+  assert.equal(results[0].id, 'isolated-guest');
+  assert.equal(redirects, 1, 'guest access never sends visitors to login');
+  signedIn = false;
+  global.fetch = async url => url.endsWith('/auth/status') ? Response.json({guest_enabled: true}) : new Response('', {status: url.endsWith('/auth/guest') ? 429 : 401});
+  await assert.rejects(apiFetch('/users/me'), error => error.status === 429);
+  assert.equal(redirects, 1, 'an unavailable guest session shows an error instead of forcing login');
   console.log('PASS: account-scoped drafts; 401/login clear private drafts and handoff; UI preferences survive.');
 })().catch(error => {console.error(error); process.exitCode = 1;});

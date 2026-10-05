@@ -237,3 +237,8 @@ qualified professional. For anything with real consequences, check it.
 This deployment is self-hosted; whether anyone can sign up or only invited people
 is the operator's setting. If what is stored or who can see it changes, the
 operator should tell you before it takes effect.
+
+
+## Trying FareeqAI as a guest
+
+You can use FareeqAI without providing an email address or creating a password. A signed session cookie gives this browser access to a separate guest workspace. Guest conversations and extracted document text are stored on the server, just like account work; AI requests are sent to the configured model provider. Automatic personal-memory extraction is off for new guests. The browser session expires after seven days with the current hosting configuration. Clearing cookies or losing the session means you cannot recover guest work. Expiration does not itself delete stored work. You can delete your guest workspace from Account, or optionally create an account there to keep access across devices. Do not submit confidential or sensitive information to this public demonstration. Shared usage limits protect the free hosting and AI allowance.

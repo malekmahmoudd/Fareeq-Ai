@@ -29,6 +29,7 @@ export default function LoginPage() {
       }
       catch (err) { setError(err instanceof Error ? err.message : t("auth.signInFailed")); setBusy(false); }
     }}>
+      {auth?.guest_enabled && <Link href="/" className="mb-5 block font-bold underline">{t("guest.try")}</Link>}
       <p className="eyebrow">{t("auth.eyebrow")}</p>
       <h1 className="display text-4xl my-4">{needCode ? t("auth.codeTitle") : t("auth.welcome")}</h1>
       {needCode ? <>

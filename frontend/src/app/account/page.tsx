@@ -42,6 +42,21 @@ export default function AccountPage() {
     onNotice: (message: string) => { setError(""); setNotice(message); },
     onError: (message: string) => { setNotice(""); setError(message); },
   };
+  if (me?.is_guest) return <div className="max-w-2xl space-y-5">
+    <h1 className="display text-3xl">{t("guest.title")}</h1>
+    <p>{t("guest.help")}</p>
+    <Link href="/signup" className="btn btn-sun">{t("guest.save")}</Link>
+    <Link href="/login" className="ms-4 underline">{t("common.signIn")}</Link>
+    {error && <p role="alert">{error}</p>}
+    <button disabled={!!busy} className="block py-3 underline" onClick={() => {
+      if (!window.confirm(t("account.deleteHelp"))) return;
+      void run("delete", async () => {
+        await apiFetch("/users/me/delete", {method: "POST", body: JSON.stringify({confirm: "DELETE"})});
+        clearDrafts(); window.location.assign("/");
+      });
+    }}>{t("account.deleteButton")}</button>
+    <Link href="/privacy" className="block py-3 underline">{t("common.privacy")}</Link>
+  </div>;
   return <div className="max-w-2xl space-y-7 pb-8">
     <div><p className="eyebrow">{t("account.eyebrow")}</p><h1 className="display mt-2 text-4xl sm:text-5xl">{t("account.title")}</h1>
       <p className="mt-4 text-ink-soft">{t("account.lede")}</p></div>

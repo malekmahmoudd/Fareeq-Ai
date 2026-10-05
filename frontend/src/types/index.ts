@@ -220,6 +220,7 @@ export interface Briefing {
 }
 
 export interface UserProfile {
+  is_guest?: boolean;
   id: string;
   email: string | null;
   display_name: string;
@@ -245,6 +246,7 @@ export interface PromptTemplate {
 }
 
 export interface AuthStatus {
+  guest_enabled?: boolean;
   required: boolean;
   signup_enabled: boolean;
 }

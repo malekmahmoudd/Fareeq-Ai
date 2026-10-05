@@ -14,7 +14,7 @@ import { PrefsProvider, usePrefs, type Locale } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/i18n/en";
 import { clearDrafts, useOnline, useServiceWorker } from "@/lib/offline";
 import { setPreferNatural } from "@/lib/voice";
-import type { UserProfile } from "@/types";
+import type { AuthStatus, UserProfile } from "@/types";
 
 const NAV: { href: string; label: MessageKey; icon: "home" | "team" | "memory" | "goals" | "calendar" }[] = [
   { href: "/", label: "nav.home", icon: "home" },
@@ -73,9 +73,9 @@ function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const publicPage = PUBLIC_PAGES.includes(pathname);
   const { t, locale, setLocale } = usePrefs();
-  const { data: user } = useApi<UserProfile>(publicPage ? null : "/users/me");
+  const { data: user, error: userError, refetch: retryUser } = useApi<UserProfile>(publicPage ? null : "/users/me");
   const name = firstName(user?.display_name);
-  const { data: auth } = useApi<{ required: boolean }>("/auth/status");
+  const { data: auth } = useApi<AuthStatus>("/auth/status");
   const online = useOnline();
   const { updateReady, reload } = useServiceWorker();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -138,7 +138,10 @@ function Shell({ children }: { children: React.ReactNode }) {
         <div className="fixed end-3 top-3 z-50">
           <LanguageToggle signedIn={false} className="bg-paper-hi" />
         </div>
-        {children}
+        {user ? children : <div role="status" className="p-6">
+          <p>{userError || t("common.loading")}</p>
+          {userError && <button className="btn btn-sun mt-4" onClick={() => void retryUser()}>{t("common.tryAgain")}</button>}
+        </div>}
       </main>
     );
   }
@@ -191,8 +194,12 @@ function Shell({ children }: { children: React.ReactNode }) {
               <Icon name="search" size={20} />
             </button>
             <LanguageToggle signedIn />
+            {user?.is_guest && <>
+              <Link href="/login" className="min-h-11 px-2 py-3 text-sm underline">{t("common.signIn")}</Link>
+              {auth?.signup_enabled && <Link href="/signup" className="min-h-11 px-2 py-3 text-sm font-bold underline">{t("guest.save")}</Link>}
+            </>}
             {!atHome && <Link href="/account" className="grid min-h-11 place-items-center px-2 text-sm font-bold underline decoration-pink decoration-2 underline-offset-4">{t("nav.account")}</Link>}
-            {!atHome && auth?.required && <button className="text-xs underline" onClick={async () => { await apiFetch("/auth/logout", { method: "POST" }); clearDrafts(); window.location.assign("/login"); }}>{t("nav.signOut")}</button>}
+            {!user?.is_guest && auth?.required && <button className="text-xs underline" onClick={async () => { await apiFetch("/auth/logout", { method: "POST" }); clearDrafts(); window.location.assign(auth?.guest_enabled ? "/" : "/login"); }}>{t("nav.signOut")}</button>}
             {name && (
               <Link href="/account" aria-label={t("nav.yourAccount")} className="flex min-h-11 items-center gap-2">
                 <span className="hidden text-[13px] font-semibold text-ink-soft sm:inline">{name}</span>
@@ -217,7 +224,10 @@ function Shell({ children }: { children: React.ReactNode }) {
             : atHome ? "sunshine-main" : "mx-auto w-full max-w-page flex-1 px-4 pb-28 pt-7 sm:px-7 sm:pt-10 md:pb-16"
         }
       >
-        {children}
+        {user ? children : <div role="status" className="p-6">
+          <p>{userError || t("common.loading")}</p>
+          {userError && <button className="btn btn-sun mt-4" onClick={() => void retryUser()}>{t("common.tryAgain")}</button>}
+        </div>}
       </main>
 
       {searchOpen && <SearchPalette onClose={() => setSearchOpen(false)} />}

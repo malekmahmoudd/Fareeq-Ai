@@ -168,11 +168,20 @@ class BudgetedProvider(LLMProvider):
     async def stream_chat(self, *, system, messages, model, temperature, max_tokens):
         account = account_scope.get()
         units = window = 0
+        public_window = None
         if account is not None:
             units = estimate_tokens(
                 system=system, messages=messages, model=model, max_tokens=max_tokens
             )
             window = charge(account, "tokens", units, settings.account_daily_token_budget, 86400)
+            if settings.guest_enabled:
+                try:
+                    public_window = charge(
+                        "public-demo", "tokens", units, settings.public_daily_token_budget, 86400
+                    )
+                except BudgetExceeded:
+                    refund(account, "tokens", units, window)
+                    raise
         # The provider writes the usage it reports into this, when it reports any.
         sink: dict = {}
         usage_sink.set(sink)
@@ -191,17 +200,23 @@ class BudgetedProvider(LLMProvider):
             # A refusal or failure before any text: nothing was delivered.
             if account is not None and not emitted:
                 refund(account, "tokens", units, window)
+                if public_window is not None:
+                    refund("public-demo", "tokens", units, public_window)
             raise
         except StreamEnded:
             if account is not None:
-                _true_up(account, units, window, sink)
+                _true_up(account, units, window, sink, public_window)
             raise
         if account is not None:
-            _true_up(account, units, window, sink)
+            _true_up(account, units, window, sink, public_window)
 
 
-def _true_up(account: str, units: int, window: int, sink: dict) -> None:
+def _true_up(
+    account: str, units: int, window: int, sink: dict, public_window: int | None = None
+) -> None:
     """Give back what the estimate over-charged, once the provider says what it used."""
     used = sink.get("total_tokens")
     if isinstance(used, int) and 0 <= used < units:
         refund(account, "tokens", units - used, window)
+        if public_window is not None:
+            refund("public-demo", "tokens", units - used, public_window)

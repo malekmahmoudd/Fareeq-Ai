@@ -5,6 +5,12 @@
  * `{name}` is filled in by t(); `{n}` by tn(), already formatted.
  */
 export const en = {
+  "guest.try": "Try without signing in",
+  "guest.save": "Create an account",
+  "guest.title": "You’re using FareeqAI as a guest",
+  "guest.help": "No signup needed. Your work is stored on the server and linked to this browser’s session. Create an account to return to it from other devices. Avoid uploading sensitive information.",
+  "guest.unavailable": "Guest access is temporarily unavailable. Please try again shortly.",
+
   // --- common ---
   "common.save": "Save",
   "common.saving": "Saving…",

@@ -27,6 +27,10 @@ from app.db.base import Base, TimestampMixin, UUIDMixin, new_uuid
 
 
 class User(UUIDMixin, TimestampMixin, Base):
+    @property
+    def is_guest(self) -> bool:
+        return (self.id or "").startswith("g_") and self.password_hash is None
+
     __tablename__ = "users"
 
     email: Mapped[str | None] = mapped_column(String(320), unique=True, nullable=True)

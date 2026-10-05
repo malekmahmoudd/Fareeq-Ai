@@ -16,6 +16,9 @@ class Settings(BaseSettings):
     environment: str = Field(default="development")
     debug: bool = Field(default=True)
     auth_required: bool = False
+    guest_enabled: bool = False
+    public_guest_sessions_per_day: int = Field(default=200, ge=1)
+    public_daily_token_budget: int = Field(default=100000, ge=1)
     auth_secret: str = Field(default="", repr=False)
     auth_access_keys: dict[str, str] = Field(default_factory=dict, repr=False)
     session_seconds: int = Field(default=604800, ge=60, le=2592000)

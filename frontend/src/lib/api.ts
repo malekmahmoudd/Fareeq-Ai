@@ -34,17 +34,48 @@ function readableDetail(detail: unknown): string {
   return "";
 }
 
+// One bootstrap for concurrent protected requests; each browser gets its own signed session.
+let guestSession: Promise<boolean> | null = null;
+async function startGuest(): Promise<boolean> {
+  if (!guestSession) {
+    guestSession = (async () => {
+      let status: Response;
+      try { status = await fetch(`${API_BASE}/auth/status`); }
+      catch { throw new ApiError(503, t("guest.unavailable")); }
+      if (!status.ok) throw new ApiError(status.status, t("guest.unavailable"));
+      const mode = await status.json().catch(() => null);
+      if (!mode?.guest_enabled) return false;
+      clearDrafts();
+      const result = await fetch(`${API_BASE}/auth/guest`, { method: "POST" });
+      if (!result.ok) throw new ApiError(result.status, t("guest.unavailable"));
+      return true;
+    })().finally(() => { guestSession = null; });
+  }
+  return guestSession;
+}
+
+/** Expired uploads/streams are not replayed into a fresh identity. */
+export async function recoverExpiredSession(): Promise<void> {
+  clearDrafts();
+  const guest = await startGuest();
+  window.location.assign(guest ? "/" : "/login");
+}
+
 export async function apiFetch<T>(
   path: string,
   init: RequestInit = {},
 ): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
+  const request = () => fetch(`${API_BASE}${path}`, {
     ...init,
     headers: {
       "Content-Type": "application/json",
       ...(init.headers || {}),
     },
   });
+  let res = await request();
+  if (res.status === 401 && !path.startsWith("/auth/") && typeof window !== "undefined" && !PUBLIC_PAGES.includes(window.location.pathname)) {
+    if (await startGuest()) res = await request();
+  }
   if (res.status === 401 && typeof window !== "undefined" && !PUBLIC_PAGES.includes(window.location.pathname)) {
     clearDrafts();
     window.location.assign("/login");
@@ -150,8 +181,7 @@ export function uploadDocument(
           /* not JSON */
         }
         if (xhr.status === 401 && !PUBLIC_PAGES.includes(window.location.pathname)) {
-          clearDrafts();
-          window.location.assign("/login");
+          void recoverExpiredSession().catch(error => reject(error));
         }
         if (xhr.status >= 200 && xhr.status < 300) {
           resolve(body as import("@/types").UserDocument);

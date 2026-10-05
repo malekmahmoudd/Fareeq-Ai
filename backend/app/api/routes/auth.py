@@ -20,6 +20,7 @@ client address), because an open form is an open invitation to guess.
 import hashlib
 import hmac
 import re
+import uuid
 from datetime import UTC
 
 from fastapi import APIRouter, HTTPException, Request, Response
@@ -30,7 +31,7 @@ from sqlalchemy.exc import IntegrityError
 from app.api.deps import CurrentUser, DbSession, refuse_if_suspended
 from app.core import passwords, totp
 from app.core import sessions as devices
-from app.core.auth import COOKIE, key_user, session_claims, sign_session
+from app.core.auth import COOKIE, key_user, session_claims, session_user, sign_session
 from app.core.config import settings
 from app.core.usage import BudgetExceeded, charge
 from app.db.base import utcnow
@@ -287,7 +288,32 @@ def _describe(user_agent: str | None) -> dict:
 
 @router.get("/status")
 def status():
-    return {"required": settings.auth_required, "signup_enabled": settings.signup_enabled}
+    return {
+        "required": settings.auth_required,
+        "signup_enabled": settings.signup_enabled,
+        "guest_enabled": settings.guest_enabled,
+    }
+
+
+@router.post("/guest")
+def guest(request: Request, response: Response, db: DbSession):
+    if not settings.guest_enabled or not settings.auth_required:
+        raise HTTPException(404, "Guest access is not available")
+    _same_origin(request)
+    existing_id = session_user(request.cookies.get(COOKIE, ""))
+    existing = get_by_id(db, existing_id) if existing_id else None
+    if existing is not None and devices.session_ok(db, request, existing):
+        refuse_if_suspended(existing)
+        return {"signed_in": True, "guest": existing.is_guest}
+    _throttle("guest", _client_address(request), 10, 3600)
+    _throttle("guest-total", "public-demo", settings.public_guest_sessions_per_day, 86400)
+    account = User(
+        id="g_" + uuid.uuid4().hex, display_name="Guest", memory_auto=False, onboarded=True
+    )
+    db.add(account)
+    db.flush()
+    _set_session(response, account, db, request, "guest")
+    return {"signed_in": True, "guest": True}
 
 
 @router.post("/login")
@@ -339,11 +365,22 @@ def signup(body: Signup, request: Request, response: Response, db: DbSession):
         raise HTTPException(
             409, "An account with that email already exists. Sign in, or use a recovery code."
         )
-    account = User(
-        email=email,
-        display_name=body.display_name,
-        password_hash=passwords.hash_password(body.password),
+    guest_id = session_user(request.cookies.get(COOKIE, ""))
+    prior = get_by_id(db, guest_id) if guest_id else None
+    account = (
+        prior
+        if prior is not None and prior.is_guest and devices.session_ok(db, request, prior)
+        else User()
     )
+    if account is prior:
+        _lock_credentials(db, account, request)
+        if not account.is_guest:
+            raise HTTPException(409, "This guest session already has an account. Please sign in.")
+    refuse_if_suspended(account)
+    account.email = email
+    account.display_name = body.display_name
+    account.password_hash = passwords.hash_password(body.password)
+    account.session_epoch = (account.session_epoch or 0) + 1
     db.add(account)
     try:
         db.flush()

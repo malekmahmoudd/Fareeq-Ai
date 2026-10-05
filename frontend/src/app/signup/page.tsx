@@ -19,10 +19,11 @@ export default function SignupPage() {
 
   return <div className="min-h-dvh grid place-items-center bg-paper p-6">
     <div className="w-full max-w-md border-2 border-ink bg-paper-hi p-8 shadow-pop">
+      {auth?.guest_enabled && <Link href="/" className="mb-5 block font-bold underline">{t("guest.try")}</Link>}
       <p className="eyebrow">{t("auth.eyebrow")}</p>
       {codes ? <>
         <h1 className="display text-4xl my-4">{t("auth.saveCodes")}</h1>
-        <RecoveryCodes codes={codes} doneLabel={t("auth.meetTeam")} onDone={() => window.location.assign("/agents/modeer?onboarding=1")} />
+        <RecoveryCodes codes={codes} doneLabel={t("auth.meetTeam")} onDone={() => window.location.assign("/")} />
       </> : !loading && !auth?.signup_enabled ? <>
         <h1 className="display text-4xl my-4">{t("auth.notOpen")}</h1>
         <p className="mb-6 text-ink-soft">{t("auth.notOpenHelp")}</p>

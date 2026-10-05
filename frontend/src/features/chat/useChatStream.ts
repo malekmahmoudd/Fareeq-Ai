@@ -2,9 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { API_BASE } from "@/lib/api";
+import { API_BASE, recoverExpiredSession } from "@/lib/api";
 import { t } from "@/lib/i18n";
-import { clearDrafts } from "@/lib/offline";
 import type {
   Allowance,
   ChatStreamEvent,
@@ -122,7 +121,7 @@ export function useChatStream(agentId: string, opts: Options = {}) {
           ),
           signal: controller.signal,
         });
-        if (res.status === 401) { clearDrafts(); window.location.assign("/login"); return; }
+        if (res.status === 401) { await recoverExpiredSession(); return; }
         if (!res.ok) {
           const body = await res.json().catch(() => null);
           throw new Error(typeof body?.detail === "string" ? body.detail : t("stream.failed", { status: res.status }));
