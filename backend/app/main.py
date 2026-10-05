@@ -21,6 +21,7 @@ from app.core.lang import request_locale, translate_detail
 from app.core.observability import install as install_observability
 from app.db.base import Base
 from app.db.session import SessionLocal, engine
+from app.users.guest_cleanup import purge_expired_guests
 
 logging.basicConfig(level=logging.INFO)
 # HTTP client INFO/DEBUG logs contain full URLs, including webhook credentials.
@@ -41,8 +42,11 @@ def sweep_incognito() -> int:
     Device records that ended over 30 days ago go in the same pass."""
     with SessionLocal() as db:
         removed = purge_incognito(db)
+        guests = purge_expired_guests(db)
         devices.sweep(db)
         db.commit()
+    if guests:
+        logger.info("Removed %d expired guest workspaces", guests)
     return removed
 
 

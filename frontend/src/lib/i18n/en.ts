@@ -8,7 +8,7 @@ export const en = {
   "guest.try": "Try without signing in",
   "guest.save": "Create an account",
   "guest.title": "You’re using FareeqAI as a guest",
-  "guest.help": "No signup needed. Your work is stored on the server and linked to this browser’s session. Create an account to return to it from other devices. Avoid uploading sensitive information.",
+  "guest.help": "No signup needed. Your work is stored on the server and linked to this browser’s session. The guest session lasts seven days, then its work is automatically erased when the service runs its cleanup. Create an account to keep it across devices. Avoid uploading sensitive information.",
   "guest.unavailable": "Guest access is temporarily unavailable. Please try again shortly.",
 
   // --- common ---

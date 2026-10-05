@@ -86,6 +86,8 @@ def _load(directory: str) -> Embedder | None:
 
 def get_embedder() -> Embedder | None:
     """The shared embedder, loaded on first use, or None when unavailable."""
+    if not settings.document_semantic_search:
+        return None
     return _load(settings.embedding_model_dir)
 
 

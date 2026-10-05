@@ -39,6 +39,7 @@ class Settings(BaseSettings):
     # --- Documents (RAG) ---
     #: Upload files to an agent and have it answer from them. See docs/rag.md.
     documents_enabled: bool = True
+    document_semantic_search: bool = True
     documents_per_user: int = Field(default=5, ge=0, le=50)
     document_max_bytes: int = Field(default=10 * 1024 * 1024, ge=1024)
     #: Most text kept from one document, after extraction.

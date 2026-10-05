@@ -14,6 +14,7 @@ import hashlib
 import logging
 import re
 import unicodedata
+from functools import lru_cache
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -91,7 +92,18 @@ def create(
     return doc
 
 
+@lru_cache(maxsize=1)
+def _ingestion_slot(loop):
+    # One parser/model job at a time; cache per event loop for test lifecycles.
+    return asyncio.Semaphore(1)
+
+
 async def ingest(document_id: str, data: bytes) -> None:
+    async with _ingestion_slot(asyncio.get_running_loop()):
+        await _ingest(document_id, data)
+
+
+async def _ingest(document_id: str, data: bytes) -> None:
     """Read a recorded upload in: parse, chunk, embed, store. Never raises."""
     with SessionLocal() as db:
         doc = db.get(Document, document_id)
@@ -109,7 +121,7 @@ async def ingest(document_id: str, data: bytes) -> None:
                 # Keep the start; say so rather than silently dropping the rest.
                 pages = _truncate(pages, settings.document_max_chars)
             chunks = chunk_pages(pages)
-            embedder = emb.get_embedder()
+            embedder = await asyncio.to_thread(emb.get_embedder)
             vectors = (
                 await asyncio.to_thread(embedder.passages, [c.text for c in chunks])
                 if embedder is not None
