@@ -104,3 +104,14 @@ def test_restart_marks_only_incomplete_uploads_for_retry(db):
     db.refresh(rows[0])
     assert rows[0].status == "failed" and "upload the file again" in rows[0].error
     assert rows[1].status == "ready" and rows[2].status == "failed"
+
+
+def test_wake_page_returns_to_only_the_configured_frontend(client):
+    from app.core.config import settings
+
+    response = client.get("/wake?return_to=https://evil.test")
+    assert response.status_code == 200
+    assert settings.frontend_url in response.text
+    assert "evil.test" not in response.text
+    assert "set-cookie" not in response.headers
+    assert response.headers["cache-control"] == "no-store"

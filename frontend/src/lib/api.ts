@@ -73,6 +73,16 @@ export async function apiFetch<T>(
     },
   });
   let res = await request();
+  if (res.status === 503 && res.headers.get("X-Fareeq-Wake") === "1" &&
+      typeof window !== "undefined" && !PUBLIC_PAGES.includes(window.location.pathname)) {
+    // One real top-level browser visit per cold start, never a background keepalive.
+    const lastWake = Number(window.sessionStorage.getItem("fareeq.wake.at") || 0);
+    if (Date.now() - lastWake > 120000) {
+      window.sessionStorage.setItem("fareeq.wake.at", String(Date.now()));
+      window.location.assign("https://fareeqai-api.malekmahmoud.blitz.cloud/wake");
+    }
+    throw new ApiError(503, t("guest.unavailable"));
+  }
   if (res.status === 401 && !path.startsWith("/auth/") && typeof window !== "undefined" && !PUBLIC_PAGES.includes(window.location.pathname)) {
     if (await startGuest()) res = await request();
   }

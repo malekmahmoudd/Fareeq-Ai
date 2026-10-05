@@ -3,12 +3,13 @@ from __future__ import annotations
 import asyncio
 import logging
 from contextlib import asynccontextmanager, suppress
+from html import escape
 
 from fastapi import FastAPI, Request
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from app.agents.sync import sync_agents
@@ -160,3 +161,17 @@ app.include_router(api_router)
 @app.get("/")
 def root() -> dict:
     return {"service": settings.app_name, "docs": app.docs_url, "api": "/api"}
+
+
+@app.get("/wake", response_class=HTMLResponse)
+def wake():
+    """A real browser visit wakes free hosting, then returns to the public app."""
+    destination = escape(settings.frontend_url, quote=True)
+    return HTMLResponse(
+        '<!doctype html><html lang="en"><meta charset="utf-8">'
+        '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        f'<meta http-equiv="refresh" content="1;url={destination}">'
+        "<title>Opening FareeqAI</title><body><h1>Opening FareeqAI…</h1>"
+        f'<p><a href="{destination}">Continue to FareeqAI</a></p></body></html>',
+        headers={"Cache-Control": "no-store", "Referrer-Policy": "no-referrer"},
+    )

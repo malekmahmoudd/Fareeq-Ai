@@ -46,6 +46,14 @@ export default {
         redirect: "manual", signal: controller.signal,
       });
       clearTimeout(timer); // Header timeout only: SSE bodies remain streamed.
+      // Hosting start/error gates are HTML, never an application API response.
+      if (api && (upstream.headers.has("X-Blitz-Gate") ||
+          (upstream.headers.get("content-type") || "").includes("text/html"))) {
+        await upstream.body?.cancel();
+        return Response.json({ detail: "The service is temporarily unavailable. Please try again shortly." },
+          { status: 503, headers: { "Cache-Control": "no-store", "Retry-After": "10",
+            ...(upstream.headers.has("X-Blitz-Gate") ? { "X-Fareeq-Wake": "1" } : {}) } });
+      }
       const outgoing = new Headers(upstream.headers);
       if (!api) outgoing.delete("set-cookie");
       const location = outgoing.get("location");

@@ -51,5 +51,10 @@ global.window = {localStorage, sessionStorage,
   global.fetch = async url => url.endsWith('/auth/status') ? Response.json({guest_enabled: true}) : new Response('', {status: url.endsWith('/auth/guest') ? 429 : 401});
   await assert.rejects(apiFetch('/users/me'), error => error.status === 429);
   assert.equal(redirects, 1, 'an unavailable guest session shows an error instead of forcing login');
+  global.fetch = async () => new Response('', {status: 503, headers: {'X-Fareeq-Wake': '1'}});
+  await assert.rejects(apiFetch('/users/me'), error => error.status === 503);
+  assert.equal(redirects, 2, 'cold hosting opens a real browser wake page');
+  await assert.rejects(apiFetch('/users/me'), error => error.status === 503);
+  assert.equal(redirects, 2, 'a failing wake cannot create a redirect loop');
   console.log('PASS: account-scoped drafts; 401/login clear private drafts and handoff; UI preferences survive.');
 })().catch(error => {console.error(error); process.exitCode = 1;});

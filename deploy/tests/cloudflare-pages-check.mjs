@@ -39,4 +39,12 @@ globalThis.fetch = async () => { throw new Error('secret-provider-credential'); 
 response = await worker.fetch(new Request('https://fareeqai.pages.dev/api/health'));
 assert.equal(response.status, 503);
 assert.ok(!(await response.text()).includes('secret-provider-credential'));
+globalThis.fetch = async () => new Response('<html>Host startup script</html>', {
+  status: 503, headers: {'content-type': 'text/html', 'X-Blitz-Gate': 'starting'},
+});
+response = await worker.fetch(new Request('https://fareeqai.pages.dev/api/auth/status'));
+assert.equal(response.status, 503);
+assert.equal(response.headers.get('X-Fareeq-Wake'), '1');
+assert.match(response.headers.get('content-type'), /application\/json/);
+assert.ok(!(await response.text()).includes('<html>'));
 console.log('Pages transport: credential isolation, origin preservation, cookie/stream passthrough, fixed upstream, preview refusal and error redaction passed.');
