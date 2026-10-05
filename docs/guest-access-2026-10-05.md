@@ -8,4 +8,12 @@ Guest creation is capped at ten per address per hour and 200 across the deployme
 
 Guests start with automatic memory extraction disabled. Server persistence remains necessary for conversations/documents and is stated in the privacy notice and guest Account screen. Guests can erase their workspace from Account. The deployed seven-day cookie expiry is not a deletion schedule; expired guest workspace cleanup remains a follow-up. No schema migration or new hosting service is needed.
 
-Verification: backend full suite 562 passed, 4 skipped before one additional quota regression; targeted authentication/guest/account suite 41 passed. Frontend typecheck, portable checks, production build passed; lint 0 errors and 21 warnings. Final deployment verification will be recorded after the production switches are enabled.
+Verification: backend full suite 563 passed, 4 skipped; targeted authentication/guest/account suite 41 passed and guest/quota suite 22 passed. Backend lint passed. Frontend typecheck, portable checks, production build passed; lint 0 errors and 21 warnings. Pages proxy transport checks passed.
+
+Published source commit: 12c5c00ae1643ae1db375199b3e2a3a61baf4fbe on hardening/quality-auth-deploy. Netlify deployment 6ac40887cea46a000850208a is published. Blitz Activity shows commit 12c5c00 live; after the configuration restart and rebuild, direct API and Pages API both returned required=true, signup_enabled=true, guest_enabled=true. Initial provider activity showed the release before public API responses changed, so the actual response was used as the completion signal.
+
+The user explicitly approved enabling guest access and optional signup. GUEST_ENABLED=true and SIGNUP_ENABLED=true are saved on Blitz and mirrored in the ignored private deploy/.env; AUTH_REQUIRED remains true. Shared caps use the tested default values above.
+
+Live HTTP verification: separate guest identities, repeat bootstrap preserves identity, forged X-User-Id cannot change the identity, cross-guest goal access refused, signup preserves identity and goals, subsequent login restores them, and both synthetic test workspaces were erased. Browser verification: opening https://fareeqai.pages.dev/ displays the app without login or onboarding, with optional Sign in/Create an account links. Sending a REST-versus-GraphQL question produced a real streamed Groq reply through Pages. Screenshots: docs/remediation/guest-home-live-2026-10-05.png and guest-chat-live-2026-10-05.png.
+
+This verifies the requested guest flow. It does not resolve the previously recorded long-idle backend wake rehearsal or full production document/OCR memory rehearsal.
