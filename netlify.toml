@@ -1,4 +1,4 @@
-# Only public backend origin belongs on Netlify. AI/auth/database secrets stay on Render.
+# Only public backend origin belongs on Netlify. AI/auth/database secrets stay on Blitz.
 [build]
   base = "frontend"
   command = "npm run build"
@@ -6,6 +6,10 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Explicitly enable SSR packaging; this monorepo was published as raw .next assets.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [[headers]]
   for = "/*"
