@@ -1,0 +1,37 @@
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade  -> 0001, initial schema
+INFO  [alembic.runtime.migration] Running upgrade 0001 -> 0002, Durable account usage limits.
+INFO  [alembic.runtime.migration] Running upgrade 0002 -> 0003, Per-account session revocation.
+INFO  [alembic.runtime.migration] Running upgrade 0003 -> 0004, Passwords, recovery codes and per-person memory consent.
+INFO  [alembic.runtime.migration] Running upgrade 0004 -> 0005, User timezone and memory history.
+INFO  [alembic.runtime.migration] Running upgrade 0005 -> 0006, Follow-ups, saved plans, check-ins, conversation summaries, memory provenance.
+INFO  [alembic.runtime.migration] Running upgrade 0006 -> 0007, Documents for retrieval: extracted text and chunks, no stored files.
+INFO  [alembic.runtime.migration] Running upgrade 0007 -> 0008, Account suspension, handoff note expiry, trip end dates, check-in details.
+INFO  [alembic.runtime.migration] Running upgrade 0008 -> 0009, Incognito conversations, saved replies, interface language.
+INFO  [alembic.runtime.migration] Running upgrade 0009 -> 0010, Signed-in devices and two-step sign-in.
+INFO  [alembic.runtime.migration] Running upgrade 0010 -> 0011, Account-owned interface preferences, separate from model context.
+INFO  [alembic.runtime.migration] Running upgrade 0011 -> 0012, Push reminders, prompt templates, CVs, organising chats, reply dialect.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running downgrade 0012 -> 0011, Push reminders, prompt templates, CVs, organising chats, reply dialect.
+INFO  [alembic.runtime.migration] Running downgrade 0011 -> 0010, Account-owned interface preferences, separate from model context.
+INFO  [alembic.runtime.migration] Running downgrade 0010 -> 0009, Signed-in devices and two-step sign-in.
+INFO  [alembic.runtime.migration] Running downgrade 0009 -> 0008, Incognito conversations, saved replies, interface language.
+INFO  [alembic.runtime.migration] Running downgrade 0008 -> 0007, Account suspension, handoff note expiry, trip end dates, check-in details.
+INFO  [alembic.runtime.migration] Running downgrade 0007 -> 0006, Documents for retrieval: extracted text and chunks, no stored files.
+INFO  [alembic.runtime.migration] Running downgrade 0006 -> 0005, Follow-ups, saved plans, check-ins, conversation summaries, memory provenance.
+INFO  [alembic.runtime.migration] Running downgrade 0005 -> 0004, User timezone and memory history.
+INFO  [alembic.runtime.migration] Running downgrade 0004 -> 0003, Passwords, recovery codes and per-person memory consent.
+INFO  [alembic.runtime.migration] Context impl PostgresqlImpl.
+INFO  [alembic.runtime.migration] Will assume transactional DDL.
+INFO  [alembic.runtime.migration] Running upgrade 0003 -> 0004, Passwords, recovery codes and per-person memory consent.
+INFO  [alembic.runtime.migration] Running upgrade 0004 -> 0005, User timezone and memory history.
+INFO  [alembic.runtime.migration] Running upgrade 0005 -> 0006, Follow-ups, saved plans, check-ins, conversation summaries, memory provenance.
+INFO  [alembic.runtime.migration] Running upgrade 0006 -> 0007, Documents for retrieval: extracted text and chunks, no stored files.
+INFO  [alembic.runtime.migration] Running upgrade 0007 -> 0008, Account suspension, handoff note expiry, trip end dates, check-in details.
+INFO  [alembic.runtime.migration] Running upgrade 0008 -> 0009, Incognito conversations, saved replies, interface language.
+INFO  [alembic.runtime.migration] Running upgrade 0009 -> 0010, Signed-in devices and two-step sign-in.
+INFO  [alembic.runtime.migration] Running upgrade 0010 -> 0011, Account-owned interface preferences, separate from model context.
+INFO  [alembic.runtime.migration] Running upgrade 0011 -> 0012, Push reminders, prompt templates, CVs, organising chats, reply dialect.
+{"database": "PostgreSQL 16, disposable scratch database", "revision": "0012", "checks": ["empty database to head", "head to 0003 to head", "user and session epoch preserved", "recovery table restored"], "limitation": "Downgrade discards password/recovery data by design; use a backup for rollback."}

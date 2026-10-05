@@ -309,12 +309,18 @@ def login(body: Login, request: Request, response: Response, db: DbSession):
         if not passwords.verify_password(body.password, account.password_hash if account else None):
             raise HTTPException(401, WRONG_SIGN_IN)
 
+    verified_password = account.password_hash
+    # Throttle in its separate transaction before acquiring the credential lock.
+    if body.code:
+        _throttle("second-step", account.id, ATTEMPTS_PER_EMAIL, 900)
+    _lock_credentials(db, account)
+    if body.access_key is None and account.password_hash != verified_password:
+        raise HTTPException(401, WRONG_SIGN_IN)
     refuse_if_suspended(account)
     if account.totp_enabled_at is not None:
         if not body.code:
             # The first step was right; ask for the second. No cookie yet.
             return {"signed_in": False, "two_factor_required": True}
-        _throttle("second-step", account.id, ATTEMPTS_PER_EMAIL, 900)
         if not _second_step(db, account, body.code):
             raise HTTPException(401, "That code isn't right. Check your authenticator app.")
     _set_session(response, account, db, request, "key" if body.access_key else "password")
@@ -362,6 +368,7 @@ def recover(body: Recover, request: Request, response: Response, db: DbSession):
     account = _by_email(db, email)
     if account is not None:
         _lock_credentials(db, account)
+        refuse_if_suspended(account)
     wanted = passwords.hash_recovery_code(body.code)
     match = None
     for code in account.recovery_codes if account else []:

@@ -3,14 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "test": "node tools/api-check.cjs && node tools/stream-check.cjs && node tools/links-check.cjs && node tools/privacy-check.cjs && node tools/edge-proxy-check.cjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:dependencies": "node tools/dependency-check.cjs"
   },
   "dependencies": {
-    "next": "^16.3.5",
+    "next": "16.3.8",
     "qrcode-generator": "^2.0.4",
     "react": "19.0.0",
     "react-dom": "19.0.0"
@@ -20,10 +22,10 @@
     "@types/react": "19.0.7",
     "@types/react-dom": "19.0.3",
     "autoprefixer": "10.4.20",
-    "eslint": "9.18.0",
-    "eslint-config-next": "^16.3.5",
-    "postcss": "8.5.1",
-    "tailwindcss": "3.4.17",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.8",
+    "postcss": "8.5.28",
+    "tailwindcss": "3.4.19",
     "typescript": "5.7.3"
   }
 }

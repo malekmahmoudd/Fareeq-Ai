@@ -1,0 +1,5 @@
+
+> crewai-frontend@0.1.0 check:dependencies
+> node tools/dependency-check.cjs
+
+PASS: runtime audit clear; 7 build-chain findings confined to the recorded braces advisory; standalone excludes affected build tools.

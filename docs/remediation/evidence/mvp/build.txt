@@ -1,0 +1,46 @@
+
+> crewai-frontend@0.1.0 build
+> next build
+
+▲ Next.js 16.3.8 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.mjs took 6ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 834ms
+  Running TypeScript ...
+  Finished TypeScript in 1613ms ...
+  Collecting page data using 17 workers ...
+  Generating static pages using 17 workers (0/18) ...
+  Generating static pages using 17 workers (4/18) 
+  Generating static pages using 17 workers (8/18) 
+  Generating static pages using 17 workers (13/18) 
+✓ Generating static pages using 17 workers (18/18) in 102ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /account
+├ ƒ /agents/[agentId]
+├ ƒ /chats
+├ ƒ /cv
+├ ƒ /goals
+├ ○ /icon.svg
+├ ƒ /login
+├ ○ /manifest.webmanifest
+├ ƒ /memory
+├ ƒ /money
+├ ƒ /plans
+├ ƒ /privacy
+├ ƒ /recover
+├ ƒ /signup
+├ ƒ /team
+└ ƒ /week
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

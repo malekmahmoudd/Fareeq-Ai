@@ -101,8 +101,10 @@ try:
     db_command("pg_restore", "-U", "modeer", "-d", scratch, "--exit-on-error", "--no-owner", container_dump)
     assert snapshot("modeer") == snapshot(scratch)
     assert db_command("psql", "-U", "modeer", "-d", scratch, "-tAc",
-                      "SELECT version_num FROM alembic_version") == "0004"
-    passed("schema 0004 restore matches every source table, including credentials and consent")
+                      "SELECT version_num FROM alembic_version") == db_command(
+                          "psql", "-U", "modeer", "-d", "modeer", "-tAc",
+                          "SELECT version_num FROM alembic_version")
+    passed("current schema restore matches every source table, including credentials and consent")
     db_command("psql", "-U", "modeer", "-d", scratch, "-c",
                "UPDATE users SET display_name='populated restore sentinel'")
     assert snapshot("modeer") != snapshot(scratch)

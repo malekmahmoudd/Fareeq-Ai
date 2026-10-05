@@ -70,8 +70,8 @@ export function useServiceWorker() {
 
 const DRAFT_PREFIX = "fareeq.draft.";
 
-export function draftKey(agentId: string, conversationId: string | null): string {
-  return `${DRAFT_PREFIX}${agentId}.${conversationId ?? "new"}`;
+export function draftKey(accountId: string, agentId: string, conversationId: string | null): string {
+  return `${DRAFT_PREFIX}v2.${encodeURIComponent(accountId)}.${agentId}.${conversationId ?? "new"}`;
 }
 
 export function readDraft(key: string): string {
@@ -93,6 +93,11 @@ export function writeDraft(key: string, text: string): void {
 
 /** Forget every saved draft (on sign-out, so the next person can't read them). */
 export function clearDrafts(): void {
+  try {
+    window.sessionStorage.removeItem("fareeq.handoff");
+  } catch {
+    /* storage may be blocked */
+  }
   try {
     for (const key of Object.keys(window.localStorage)) {
       if (key.startsWith(DRAFT_PREFIX)) window.localStorage.removeItem(key);

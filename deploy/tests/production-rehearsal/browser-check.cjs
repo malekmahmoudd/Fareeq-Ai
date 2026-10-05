@@ -68,7 +68,9 @@ const userBubbles = (page, text) => page.locator(".user-message", { hasText: tex
 const lastReply = (page) => page.locator(".assistant-message").last();
 
 (async () => {
-  const browser = await chromium.launch({ channel: "chrome", headless: true });
+  const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || "chrome", headless: true });
+  results.browser = browser.version();
+  results.channel = process.env.PLAYWRIGHT_CHANNEL || "chrome";
   try {
     const { context, page } = await session(browser, { width: 1440, height: 900 });
 

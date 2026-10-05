@@ -1,0 +1,17 @@
+ Container modeer-rehearsal-backend-1 Recreate 
+ Container modeer-rehearsal-backend-1 Recreated 
+ Container modeer-rehearsal-frontend-1 Recreate 
+ Container modeer-rehearsal-frontend-1 Recreated 
+ Container modeer-rehearsal-backend-1 Starting 
+ Container modeer-rehearsal-backend-1 Started 
+ Container modeer-rehearsal-frontend-1 Starting 
+ Container modeer-rehearsal-frontend-1 Started 
+ Container modeer-rehearsal-backend-1 Recreate 
+ Container modeer-rehearsal-backend-1 Recreated 
+ Container modeer-rehearsal-frontend-1 Recreate 
+ Container modeer-rehearsal-frontend-1 Recreated 
+ Container modeer-rehearsal-backend-1 Starting 
+ Container modeer-rehearsal-backend-1 Started 
+ Container modeer-rehearsal-frontend-1 Starting 
+ Container modeer-rehearsal-frontend-1 Started 
+{"checks": ["audited backend and previous patched frontend become ready", "existing signed session and conversations survive image rollback", "current images become ready again with the same session and conversations"], "schema": "0012 unchanged; no automatic database downgrade", "scope": "Loopback only; retired backend is not approved for public deployment"}

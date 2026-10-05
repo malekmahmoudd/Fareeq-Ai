@@ -26,6 +26,12 @@ class Settings(BaseSettings):
     # Tokens per account per UTC day: charged up front from a high estimate,
     # then trued up to what the provider reports. See app/core/usage.py.
     memory_timeout_seconds: float = Field(default=8, ge=1, le=30)
+    # Applied before FastAPI's JSON/multipart parser, including anonymous bodies.
+    request_max_bytes: int = Field(default=1024 * 1024, ge=1024)
+    request_max_parts: int = Field(default=8, ge=1, le=100)
+    request_body_seconds: float = Field(default=60, ge=1, le=300)
+    request_body_idle_seconds: float = Field(default=10, ge=1, le=60)
+    request_body_concurrency: int = Field(default=8, ge=1, le=64)
 
     # --- Documents (RAG) ---
     #: Upload files to an agent and have it answer from them. See docs/rag.md.

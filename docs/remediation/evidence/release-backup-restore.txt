@@ -1,0 +1,74 @@
+( 1/58) Upgrading libcrypto3 (3.5.8-r0 -> 3.5.9-r0)
+( 2/58) Upgrading libssl3 (3.5.8-r0 -> 3.5.9-r0)
+( 3/58) Installing coreutils-env (9.11-r0)
+( 4/58) Installing coreutils-fmt (9.11-r0)
+( 5/58) Installing coreutils-sha512sum (9.11-r0)
+( 6/58) Installing acl-libs (2.3.2-r1)
+( 7/58) Installing libattr (2.5.2-r2)
+( 8/58) Installing skalibs-libs (2.15.0.0-r0)
+( 9/58) Installing utmps-libs (0.1.3.3-r0)
+(10/58) Installing coreutils (9.11-r0)
+(11/58) Installing curl (8.22.0-r0)
+(12/58) Installing openssl (3.5.9-r0)
+(13/58) Installing libbz2 (1.0.8-r6)
+(14/58) Installing libffi (3.5.2-r1)
+(15/58) Installing gdbm (1.26-r0)
+(16/58) Installing xz-libs (5.8.4-r0)
+(17/58) Installing libgcc (15.2.0-r5)
+(18/58) Installing libstdc++ (15.2.0-r5)
+(19/58) Installing mpdecimal (4.0.1-r0)
+(20/58) Installing libpanelw (6.6_p20260516-r0)
+(21/58) Installing readline (8.3.3-r1)
+(22/58) Installing sqlite-libs (3.53.4-r0)
+(23/58) Installing python3 (3.14.8-r0)
+(24/58) Installing python3-pycache-pyc0 (3.14.8-r0)
+(25/58) Installing pyc (3.14.8-r0)
+(26/58) Installing python3-pyc (3.14.8-r0)
+(27/58) Installing util-linux (2.42.3-r1)
+(28/58) Installing dmesg (2.42.3-r1)
+(29/58) Installing setarch (2.42.3-r1)
+(30/58) Installing libeconf (0.8.3-r0)
+(31/58) Installing libblkid (2.42.3-r1)
+(32/58) Installing libuuid (2.42.3-r1)
+(33/58) Installing libfdisk (2.42.3-r1)
+(34/58) Installing libmount (2.42.3-r1)
+(35/58) Installing libsmartcols (2.42.3-r1)
+(36/58) Installing util-linux-misc (2.42.3-r1)
+(37/58) Installing linux-pam (1.7.1-r2)
+(38/58) Installing runuser (2.42.3-r1)
+(39/58) Installing mount (2.42.3-r1)
+(40/58) Installing losetup (2.42.3-r1)
+(41/58) Installing hexdump (2.42.3-r1)
+(42/58) Installing uuidgen (2.42.3-r1)
+(43/58) Installing blkid (2.42.3-r1)
+(44/58) Installing sfdisk (2.42.3-r1)
+(45/58) Installing mcookie (2.42.3-r1)
+(46/58) Installing agetty (2.42.3-r1)
+(47/58) Installing wipefs (2.42.3-r1)
+(48/58) Installing cfdisk (2.42.3-r1)
+(49/58) Installing umount (2.42.3-r1)
+(50/58) Installing flock (2.42.3-r1)
+(51/58) Installing lsblk (2.42.3-r1)
+(52/58) Installing libcap-ng (0.8.5-r2)
+(53/58) Installing setpriv (2.42.3-r1)
+(54/58) Installing lscpu (2.42.3-r1)
+(55/58) Installing logger (2.42.3-r1)
+(56/58) Installing partx (2.42.3-r1)
+(57/58) Installing fstrim (2.42.3-r1)
+(58/58) Installing findmnt (2.42.3-r1)
+Executing busybox-1.37.0-r31.trigger
+Executing ca-certificates-20260909-r0.trigger
+OK: 82.1 MiB in 91 packages
+/qa/backups/modeer-expired.dump.enc
+/qa/offhost/modeer-expired.dump.enc
+BACKUP PASSED: encrypted, verified copy at /qa/offhost/modeer-20261003-234653-36.dump.enc
+PASS backup refuses missing encryption key or destination
+PASS plaintext cleaned; both destinations expire archives and preserve unrelated files
+PASS wrong key rejected; copied archive restores successfully
+PASS 503 readiness triggers one alert per state change
+PASS failed alert delivery retries; successful recovery updates state
+PASS nightly job reports backup failure to a local test webhook
+PASS nightly job backs up and immediately restores the copied archive
+PASS current schema restore matches every source table, including credentials and consent
+PASS clean restore over populated scratch database recovers exact source rows
+PASS unreachable application produces a failing check

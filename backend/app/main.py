@@ -16,6 +16,7 @@ from app.api import api_router
 from app.conversations.service import purge_incognito
 from app.core import sessions as devices
 from app.core.config import settings
+from app.core.ingress import BodyLimits
 from app.core.lang import request_locale, translate_detail
 from app.core.observability import install as install_observability
 from app.db.base import Base
@@ -115,8 +116,13 @@ async def _translated_http_error(request: Request, exc: StarletteHTTPException):
 
 
 async def _translated_validation_error(request: Request, exc: RequestValidationError):
-    detail = translate_detail(jsonable_encoder(exc.errors()), request_locale(request))
-    return JSONResponse({"detail": detail}, status_code=422)
+    # Pydantic includes submitted input/ctx, including whole credential bodies.
+    safe = [
+        {key: error[key] for key in ("loc", "type", "msg") if key in error}
+        for error in exc.errors()
+    ]
+    detail = translate_detail(jsonable_encoder(safe), request_locale(request))
+    return JSONResponse({"detail": detail}, status_code=422, headers={"Cache-Control": "no-store"})
 
 
 app = FastAPI(
@@ -138,6 +144,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(BodyLimits, config=settings)
 
 app.include_router(api_router)
 

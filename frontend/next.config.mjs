@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   reactStrictMode: true,
   devIndicators: false,
   // No "X-Powered-By: Next.js": the framework and its version are nobody's business.

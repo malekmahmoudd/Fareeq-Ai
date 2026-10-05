@@ -7,8 +7,9 @@ mkdir -p /scripts /qa/backups /qa/offhost
 cp /source/*.sh /source/notify-operator.py /scripts/
 sed -i 's/\r$//' /scripts/*
 chmod +x /scripts/*.sh
+test "${REHEARSAL_PROJECT:-}" = "modeer-rehearsal"
 cat > /qa/compose.yml <<'YAML'
-name: modeer-rehearsal-20260914
+name: modeer-rehearsal
 services:
   db:
     image: postgres:16-alpine

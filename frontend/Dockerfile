@@ -10,8 +10,10 @@ RUN npm run build
 FROM node:22-alpine@sha256:c610fcdfb1d5b4740dd70c284ed3cb16bb857e0f7166196e36a5501df7a3aa32
 WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=build --chown=node:node /app ./
+ENV HOSTNAME=0.0.0.0
+COPY --from=build --chown=node:node /app/.next/standalone ./
+COPY --from=build --chown=node:node /app/.next/static ./.next/static
+COPY --from=build --chown=node:node /app/public ./public
 USER node
 EXPOSE 3000
-CMD ["npm", "start", "--", "-H", "0.0.0.0"]
-
+CMD ["node", "server.js"]

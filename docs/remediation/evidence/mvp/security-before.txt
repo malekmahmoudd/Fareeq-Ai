@@ -1,0 +1,170 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+____ test_validation_errors_never_return_credentials[login-body0-secrets0] _____
+
+client = <starlette.testclient.TestClient object at 0x10b8814c0>, path = 'login'
+body = {'access_key': 'synthetic-key-synthetic-key-synthetic-key-synthetic-key-', 'code': 'synthetic-recovery-code', 'email': 'test@example.com', 'password': 'synthetic-private-password'}
+secrets = ['synthetic-key-', 'synthetic-private-password', 'synthetic-recovery-code']
+
+    @pytest.mark.parametrize('path,body,secrets', [
+        ('login', {'access_key': 'synthetic-key-' * 4, 'email': 'test@example.com',
+                   'password': 'synthetic-private-password', 'code': 'synthetic-recovery-code'},
+         ['synthetic-key-', 'synthetic-private-password', 'synthetic-recovery-code']),
+        ('signup', {'email': 'test@example.com', 'display_name': 'Test', 'password': 'short!'},
+         ['short!']),
+        ('recover', {'email': 'test@example.com', 'code': 'synthetic-recovery-code',
+                     'new_password': 'short!'}, ['synthetic-recovery-code', 'short!']),
+    ])
+    def test_validation_errors_never_return_credentials(client, path, body, secrets):
+        response = client.post('/api/auth/' + path, json=body)
+        assert response.status_code == 422
+        for secret in secrets:
+>           assert secret not in response.text
+E           assert 'synthetic-key-' not in '{"detail":[...rror":{}}}]}'
+E             
+E             'synthetic-key-' is contained here:
+E               hetic-key-synthetic-key-","email":"test@example.com","password":"synthetic-private-password","code":"synthetic-recovery-code"},"ctx":{"error":{}}}]}
+E             ? ++++++++++++++
+
+tests/test_mvp_security.py:28: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+INFO:modeer:Synced 10 agents into the registry table
+------------------------------ Captured log setup ------------------------------
+INFO     modeer:main.py:87 Synced 10 agents into the registry table
+----------------------------- Captured stderr call -----------------------------
+INFO:modeer.access:POST /api/auth/login 422 0.020s
+------------------------------ Captured log call -------------------------------
+INFO     modeer.access:observability.py:160 POST /api/auth/login 422 0.020s
+____ test_validation_errors_never_return_credentials[signup-body1-secrets1] ____
+
+client = <starlette.testclient.TestClient object at 0x10baa5eb0>
+path = 'signup'
+body = {'display_name': 'Test', 'email': 'test@example.com', 'password': 'short!'}
+secrets = ['short!']
+
+    @pytest.mark.parametrize('path,body,secrets', [
+        ('login', {'access_key': 'synthetic-key-' * 4, 'email': 'test@example.com',
+                   'password': 'synthetic-private-password', 'code': 'synthetic-recovery-code'},
+         ['synthetic-key-', 'synthetic-private-password', 'synthetic-recovery-code']),
+        ('signup', {'email': 'test@example.com', 'display_name': 'Test', 'password': 'short!'},
+         ['short!']),
+        ('recover', {'email': 'test@example.com', 'code': 'synthetic-recovery-code',
+                     'new_password': 'short!'}, ['synthetic-recovery-code', 'short!']),
+    ])
+    def test_validation_errors_never_return_credentials(client, path, body, secrets):
+        response = client.post('/api/auth/' + path, json=body)
+        assert response.status_code == 422
+        for secret in secrets:
+>           assert secret not in response.text
+E           assert 'short!' not in '{"detail":[...rror":{}}}]}'
+E             
+E             'short!' is contained here:
+E               ,"input":"short!","ctx":{"error":{}}}]}
+E             ?           ++++++
+
+tests/test_mvp_security.py:28: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+INFO:modeer:Synced 10 agents into the registry table
+------------------------------ Captured log setup ------------------------------
+INFO     modeer:main.py:87 Synced 10 agents into the registry table
+----------------------------- Captured stderr call -----------------------------
+INFO:modeer.access:POST /api/auth/signup 422 0.001s
+------------------------------ Captured log call -------------------------------
+INFO     modeer.access:observability.py:160 POST /api/auth/signup 422 0.001s
+___ test_validation_errors_never_return_credentials[recover-body2-secrets2] ____
+
+client = <starlette.testclient.TestClient object at 0x10bb695b0>
+path = 'recover'
+body = {'code': 'synthetic-recovery-code', 'email': 'test@example.com', 'new_password': 'short!'}
+secrets = ['synthetic-recovery-code', 'short!']
+
+    @pytest.mark.parametrize('path,body,secrets', [
+        ('login', {'access_key': 'synthetic-key-' * 4, 'email': 'test@example.com',
+                   'password': 'synthetic-private-password', 'code': 'synthetic-recovery-code'},
+         ['synthetic-key-', 'synthetic-private-password', 'synthetic-recovery-code']),
+        ('signup', {'email': 'test@example.com', 'display_name': 'Test', 'password': 'short!'},
+         ['short!']),
+        ('recover', {'email': 'test@example.com', 'code': 'synthetic-recovery-code',
+                     'new_password': 'short!'}, ['synthetic-recovery-code', 'short!']),
+    ])
+    def test_validation_errors_never_return_credentials(client, path, body, secrets):
+        response = client.post('/api/auth/' + path, json=body)
+        assert response.status_code == 422
+        for secret in secrets:
+>           assert secret not in response.text
+E           assert 'short!' not in '{"detail":[...rror":{}}}]}'
+E             
+E             'short!' is contained here:
+E               ,"input":"short!","ctx":{"error":{}}}]}
+E             ?           ++++++
+
+tests/test_mvp_security.py:28: AssertionError
+---------------------------- Captured stderr setup -----------------------------
+INFO:modeer:Synced 10 agents into the registry table
+------------------------------ Captured log setup ------------------------------
+INFO     modeer:main.py:87 Synced 10 agents into the registry table
+----------------------------- Captured stderr call -----------------------------
+INFO:modeer.access:POST /api/auth/recover 422 0.001s
+------------------------------ Captured log call -------------------------------
+INFO     modeer.access:observability.py:160 POST /api/auth/recover 422 0.001s
+___________________ test_concurrent_logins_cannot_reuse_totp ___________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10bb696a0>
+db = <sqlalchemy.orm.session.Session object at 0x10bb681d0>
+
+    def test_concurrent_logins_cannot_reuse_totp(monkeypatch, db):
+        from app.api.routes import auth
+    
+        secret = totp.new_secret()
+        step = totp.current_step()
+        monkeypatch.setattr(totp, 'current_step', lambda now=None: step)
+        user = User(display_name='Replay probe', email='replay@example.com',
+                    password_hash=passwords.hash_password('synthetic-test-password'),
+                    totp_secret=secret, totp_enabled_at=utcnow(), totp_last_step=step-1)
+        db.add(user)
+        db.commit()
+        monkeypatch.setattr(settings, 'auth_required', True)
+        monkeypatch.setattr(settings, 'auth_secret', 's' * 40)
+        barrier = Barrier(2)
+        original = auth._by_email
+        def both_read_old_state(session, email):
+            account = original(session, email)
+            barrier.wait(timeout=5)
+            return account
+        monkeypatch.setattr(auth, '_by_email', both_read_old_state)
+        def login(_):
+            with TestClient(app) as client:
+                return client.post('/api/auth/login', headers={'Origin': settings.frontend_url},
+                    json={'email': user.email, 'password': 'synthetic-test-password',
+                          'code': totp.code_at(secret, step)}).status_code
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            statuses = list(pool.map(login, range(2)))
+>       assert sorted(statuses) == [200, 401]
+E       assert [200, 200] == [200, 401]
+E         
+E         At index 1 diff: 200 != 401
+E         Use -v to get more diff
+
+tests/test_mvp_security.py:60: AssertionError
+----------------------------- Captured stderr call -----------------------------
+INFO:modeer:Synced 10 agents into the registry table
+INFO:modeer:Synced 10 agents into the registry table
+INFO:modeer.access:POST /api/auth/login 200 0.034s
+INFO:modeer.access:POST /api/auth/login 200 0.027s
+------------------------------ Captured log call -------------------------------
+INFO     modeer:main.py:87 Synced 10 agents into the registry table
+INFO     modeer:main.py:87 Synced 10 agents into the registry table
+INFO     modeer.access:observability.py:160 POST /api/auth/login 200 0.034s
+INFO     modeer.access:observability.py:160 POST /api/auth/login 200 0.027s
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/malekmahmoud/code/FareeqAi/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_mvp_security.py::test_validation_errors_never_return_credentials[login-body0-secrets0]
+FAILED tests/test_mvp_security.py::test_validation_errors_never_return_credentials[signup-body1-secrets1]
+FAILED tests/test_mvp_security.py::test_validation_errors_never_return_credentials[recover-body2-secrets2]
+FAILED tests/test_mvp_security.py::test_concurrent_logins_cannot_reuse_totp
+4 failed, 1 warning in 0.17s

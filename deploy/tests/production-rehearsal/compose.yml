@@ -9,7 +9,7 @@
 name: modeer-rehearsal
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:16-alpine@sha256:cf78e76683b9ca8c5733cbbdce6c9262b45b6767934dd0a95e671f9a0fc20685
     environment:
       POSTGRES_USER: modeer
       POSTGRES_DB: modeer
@@ -55,7 +55,7 @@ services:
     build: ../../../frontend
     depends_on: [backend]
   proxy:
-    image: caddy:2-alpine
+    image: caddy:2-alpine@sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648
     environment:
       DOMAIN: localhost
     ports: ["127.0.0.1:8443:443"]

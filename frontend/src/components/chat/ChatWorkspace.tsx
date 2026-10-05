@@ -47,8 +47,9 @@ export function ChatWorkspace({ agentId }: { agentId: string }) {
   const router = useRouter();
   const dt = useDesignText();
   const [reading, setReading] = useState<DesignPreferences>({});
+  const [draftAccount, setDraftAccount] = useState<string | null>(null);
   const [readingFocus, setReadingFocus] = useState(false);
-  useEffect(() => { let active = true; apiFetch<UserProfile>("/users/me").then(u => { if(active) { const p=u.ui_preferences; setReading({reading_size:p?.reading_size,reading_spacing:p?.reading_spacing,reading_width:p?.reading_width}); } }).catch(() => undefined); return () => {active=false;}; }, []);
+  useEffect(() => { let active = true; apiFetch<UserProfile>("/users/me").then(u => { if(active) { setDraftAccount(u.id); const p=u.ui_preferences; setReading({reading_size:p?.reading_size,reading_spacing:p?.reading_spacing,reading_width:p?.reading_width}); } }).catch(() => undefined); return () => {active=false;}; }, []);
   useEffect(() => { if(!readingFocus) return; const key=(e:KeyboardEvent) => {if(e.key === "Escape") setReadingFocus(false);}; document.addEventListener("keydown",key); return () => document.removeEventListener("keydown",key); },[readingFocus]);
   const params = useSearchParams();
   const { t, tn, locale } = usePrefs();
@@ -204,7 +205,7 @@ export function ChatWorkspace({ agentId }: { agentId: string }) {
   }, [conversationId, scrollDown]);
 
   // --- drafts: what was being typed survives a reload or a lost connection ------------
-  const currentDraft = incognito ? null : draftKey(agentId, conversationId);
+  const currentDraft = incognito || !draftAccount ? null : draftKey(draftAccount, agentId, conversationId);
   const draftFor = useRef<string | null>(null);
   useEffect(() => {
     if (!currentDraft || draftFor.current === currentDraft) return;
@@ -229,8 +230,8 @@ export function ChatWorkspace({ agentId }: { agentId: string }) {
     }
     if (!draft) return;
     incomingDraft.current = true;
-    draftFor.current = draftKey(agentId, null);
-    writeDraft(draftFor.current, draft);
+    draftFor.current = draftAccount ? draftKey(draftAccount, agentId, null) : null;
+    if (draftFor.current) writeDraft(draftFor.current, draft);
     setConversationId(null);
     setMessages([]);
     setInput(draft);
@@ -943,7 +944,7 @@ export function ChatWorkspace({ agentId }: { agentId: string }) {
                       try {
                         await apiFetch(`/conversations/${c.id}`, {method:"DELETE"});
                         await refetchConvos();
-                        writeDraft(draftKey(agentId, c.id), "");
+                        if (draftAccount) writeDraft(draftKey(draftAccount, agentId, c.id), "");
                         if (conversationId === c.id) { liveConversation.current = null; setConversationId(null); setMessages([]); setSavedFacts([]); setTeamNotes([]); }
                       } catch (e) { setHistoryError(e instanceof Error ? e.message : t("chat.deleteError")); }
                       finally { setDeletingId(null); }

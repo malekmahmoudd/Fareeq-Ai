@@ -1,0 +1,8 @@
+
+> crewai-frontend@0.1.0 test
+> node tools/api-check.cjs && node tools/stream-check.cjs && node tools/links-check.cjs && node tools/privacy-check.cjs
+
+Data hook: stale results/errors/loading ignored; lifecycle invalidation passed.
+Completed reply preserved; memory failure delivered separately.
+Markdown link policy: 8 allowed, 21 refused, renderer checks passed.
+PASS: account-scoped drafts; 401/login clear private drafts and handoff; UI preferences survive.

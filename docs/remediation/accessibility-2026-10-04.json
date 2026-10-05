@@ -1,0 +1,78 @@
+{
+  "url": "https://localhost:8443",
+  "axe": {
+    "desktop /login": [],
+    "desktop /signup": [],
+    "desktop /recover": [],
+    "desktop /privacy": [],
+    "desktop /login (invitation key)": [],
+    "desktop /": [],
+    "desktop /team": [],
+    "desktop /memory": [],
+    "desktop /goals": [],
+    "desktop /account": [],
+    "desktop /agents/modeer": [],
+    "desktop /agents/study": [],
+    "phone /login": [],
+    "phone /signup": [],
+    "phone /recover": [],
+    "phone /privacy": [],
+    "phone /login (invitation key)": [],
+    "phone /": [],
+    "phone /team": [],
+    "phone /memory": [],
+    "phone /goals": [],
+    "phone /account": [],
+    "phone /agents/modeer": [],
+    "phone /agents/study": [],
+    "desktop /signup (recovery codes)": []
+  },
+  "keyboard": {
+    "/login": {
+      "stops": 7,
+      "problems": []
+    },
+    "/signup": {
+      "stops": 7,
+      "problems": []
+    },
+    "/recover": {
+      "stops": 5,
+      "problems": []
+    },
+    "/privacy": {
+      "stops": 4,
+      "problems": []
+    },
+    "/": {
+      "stops": 24,
+      "problems": []
+    },
+    "/team": {
+      "stops": 32,
+      "problems": []
+    },
+    "/memory": {
+      "stops": 41,
+      "problems": []
+    },
+    "/goals": {
+      "stops": 14,
+      "problems": []
+    },
+    "/account": {
+      "stops": 39,
+      "problems": []
+    },
+    "/agents/modeer": {
+      "stops": 30,
+      "problems": []
+    },
+    "/agents/study": {
+      "stops": 28,
+      "problems": []
+    }
+  },
+  "browser": "153.0.8010.12",
+  "channel": "chromium"
+}

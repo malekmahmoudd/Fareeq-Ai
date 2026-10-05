@@ -1,3 +1,4 @@
+require("./typescript-loader.cjs");
 // Exercise the real stream hook with a scripted response, without a browser.
 const assert = require("node:assert/strict");
 const fs = require("node:fs");

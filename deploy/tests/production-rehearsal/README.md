@@ -93,3 +93,41 @@ for p in ('/docs', '/redoc', '/openapi.json'):
     try: u.urlopen('http://localhost:8000' + p); print(p, 'SERVED')
     except e.HTTPError as x: print(p, x.code)"
 ```
+
+## Current release verification
+
+Database and proxy images use the same pinned digests as deploy/compose.yml.
+Migration and restore scripts check the current Alembic head, rather than the
+old 0004 release. Run `python ingress-check.py` while the stack is up to exercise
+anonymous declared/chunked oversize, excessive parts and stalled bodies through
+HTTPS. The probe deliberately trusts only the disposable local Caddy CA and
+is hardcoded to loopback.
+
+`PLAYWRIGHT_CHANNEL=chromium` selects Playwright's installed Chromium/Chrome
+for Testing when system Chrome cannot launch; install it with
+`playwright install chromium`. Reports record the actual channel and version.
+A passing alternative browser does not certify a failing system Chrome install,
+Safari, physical devices or public TLS.
+
+For the Linux backup/restore test, set `REHEARSAL_PROJECT=modeer-rehearsal` in the
+disposable docker:cli worker. Stop backend/frontend and all browser/test writers
+before exact snapshot comparisons; resume them afterwards. The helper refuses
+other project names. Its second directory tests copy/recovery behavior, **not**
+physical off-host durability. Do not use these operations against real data.
+
+`rollback-check.py` expects locally built tags `fareeq-backend:audited-baseline`
+and `fareeq-frontend:p0-before-layout`. It swaps these in only for the disposable
+rehearsal, checks readiness/session/conversation preservation, then restores the
+current images in a finally block. Build the baseline backend from the audited
+Git revision in a scratch directory; tag the preceding frontend before replacing
+it. Keep Docker on PATH. No database downgrade is run. A retired vulnerable image
+used for this compatibility test is **not** an approved public rollback target.
+
+The targeted MVP regression is `mvp-check.cjs`. After starting this disposable
+stack and running `seed_users.py`, run it with Node and `PLAYWRIGHT_MODULE`
+pointing to an installed Playwright module. It uses Playwright's Chromium
+channel, public rehearsal keys and loopback only. Set `REHEARSAL_REPORT` to a
+report destination. It checks scoped drafts/session expiry/account switching,
+document ingestion/retrieval context, persistence, credentials and phone-width
+layout. It uses the actual production SSE route; its scripted upstream does not
+verify real-provider answer quality or a public deployment.

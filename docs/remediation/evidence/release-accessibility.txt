@@ -1,0 +1,38 @@
+axe desktop /login: no violations
+keys /login: 7 stops
+axe desktop /signup: no violations
+keys /signup: 7 stops
+axe desktop /recover: no violations
+keys /recover: 5 stops
+axe desktop /privacy: no violations
+keys /privacy: 4 stops
+axe desktop /login (invitation key): no violations
+axe desktop /: no violations
+keys /: 24 stops
+axe desktop /team: no violations
+keys /team: 32 stops
+axe desktop /memory: no violations
+keys /memory: 41 stops
+axe desktop /goals: no violations
+keys /goals: 14 stops
+axe desktop /account: no violations
+keys /account: 39 stops
+axe desktop /agents/modeer: no violations
+keys /agents/modeer: 30 stops
+axe desktop /agents/study: no violations
+keys /agents/study: 28 stops
+axe phone /login: no violations
+axe phone /signup: no violations
+axe phone /recover: no violations
+axe phone /privacy: no violations
+axe phone /login (invitation key): no violations
+axe phone /: no violations
+axe phone /team: no violations
+axe phone /memory: no violations
+axe phone /goals: no violations
+axe phone /account: no violations
+axe phone /agents/modeer: no violations
+axe phone /agents/study: no violations
+axe desktop /signup (recovery codes): no violations
+keys signup to first message: done without a mouse
+0 finding(s); report written to ../../../docs/remediation/accessibility-2026-10-04.json

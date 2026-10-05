@@ -1,0 +1,14 @@
+{
+  "environment": "local rehearsal; scripted provider",
+  "checks": [
+    "HTTPS login uses secure HttpOnly SameSite=Strict cookie",
+    "account-scoped private draft survives reload",
+    "document reaches ready, passages reach provider context, conversation persists",
+    "expired session clears scoped and legacy drafts plus handoff before login",
+    "second account cannot see first account draft, document or conversation",
+    "mobile-width chat has no horizontal overflow",
+    "credential validation does not echo submitted secret",
+    "account data persists across logout and login; no browser runtime errors"
+  ],
+  "browser": "153.0.8010.12"
+}

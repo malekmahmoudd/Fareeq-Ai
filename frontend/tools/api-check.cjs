@@ -1,3 +1,4 @@
+require("./typescript-loader.cjs");
 // Exercise the actual data hook with controlled request ordering and lifecycle.
 const assert = require("node:assert/strict");
 const fs = require("node:fs");

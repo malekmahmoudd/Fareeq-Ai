@@ -1,0 +1,228 @@
+
+> crewai-frontend@0.1.0 lint
+> eslint .
+
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/app/account/page.tsx
+  153:121  warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+  160:109  warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/app/login/page.tsx
+  28:9  warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/app/signup/page.tsx
+  25:83  warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/AppShell.tsx
+  195:171  warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/account/SecuritySections.tsx
+  63:9  warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/ChatWorkspace.tsx
+  140:5   warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/ChatWorkspace.tsx:140:5
+  138 |
+  139 |   useEffect(() => {
+> 140 |     setConversationId(openConversation);
+      |     ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  141 |     setMessages([]);
+  142 |     setSavedFacts([]);
+  143 |     setTeamNotes([]);                                                                                                                                                                                                                                                        react-hooks/set-state-in-effect
+  157:5   warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/ChatWorkspace.tsx:157:5
+  155 |     if (!openConversation) return;
+  156 |     liveConversation.current = null;
+> 157 |     setIncognito(null);
+      |     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  158 |     setConversationId(openConversation);
+  159 |     if (focusMessage) setHighlight(focusMessage);
+  160 |   }, [openConversation, focusMessage]);                                                                                                                                                         react-hooks/set-state-in-effect
+  165:7   warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/ChatWorkspace.tsx:165:7
+  163 |     if (incognito || openConversation || incomingDraft.current) return;
+  164 |     if (conversationId === null && conversations && conversations.length > 0 && !seed && !params.get("handoff") && !params.get("draft") && !params.get("compose")) {
+> 165 |       setConversationId(conversations[0].id);
+      |       ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  166 |     }
+  167 |   }, [conversations, conversationId, seed, incognito, openConversation, params]);
+  168 |  react-hooks/set-state-in-effect
+  214:16  warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/ChatWorkspace.tsx:214:16
+  212 |     draftFor.current = currentDraft;
+  213 |     const saved = readDraft(currentDraft);
+> 214 |     if (saved) setInput(saved);
+      |                ^^^^^^^^ Avoid calling setState() directly within an effect
+  215 |   }, [currentDraft]);
+  216 |   useEffect(() => {
+  217 |     if (currentDraft && draftFor.current === currentDraft) writeDraft(currentDraft, input);                                                                                                                              react-hooks/set-state-in-effect
+  235:5   warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/ChatWorkspace.tsx:235:5
+  233 |     draftFor.current = draftAccount ? draftKey(draftAccount, agentId, null) : null;
+  234 |     if (draftFor.current) writeDraft(draftFor.current, draft);
+> 235 |     setConversationId(null);
+      |     ^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  236 |     setMessages([]);
+  237 |     setInput(draft);
+  238 |     setFocusSignal((n) => n + 1);                                                                                                                           react-hooks/set-state-in-effect
+  374:5   warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/ChatWorkspace.tsx:374:5
+  372 |     if (!online || !queued || streaming) return;
+  373 |     const waiting = queued;
+> 374 |     setQueued(null);
+      |     ^^^^^^^^^ Avoid calling setState() directly within an effect
+  375 |     setMessages((prev) => prev.filter((m) => m.id !== waiting.id));
+  376 |     void submit(waiting.text);
+  377 |   }, [online, queued, streaming, submit]);                                                                                                                                               react-hooks/set-state-in-effect
+  763:12  warning  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/ChatWorkspace.tsx:763:12
+  761 |             {announcement}
+  762 |           </p>
+> 763 |           {recovery && (
+      |            ^^^^^^^^ Cannot access ref value during render
+  764 |             <div className="mb-2.5 flex justify-end">
+  765 |               <button onClick={recovery.run} className="btn !min-h-[38px] !px-4 !text-[13px]">
+  766 |                 {recovery.label}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          react-hooks/refs
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/TalkMode.tsx
+  166:10  warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/chat/TalkMode.tsx:166:10
+  164 |   useEffect(() => {
+  165 |     live.current = true;
+> 166 |     void listen();
+      |          ^^^^^^ Avoid calling setState() directly within an effect
+  167 |     return () => {
+  168 |       live.current = false;
+  169 |       reading.current?.stop();  react-hooks/set-state-in-effect
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/memory/MemoryManager.tsx
+  144:18  warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/memory/MemoryManager.tsx:144:18
+  142 |
+  143 |   useEffect(() => {
+> 144 |     if (agentId) loadAgent(agentId);
+      |                  ^^^^^^^^^ Avoid calling setState() directly within an effect
+  145 |   }, [agentId, loadAgent]);
+  146 |
+  147 |   const sharedGroups = useMemo(() => groupByCategory(shared || []), [shared]);  react-hooks/set-state-in-effect
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/money/MoneyTools.tsx
+  39:19  warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/money/MoneyTools.tsx:39:19
+  37 |   const { t, locale } = usePrefs();
+  38 |   const [currency, setCurrency] = useState<Currency>("EGP");
+> 39 |   useEffect(() => setCurrency(readCurrency()), []);
+     |                   ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  40 |   const money = (n: number) => formatMoney(n, currency, locale);
+  41 |
+  42 |   return (  react-hooks/set-state-in-effect
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/search/SearchPalette.tsx
+  60:7  warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/components/search/SearchPalette.tsx:60:7
+  58 |     const q = query.trim();
+  59 |     if (q.length < 2) {
+> 60 |       setHits(null);
+     |       ^^^^^^^ Avoid calling setState() directly within an effect
+  61 |       setError("");
+  62 |       return;
+  63 |     }  react-hooks/set-state-in-effect
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/features/chat/useChatStream.ts
+  125:50  warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/lib/api.ts
+   50:5   warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @next/next/no-location-assign-relative-destination
+  154:11  warning  Do not use `window.location.assign()` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @next/next/no-location-assign-relative-destination
+  215:5   warning  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/malekmahmoud/code/FareeqAi/frontend/src/lib/api.ts:215:5
+  213 |     const requests = requestId;
+  214 |     mounted.current = true;
+> 215 |     load();
+      |     ^^^^ Avoid calling setState() directly within an effect
+  216 |     return () => {
+  217 |       mounted.current = false;
+  218 |       ++requests.current;  react-hooks/set-state-in-effect
+
+✖ 21 problems (0 errors, 21 warnings)
+

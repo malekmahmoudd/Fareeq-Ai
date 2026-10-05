@@ -73,7 +73,9 @@ async function keyboard(page, name) {
 }
 
 (async () => {
-  const browser = await chromium.launch({ channel: "chrome" });
+  const browser = await chromium.launch({ channel: process.env.PLAYWRIGHT_CHANNEL || "chrome" });
+  results.browser = browser.version();
+  results.channel = process.env.PLAYWRIGHT_CHANNEL || "chrome";
   for (const [width, viewport] of [["desktop", { width: 1280, height: 860 }], ["phone", { width: 390, height: 844 }]]) {
     // bypassCSP lets the scanner's script run; the policy itself is checked by browser-check.cjs.
     const context = await browser.newContext({ ignoreHTTPSErrors: true, bypassCSP: true, viewport });

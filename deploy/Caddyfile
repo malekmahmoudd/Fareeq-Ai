@@ -1,4 +1,20 @@
+{
+  servers {
+    # Let ASGI reject a request without first draining an attacker-controlled
+    # HTTP/1 body. No response write deadline: SSE has its own provider budget.
+    enable_full_duplex
+    timeouts {
+      read_header 10s
+      read_body 60s
+    }
+  }
+}
+
 {$DOMAIN} {
+  # Edge defense; ASGI enforces stricter route limits and counts actual chunks.
+  request_body {
+    max_size {$MAX_REQUEST_BODY:11MB}
+  }
   encode gzip
   header {
     X-Content-Type-Options nosniff
@@ -22,4 +38,3 @@
     reverse_proxy frontend:3000
   }
 }
-

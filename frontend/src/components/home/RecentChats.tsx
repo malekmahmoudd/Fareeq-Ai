@@ -29,9 +29,9 @@ export function RecentChats() {
           {t("chats.openAll")}
         </Link>
       </div>
-      <ul className="grid gap-2.5 sm:grid-cols-2">
+      <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         {recent.map((c) => (
-          <li key={c.id}>
+          <li key={c.id} className="min-w-0">
             <Link
               href={`/agents/${c.agent_id}?c=${c.id}`}
               className="flex items-center gap-3 border border-ink bg-paper-hi px-3 py-2.5 transition hover:bg-sun-pale"

@@ -1,0 +1,23 @@
+PASS pages carry a per-request nonce CSP with no inline allowance for scripts; API keeps the fallback
+PASS sign-in over HTTPS sets an httpOnly, Secure, SameSite=Strict session
+PASS ten pages render with scripts, styles, fonts and images allowed and no CSP violations
+PASS onboarding fact saved, shown in Memory, and in a specialist's prompt
+PASS reply streams progressively through Caddy (14 visible steps)
+PASS truncated reply keeps its text, says so after reload, and Continue asks for the rest
+PASS interrupted reply is labelled, and Try again replaces it without duplicating the message
+PASS failed reply is recorded, and one Try again recovers it
+PASS only safe Markdown links become links; the rest stay as plain words
+PASS after a dropped connection, a reload shows what arrived and Try again finishes it
+PASS blank messages are refused (422 from the API; send disabled in the UI)
+PASS deleting a conversation removes it for good
+PASS switching accounts shows each person only their own memory and conversations
+PASS a revoked session is sent to sign in
+PASS an unfinished reply is announced to assistive technology
+PASS a duplicate memory label is refused without paging the operator
+PASS readiness: production and schema current for an admin; anonymous callers learn only up or down
+PASS open signup creates a signed-in account and shows ten recovery codes once
+PASS sign-in with email and password
+PASS account page: a wrong password is answered in place, and automatic memory switches off
+PASS a recovery code resets the password; the old one stops working
+PASS 390px: no overflow, and the completion notice and recovery action fit
+PASS no CSP violations and no uncaught page errors across the run

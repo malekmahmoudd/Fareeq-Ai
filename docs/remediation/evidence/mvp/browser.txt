@@ -1,0 +1,8 @@
+PASS HTTPS login uses secure HttpOnly SameSite=Strict cookie
+PASS account-scoped private draft survives reload
+PASS document reaches ready, passages reach provider context, conversation persists
+PASS expired session clears scoped and legacy drafts plus handoff before login
+PASS second account cannot see first account draft, document or conversation
+PASS mobile-width chat has no horizontal overflow
+PASS credential validation does not echo submitted secret
+PASS account data persists across logout and login; no browser runtime errors
