@@ -241,6 +241,12 @@ export function ChatWorkspace({ agentId }: { agentId: string }) {
   }, [params]);
 
   const { send, stop, streaming, replyComplete, streamingText } = useChatStream(agentId, {
+    onWake: (message) => {
+      if (message && currentDraft) {
+        writeDraft(currentDraft, message);
+        setInput(message);
+      }
+    },
     onStart: (cid) => {
       liveConversation.current = cid;
       if (incognito) incognitoConversation.current = cid;

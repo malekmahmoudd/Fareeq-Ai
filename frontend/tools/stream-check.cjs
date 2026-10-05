@@ -10,8 +10,11 @@ require.extensions[".ts"] = (module, filename) => {
   }).outputText, filename);
 };
 const original = Module._load;
+const wakes = [];
 Module._load = function (name, ...args) {
-  if (name === "@/lib/api") return { API_BASE: "/api" };
+  if (name === "@/lib/api") return { API_BASE: "/api", wakeSleepingService: (status, hint) => {
+    wakes.push([status, hint]); return status === 503 && hint === "1";
+  } };
   if (name === "react") return {
     useCallback: (fn) => fn, useEffect: () => {},
     useRef: (value) => ({ current: value }), useState: (value) => [value, () => {}],
@@ -34,9 +37,21 @@ const chat = useChatStream("study", {
   onMemory: (event) => received.push(["memory", event]),
   onError: (error) => { throw new Error(error); },
 });
-chat.send("Hello", null).then(() => {
+chat.send("Hello", null).then(async () => {
   assert.equal(received[0][1].completion, "completed");
   assert.equal(received[0][1].content, "Saved answer");
   assert.equal(received[1][1].error, notice);
   console.log("Completed reply preserved; memory failure delivered separately.");
+  let restored, failure, posts = 0;
+  global.fetch = async () => { posts++; return new Response("", {status:503, headers:{"X-Fareeq-Wake":"1"}}); };
+  await useChatStream("study", {
+    onWake: message => { restored = message; },
+    onError: message => { failure = message; },
+    onEnd: () => assert.fail("Cold gate must not create a completed reply"),
+  }).send("Preserve this unsent draft", null);
+  assert.equal(restored, "Preserve this unsent draft");
+  assert.equal(posts, 1, "Cold message must not be replayed automatically");
+  assert.deepEqual(wakes, [[503, "1"]]);
+  assert.ok(failure);
+  console.log("Cold stream: scoped draft callback, real browser wake and no automatic replay passed.");
 }).catch((err) => { console.error(err); process.exitCode = 1; });

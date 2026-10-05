@@ -54,6 +54,32 @@ async function startGuest(): Promise<boolean> {
   return guestSession;
 }
 
+/** A hosting gate requires a real visitor, once per bounded recovery interval. */
+export function wakeSleepingService(status: number, hint: string | null): boolean {
+  if (status !== 503 || hint !== "1" || typeof window === "undefined" ||
+      window.location.pathname === "/privacy") return false;
+  const lastWake = Number(window.sessionStorage.getItem("fareeq.wake.at") || 0);
+  if (Date.now() - lastWake > 120000) {
+    window.sessionStorage.setItem("fareeq.wake.at", String(Date.now()));
+    window.sessionStorage.setItem("fareeq.wake.return", window.location.pathname + (window.location.search || ""));
+    window.location.assign("https://fareeqai-api.malekmahmoud.blitz.cloud/wake");
+  }
+  return true;
+}
+
+/** Consume only a same-origin, single-slash return path after a wake. */
+export function takeWakeReturn(): string | null {
+  const stored = window.sessionStorage.getItem("fareeq.wake.return");
+  window.sessionStorage.removeItem("fareeq.wake.return");
+  if (!stored) return null;
+  try {
+    const next = new URL(stored, window.location.origin);
+    if (next.origin === window.location.origin && next.pathname !== "/" &&
+        !next.pathname.startsWith("//")) return next.pathname + next.search;
+  } catch { /* Ignore invalid local state. */ }
+  return null;
+}
+
 /** Expired uploads/streams are not replayed into a fresh identity. */
 export async function recoverExpiredSession(): Promise<void> {
   clearDrafts();
@@ -73,14 +99,7 @@ export async function apiFetch<T>(
     },
   });
   let res = await request();
-  if (res.status === 503 && res.headers.get("X-Fareeq-Wake") === "1" &&
-      typeof window !== "undefined" && !PUBLIC_PAGES.includes(window.location.pathname)) {
-    // One real top-level browser visit per cold start, never a background keepalive.
-    const lastWake = Number(window.sessionStorage.getItem("fareeq.wake.at") || 0);
-    if (Date.now() - lastWake > 120000) {
-      window.sessionStorage.setItem("fareeq.wake.at", String(Date.now()));
-      window.location.assign("https://fareeqai-api.malekmahmoud.blitz.cloud/wake");
-    }
+  if (wakeSleepingService(res.status, res.headers.get("X-Fareeq-Wake"))) {
     throw new ApiError(503, t("guest.unavailable"));
   }
   if (res.status === 401 && !path.startsWith("/auth/") && typeof window !== "undefined" && !PUBLIC_PAGES.includes(window.location.pathname)) {
@@ -184,6 +203,10 @@ export function uploadDocument(
         if (e.lengthComputable) opts.onProgress?.(e.loaded / e.total);
       };
       xhr.onload = () => {
+        if (wakeSleepingService(xhr.status, xhr.getResponseHeader("X-Fareeq-Wake"))) {
+          reject(new ApiError(503, t("guest.unavailable")));
+          return;
+        }
         let body: { detail?: unknown } | null = null;
         try {
           body = JSON.parse(xhr.responseText);

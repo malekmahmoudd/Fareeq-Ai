@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { API_BASE, recoverExpiredSession } from "@/lib/api";
+import { API_BASE, recoverExpiredSession, wakeSleepingService } from "@/lib/api";
 import { t } from "@/lib/i18n";
 import type {
   Allowance,
@@ -25,6 +25,7 @@ function browserTimeZone(): string | null {
 }
 
 interface Options {
+  onWake?: (message: string | null) => void;
   onStart?: (conversationId: string, context: ContextDiagnostics) => void;
   onDelta?: (fullText: string) => void;
   onEnd?: (turn: {
@@ -121,6 +122,12 @@ export function useChatStream(agentId: string, opts: Options = {}) {
           ),
           signal: controller.signal,
         });
+        if (res.status === 503 && res.headers.get("X-Fareeq-Wake") === "1") {
+          opts.onWake?.(message);
+          if (wakeSleepingService(res.status, res.headers.get("X-Fareeq-Wake"))) {
+            throw new Error(t("guest.unavailable"));
+          }
+        }
         if (res.status === 401) { await recoverExpiredSession(); return; }
         if (!res.ok) {
           const body = await res.json().catch(() => null);

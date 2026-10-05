@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Brand } from "@/components/Brand";
 import { SearchPalette } from "@/components/search/SearchPalette";
 import { Icon } from "@/components/ui/Icon";
 import { A11Y_DEFAULT, applyA11y } from "@/lib/a11y";
-import { apiFetch, PUBLIC_PAGES, useApi } from "@/lib/api";
+import { apiFetch, PUBLIC_PAGES, takeWakeReturn, useApi } from "@/lib/api";
 import { firstName } from "@/lib/format";
 import { PrefsProvider, usePrefs, type Locale } from "@/lib/i18n";
 import type { MessageKey } from "@/lib/i18n/en";
@@ -71,6 +71,12 @@ export function LanguageToggle({ signedIn, className = "" }: { signedIn: boolean
 
 function Shell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
+  useEffect(() => {
+    if (pathname !== "/") return;
+    const next = takeWakeReturn();
+    if (next) router.replace(next);
+  }, [pathname, router]);
   const publicPage = PUBLIC_PAGES.includes(pathname);
   const { t, locale, setLocale } = usePrefs();
   const { data: user, error: userError, refetch: retryUser } = useApi<UserProfile>(publicPage ? null : "/users/me");
