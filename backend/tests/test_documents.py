@@ -443,3 +443,24 @@ def test_attachments_cannot_reach_another_agents_private_file(client, db):
     assert body["context"]["documents"] == []
     messages = client.get(f"/api/conversations/{body['conversation_id']}").json()["messages"]
     assert "attachments" not in messages[0]["meta"]
+
+
+def test_generic_multi_file_question_keeps_matching_scanned_passages(db):
+    user, _ = _seed(db, shared=True, name="verification.txt", text=(
+        "FAREEQAI VERIFICATION NOTE\n\nProject Cobalt uses release code 2468. "
+        "Its staging region is Frankfurt. The reviewer is named Demo Reviewer. "
+        "The go-live check is to verify guest privacy, document retrieval and restart "
+        "persistence. These are synthetic test facts, not user data."
+    ))
+    for name in ["verification.png", "verification-scan.pdf"]:
+        _seed(db, shared=True, name=name, text=(
+            "FAREEQAI OCR VERIFICATION\nProject Amber release code is 7319.\n"
+            "Its testing city is Cairo.\nThe reviewer is Demo Tester.\n"
+            "These are synthetic facts for an OCR check."
+        ))
+    hits = _find(db, user, "study", (
+        "In the uploaded Project Amber scanned file, what is the release code? "
+        "Cite the document."
+    ))
+    assert any("7319" in hit.text for hit in hits)
+    assert len(hits) <= retrieval.MAX_HITS

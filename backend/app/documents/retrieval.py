@@ -190,7 +190,20 @@ def retrieve(
     # "Summarise my CV": when they point at a file and it is short, it is given
     # whole — top passages would miss parts. Otherwise the best passages win.
     best_doc = chunks[order[0]][0] if order else None
-    whole = whole_doc and refers and best_doc is not None and best_doc.chars <= _WHOLE_DOC_CHARS
+    # A generic reference to "uploaded files" must not narrow a multi-file
+    # question to one short document. Keep the ranked passages in that case;
+    # otherwise shared boilerplate can hide the file containing the answer.
+    named = [
+        d for d in documents
+        if _fold(d.filename).casefold() in _fold(message).casefold()
+        or (len(d.filename.rsplit(".", 1)[0]) > 3
+            and _fold(d.filename.rsplit(".", 1)[0]).casefold() in _fold(message).casefold())
+    ]
+    specific = len(documents) == 1 or len(named) == 1
+    whole = (
+        whole_doc and refers and specific and best_doc is not None
+        and best_doc.chars <= _WHOLE_DOC_CHARS
+    )
     if whole:
         order = [i for i, (d, _) in enumerate(chunks) if d.id == best_doc.id]
 
