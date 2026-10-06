@@ -1,0 +1,17 @@
+{
+  "result": "encrypted snapshot restored successfully",
+  "source": "live Neon managed PostgreSQL",
+  "restore": "local PostgreSQL 18 container",
+  "network": "none",
+  "published_ports": [],
+  "schema_revision": "0012",
+  "row_counts": {
+    "users": 5,
+    "documents": 3,
+    "conversations": 17,
+    "messages": 34
+  },
+  "encrypted_bytes": 59808,
+  "encrypted_sha256": "36f42f56afced8ed496309fa0b69741a56d0b441a85da475749b866023088b99",
+  "image": "postgres:18-alpine@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873"
+}

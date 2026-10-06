@@ -1,0 +1,49 @@
+{
+  "backend_tests": {
+    "passed": 569,
+    "skipped": 4
+  },
+  "backend_lint": "passed",
+  "frontend_lint": {
+    "errors": 0,
+    "warnings": 19
+  },
+  "frontend_typecheck": "passed",
+  "frontend_tests": "passed",
+  "runtime_advisories": 0,
+  "known_build_advisories": 7,
+  "live_documents": {
+    "txt_chars": 273,
+    "png_ocr_chars": 163,
+    "scanned_pdf_ocr_chars": 163,
+    "semantic": false
+  },
+  "agents": 10,
+  "source_answers": [
+    "2468",
+    "7319"
+  ],
+  "restart": "same guest, documents, conversations and source passages preserved",
+  "expired_synthetic_guest_cleanup": "passed",
+  "real_phone_mobile_data": "user confirmed opens and replies without login",
+  "shared_daily_tokens_observed": 44004,
+  "cold_wake": {
+    "result": "passed",
+    "date": "2026-10-06",
+    "pre_visit_status": 503,
+    "wake_header": "1",
+    "route": "account -> backend wake -> Pages root -> account",
+    "guest_login_required": false,
+    "previous_conversation_preserved": true,
+    "new_reply_saved_after_reload": true,
+    "account_verified_within_seconds_approximately": 68,
+    "timing_note": "includes observation/tool time; not a startup benchmark"
+  },
+  "backend_commit": "ded758872b279d8476e18c811b75ceda125fd13a",
+  "frontend_commit": "c585e4505ef0e525fbe2ef32ff76219aa94f7408",
+  "frontend_deploy": "6ac418ede6423000084af851",
+  "encrypted_live_restore": "passed",
+  "public_config_preflight": "passed, including 10 synthetic guard cases",
+  "launch_decision": "public technical showcase checks completed, subject to documented free-tier limits",
+  "fixture_cleanup": "Temporary CLI cookie jars unavailable after overnight interval; preserved fixtures will follow automatic guest expiry."
+}

@@ -25,6 +25,7 @@ except (ValidationError, SettingsError):
 parser = argparse.ArgumentParser()
 parser.add_argument("--env-file", type=Path, default=Path(__file__).with_name(".env"))
 parser.add_argument("--target", choices=("compose", "managed"), default="compose")
+parser.add_argument("--audience", choices=("invited", "public"), default="invited")
 args = parser.parse_args()
 if not args.env_file.is_file():
     parser.exit(1, "FAIL: private production env file is missing.\n")
@@ -87,17 +88,17 @@ if args.target == "managed":
             errors.append(f"{key}: invalid production setting")
 if (config.get("LLM_PROVIDER") or "").lower() not in ("groq", "openai"):
     errors.append("LLM_PROVIDER: limited MVP uses the verified OpenAI-compatible contract")
-for key in (
-    "SIGNUP_ENABLED",
-    "PUSH_ENABLED",
-    "VOICE_ENABLED",
-    "TTS_ENABLED",
-    "TEAM_ENABLED",
-):
+disabled = ["PUSH_ENABLED", "VOICE_ENABLED", "TTS_ENABLED", "TEAM_ENABLED"]
+if args.audience == "invited":
+    disabled.append("SIGNUP_ENABLED")
+for key in disabled:
     if (config.get(key) or "").lower() != "false":
-        errors.append(f"{key}: set false for the initial limited MVP")
+        errors.append(f"{key}: set false for this launch profile")
+
+# Remaining launch checks use the validated settings, including safe defaults.
 try:
     values = {key.lower(): value for key, value in config.items() if value is not None}
+
     for field in ("auth_access_keys", "admin_accounts"):
         if field in values:
             try:
@@ -114,9 +115,22 @@ try:
             database_url=f"postgresql+psycopg://modeer:{password}@db:5432/modeer",
         )
     settings = Settings(_env_file=None, **values)
-    if settings.account_requests_per_minute > 10 or settings.account_daily_token_budget > 60000:
+    if args.audience == "public":
+        if not settings.guest_enabled or not settings.signup_enabled:
+            errors.append("Public profile requires guest access and optional signup")
+        if settings.public_daily_token_budget > 100000:
+            errors.append("Shared AI quota exceeds the approved public envelope (100000/day)")
+        if settings.public_guest_sessions_per_day > 200:
+            errors.append("Guest admission exceeds the approved public envelope (200/day)")
+    elif settings.guest_enabled:
+        errors.append("Invited profile requires GUEST_ENABLED=false; use --audience public")
+    minute_limit = 6 if args.audience == "public" else 10
+    if (
+        settings.account_requests_per_minute > minute_limit
+        or settings.account_daily_token_budget > 60000
+    ):
         errors.append(
-            "Account quotas exceed the initial MVP envelope (10/minute, 60000 tokens/day)"
+            f"Account quotas exceed this launch envelope ({minute_limit}/minute, 60000 tokens/day)"
         )
 except ValidationError as exc:
     # Do not stringify ValidationError: its representation includes input values.
@@ -130,6 +144,6 @@ if errors:
         print("FAIL:", error)
     raise SystemExit(1)
 print(
-    "PASS: required private configuration, HTTPS origin, authentication and limited MVP switches."
+    f"PASS: required private configuration, HTTPS origin, authentication and {args.audience} launch limits."
 )
 print("Pending live checks: DNS/TLS, database access, provider models/key and spending budget.")

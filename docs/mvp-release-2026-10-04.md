@@ -1,5 +1,6 @@
 # FareeqAI safe MVP release — 4 October 2026
 
+> Updated launch scope: the public showcase now uses isolated guests, optional signup and a shared daily AI cap. Earlier invite-only assumptions below are historical. See [public release verification](public-release-verification-2026-10-06.md) for the current deployment and limits.
 > 5 October update: hosting must be free-only with no credit card and included
 > provider subdomains. A purchased domain/paid host is not required. See the
 > [free-tier deployment constraint and candidate](free-tier-deployment-2026-10-05.md).
