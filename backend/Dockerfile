@@ -8,7 +8,12 @@ WORKDIR /app
 # --no-deps: nothing outside the lock can be pulled in; pip check proves the
 # locked set is complete and consistent.
 COPY requirements.lock .
-RUN pip install --no-cache-dir --require-hashes --no-deps -r requirements.lock \
+# Retry interrupted host downloads, but still fail after three attempts.
+RUN for attempt in 1 2 3; do \
+        pip install --no-cache-dir --progress-bar off --require-hashes --no-deps -r requirements.lock && break; \
+        if [ "$attempt" = 3 ]; then exit 1; fi; \
+        sleep 2; \
+    done \
     && pip check \
     && useradd --create-home app
 # The document-search embedding model, at a pinned revision, checked against
