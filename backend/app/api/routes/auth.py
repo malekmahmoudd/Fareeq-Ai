@@ -31,7 +31,7 @@ from sqlalchemy.exc import IntegrityError
 from app.api.deps import CurrentUser, DbSession, refuse_if_suspended
 from app.core import passwords, totp
 from app.core import sessions as devices
-from app.core.auth import COOKIE, key_user, session_claims, session_user, sign_session
+from app.core.auth import COOKIE, key_user, request_claims, sign_session
 from app.core.config import settings
 from app.core.usage import BudgetExceeded, charge
 from app.db.base import utcnow
@@ -129,6 +129,12 @@ class TwoFactorOff(BaseModel):
 
 
 def _same_origin(request: Request) -> None:
+    if request.scope.get("path", "").startswith("/api/auth/mobile/"):
+        if not settings.mobile_enabled:
+            raise HTTPException(404, "Mobile access is not available")
+        if request.headers.get("origin") or request.headers.get("sec-fetch-site"):
+            raise HTTPException(403, "Use browser authentication")
+        return
     if request.headers.get("origin", "").rstrip("/") != settings.frontend_url.rstrip("/"):
         raise HTTPException(403, "Request origin is not allowed")
 
@@ -171,6 +177,12 @@ def _set_session(
     """Sign this device in: a device row, and a cookie that names it."""
     session_id = devices.start(db, account, request, method)
     db.commit()
+    if request.scope.get("path", "").startswith("/api/auth/mobile/"):
+        request.state.mobile_token = sign_session(
+            account.id, account.session_epoch or 0, session_id, mobile=True
+        )
+        response.headers["Cache-Control"] = "no-store"
+        return
     response.set_cookie(
         COOKIE,
         sign_session(
@@ -183,6 +195,11 @@ def _set_session(
         path="/api",
     )
     response.headers["Cache-Control"] = "no-store"
+
+
+def _session_result(request: Request, result: dict) -> dict:
+    token = getattr(request.state, "mobile_token", None)
+    return {**result, "access_token": token, "token_type": "bearer"} if token else result
 
 
 def _issue_codes(db, account: User) -> list[str]:
@@ -295,12 +312,14 @@ def status():
     }
 
 
+@router.post("/mobile/guest")
 @router.post("/guest")
 def guest(request: Request, response: Response, db: DbSession):
     if not settings.guest_enabled or not settings.auth_required:
         raise HTTPException(404, "Guest access is not available")
     _same_origin(request)
-    existing_id = session_user(request.cookies.get(COOKIE, ""))
+    claims = request_claims(request)
+    existing_id = claims[0] if claims else None
     existing = get_by_id(db, existing_id) if existing_id else None
     if existing is not None and devices.session_ok(db, request, existing):
         refuse_if_suspended(existing)
@@ -313,9 +332,10 @@ def guest(request: Request, response: Response, db: DbSession):
     db.add(account)
     db.flush()
     _set_session(response, account, db, request, "guest")
-    return {"signed_in": True, "guest": True}
+    return _session_result(request, {"signed_in": True, "guest": True})
 
 
+@router.post("/mobile/login")
 @router.post("/login")
 def login(body: Login, request: Request, response: Response, db: DbSession):
     if not settings.auth_required:
@@ -350,9 +370,10 @@ def login(body: Login, request: Request, response: Response, db: DbSession):
         if not _second_step(db, account, body.code):
             raise HTTPException(401, "That code isn't right. Check your authenticator app.")
     _set_session(response, account, db, request, "key" if body.access_key else "password")
-    return {"signed_in": True}
+    return _session_result(request, {"signed_in": True})
 
 
+@router.post("/mobile/signup", status_code=201)
 @router.post("/signup", status_code=201)
 def signup(body: Signup, request: Request, response: Response, db: DbSession):
     if not settings.signup_enabled or not settings.auth_required:
@@ -365,7 +386,8 @@ def signup(body: Signup, request: Request, response: Response, db: DbSession):
         raise HTTPException(
             409, "An account with that email already exists. Sign in, or use a recovery code."
         )
-    guest_id = session_user(request.cookies.get(COOKIE, ""))
+    claims = request_claims(request)
+    guest_id = claims[0] if claims else None
     prior = get_by_id(db, guest_id) if guest_id else None
     account = (
         prior
@@ -391,7 +413,7 @@ def signup(body: Signup, request: Request, response: Response, db: DbSession):
     db.commit()
 
     _set_session(response, account, db, request, "signup")
-    return {"signed_in": True, "recovery_codes": codes}
+    return _session_result(request, {"signed_in": True, "recovery_codes": codes})
 
 
 @router.post("/recover")
@@ -495,7 +517,7 @@ def regenerate_recovery_codes(
 def logout(request: Request, response: Response, db: DbSession):
     """Sign this device out. Its device row ends too, so the cookie is dead even
     if a copy of it survives somewhere."""
-    claims = session_claims(request.cookies.get(COOKIE, ""))
+    claims = request_claims(request)
     if claims and claims[2]:
         account = get_by_id(db, claims[0])
         if account is not None:

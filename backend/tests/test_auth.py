@@ -129,6 +129,9 @@ def test_ask_my_team_rejects_anonymous_and_forged_callers(client, make_user, mon
 #: Routes that are deliberately reachable without a session. Everything else
 #: touches one person's data and must refuse an anonymous caller.
 PUBLIC_ROUTES = {
+    ("POST", "/api/auth/mobile/guest"),
+    ("POST", "/api/auth/mobile/login"),
+    ("POST", "/api/auth/mobile/signup"),
     ("GET", "/api/health"),
     ("GET", "/api/health/detail"),  # an uptime check must not need a credential
     ("GET", "/api/agents"),

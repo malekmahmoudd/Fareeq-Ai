@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     debug: bool = Field(default=True)
     auth_required: bool = False
     guest_enabled: bool = False
+    mobile_enabled: bool = False
     public_guest_sessions_per_day: int = Field(default=200, ge=1)
     public_daily_token_budget: int = Field(default=100000, ge=1)
     auth_secret: str = Field(default="", repr=False)

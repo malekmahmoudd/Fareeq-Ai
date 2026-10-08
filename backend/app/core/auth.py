@@ -30,7 +30,9 @@ def _key_binding(user_id: str) -> str:
     return settings.auth_access_keys.get(user_id, "")
 
 
-def sign_session(user_id: str, epoch: int = 0, session_id: str = "") -> str:
+def sign_session(
+    user_id: str, epoch: int = 0, session_id: str = "", *, mobile: bool = False
+) -> str:
     """Mint a session cookie for one account.
 
     ``epoch`` is the account's session generation. It travels inside the signed
@@ -43,6 +45,8 @@ def sign_session(user_id: str, epoch: int = 0, session_id: str = "") -> str:
     payload = (
         f"{user_id}.{epoch}.{session_id}.{expiry}" if session_id else f"{user_id}.{epoch}.{expiry}"
     )
+    if mobile:
+        payload = "mobile." + payload
     signature = hmac.new(
         settings.auth_secret.encode(),
         (payload + _key_binding(user_id)).encode(),
@@ -51,7 +55,7 @@ def sign_session(user_id: str, epoch: int = 0, session_id: str = "") -> str:
     return f"{payload}.{signature}"
 
 
-def session_claims(token: str) -> tuple[str, int, str | None] | None:
+def session_claims(token: str, *, mobile: bool = False) -> tuple[str, int, str | None] | None:
     """Verify the cookie and return (user_id, epoch, device id or None), or None.
 
     Does not touch the database: the epoch and the device are checked where the
@@ -61,12 +65,16 @@ def session_claims(token: str) -> tuple[str, int, str | None] | None:
     """
     try:
         parts = token.split(".")
+        if mobile and (not settings.mobile_enabled or len(parts) != 6 or parts.pop(0) != "mobile"):
+            return None
         if len(parts) == 5:
             user_id, epoch, session_id, expiry, signature = parts
             payload = f"{user_id}.{epoch}.{session_id}.{expiry}"
         else:
             user_id, epoch, expiry, signature = parts
             session_id, payload = None, f"{user_id}.{epoch}.{expiry}"
+        if mobile:
+            payload = "mobile." + payload
         digest = _key_binding(user_id)
         expected = hmac.new(
             settings.auth_secret.encode(),
@@ -94,7 +102,7 @@ def session_epoch_matches(request: Request, user) -> bool:
     """
     if not settings.auth_required:
         return True
-    claims = session_claims(request.cookies.get(COOKIE, ""))
+    claims = request_claims(request)
     return bool(claims) and claims[1] == (getattr(user, "session_epoch", 0) or 0)
 
 
@@ -111,6 +119,21 @@ def caller_id(request: Request) -> str | None:
 def authenticated_id(request: Request) -> str | None:
     if not settings.auth_required:
         return request.headers.get("x-user-id")
+    if request.headers.get("authorization"):
+        claims = request_claims(request)
+        if not claims:
+            raise HTTPException(401, "Please sign in")
+        if (
+            request.scope.get("path", "").startswith("/api/auth/")
+            and request.method not in ("GET", "HEAD")
+            and not (
+                request.scope.get("path", "").startswith("/api/auth/mobile/")
+                or request.scope.get("path", "").startswith("/api/auth/sessions/")
+                or request.scope.get("path", "") == "/api/auth/logout"
+            )
+        ):
+            raise HTTPException(403, "Use the mobile authentication endpoints")
+        return claims[0]
     # Cookie-based mutations must originate from the configured frontend.
     if request.method not in ("GET", "HEAD", "OPTIONS") and request.headers.get(
         "origin", ""
@@ -120,3 +143,15 @@ def authenticated_id(request: Request) -> str | None:
     if not user_id:
         raise HTTPException(401, "Please sign in")
     return user_id
+
+
+def request_claims(request: Request) -> tuple[str, int, str | None] | None:
+    """Separate native bearer sessions from browser cookies; never fall back."""
+    authorization = request.headers.get("authorization")
+    native_route = request.scope.get("path", "").startswith("/api/auth/mobile/")
+    if authorization or native_route:
+        if request.headers.get("origin") or request.headers.get("sec-fetch-site"):
+            return None
+        scheme, _, token = (authorization or "").partition(" ")
+        return session_claims(token, mobile=True) if scheme.lower() == "bearer" else None
+    return session_claims(request.cookies.get(COOKIE, ""))

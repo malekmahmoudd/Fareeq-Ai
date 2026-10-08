@@ -14,7 +14,7 @@ from fastapi import Request
 from sqlalchemy import delete, select, update
 from sqlalchemy.orm import Session
 
-from app.core.auth import COOKIE, session_claims
+from app.core.auth import request_claims
 from app.core.config import settings
 from app.db.base import utcnow
 from app.db.models import User, UserSession
@@ -65,7 +65,7 @@ def start(db: Session, user: User, request: Request, method: str) -> str:
 
 
 def current_id(request: Request) -> str | None:
-    claims = session_claims(request.cookies.get(COOKIE, ""))
+    claims = request_claims(request)
     return claims[2] if claims else None
 
 
@@ -74,7 +74,7 @@ def session_ok(db: Session, request: Request, user: User) -> bool:
     generation, and (when it names a device) that device not signed out."""
     if not settings.auth_required:
         return True
-    claims = session_claims(request.cookies.get(COOKIE, ""))
+    claims = request_claims(request)
     if not claims or claims[0] != user.id or claims[1] != (user.session_epoch or 0):
         return False
     sid = claims[2]
@@ -84,6 +84,8 @@ def session_ok(db: Session, request: Request, user: User) -> bool:
     if row is None or row.user_id != user.id or row.revoked_at is not None:
         return False
     now = _now()
+    if row.expires_at <= now or row.epoch != claims[1]:
+        return False
     if row.last_seen_at is None or now - row.last_seen_at > SEEN_EVERY:
         row.last_seen_at = now
     return True
