@@ -5,13 +5,13 @@ Public entry point: `https://fareeqai.pages.dev`.
 This is a Pages advanced-mode delivery proxy, not a static export or a native
 Next.js deployment to Pages. The existing dynamic Next.js app stays on Netlify.
 The proxy serves that frontend through Cloudflare and sends `/api` requests
-directly to the existing Blitz API. Netlify's regional connection timeouts were
+directly to the DockHosting API. Netlify's regional connection timeouts were
 reproduced on Wi-Fi/mobile data and match reports on Netlify's support forum.
 
 There are no private credentials in the package. Authentication cookies and
-authorization reach only Blitz; the frontend receives only locale, accessibility
+authorization reach only the backend; the frontend receives only locale, accessibility
 and data-saver preferences. Original API Origin headers are preserved. Configure
-Blitz `FRONTEND_URL=https://fareeqai.pages.dev` for the strict origin check.
+DockHosting `FRONTEND_URL=https://fareeqai.pages.dev` for the strict origin check.
 Preview addresses refuse API requests and redirect page reads to the public
 origin. All responses disable caching so dynamic page nonces and private API
 responses cannot be shared between users. SSE bodies are passed through without
@@ -27,7 +27,7 @@ Do not upload this README, tests, `.env` files or credentials.
 
 Pages Free Functions share the Workers request allowance. Verify account limits
 and live transport before launch. This proxy remains dependent on Netlify for
-the frontend and does not remove Blitz's free-plan sleep/wake limits. Cold API
+the frontend and does not remove the backend host's free-plan sleep limits. Cold API
 wake, cookies, real AI, persistence and document processing remain launch gates.
 
 References:

@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "FareeqAI",
+    "slug": "fareeqai-mobile",
+    "scheme": "fareeqai",
+    "version": "0.1.1",
+    "orientation": "default",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.fareeqai.mobile",
+      "versionCode": 2,
+      "allowBackup": false,
+      "softwareKeyboardLayoutMode": "resize",
+      "predictiveBackGestureEnabled": true
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-secure-store"
+    ],
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "594c923a-e7c3-425d-89b7-11e2c3b919ba"
+      }
+    },
+    "owner": "malekmahmoudd"
+  }
+}

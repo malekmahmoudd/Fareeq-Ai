@@ -50,3 +50,19 @@ qa-screenshots/
 # Private backups and generated invitation credentials
 backups/
 invite.json
+
+# Mobile generated state and private signing artifacts
+.expo/
+mobile/client/ios/
+mobile/client/android/
+expo-env.d.ts
+*.apk
+*.aab
+*.keystore
+*.jks
+credentials.json
+*.log
+*.tmp
+# Provider dashboard screenshots are local verification aids.
+docs/remediation/*.png
+.claude/

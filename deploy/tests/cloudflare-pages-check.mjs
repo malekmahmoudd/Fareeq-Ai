@@ -22,7 +22,7 @@ assert.equal(response.headers.get('content-security-policy'), "script-src 'nonce
 response = await worker.fetch(new Request('https://fareeqai.pages.dev/api/auth/login', {
   method: 'POST', body: '{}', headers: { origin: 'https://evil.invalid', cookie: 'modeer_session=synthetic', 'x-forwarded-for': 'spoof' },
 }));
-assert.equal(seen.url, 'https://fareeqai-api.malekmahmoud.blitz.cloud/api/auth/login');
+assert.equal(seen.url, 'https://fareeqai-api.dockhosting.dev/api/auth/login');
 assert.equal(seen.headers.get('origin'), 'https://evil.invalid');
 assert.equal(seen.headers.get('cookie'), 'modeer_session=synthetic');
 assert.equal(seen.headers.get('x-forwarded-for'), null);

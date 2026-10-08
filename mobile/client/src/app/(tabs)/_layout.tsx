@@ -1,0 +1,7 @@
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Tabs } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
+import { Text, View } from 'react-native';
+import { colors, fonts } from '../../theme';
+const tabs = [{ name: 'index', label: 'Home', icon: 'home' }, { name: 'team', label: 'Team', icon: 'users' }, { name: 'memory', label: 'Memory', icon: 'book-open' }, { name: 'goals', label: 'Goals', icon: 'target' }, { name: 'plans', label: 'Plans', icon: 'calendar' }] as const;
+export default function TabLayout() { const insets = useSafeAreaInsets(); return <Tabs screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarStyle: { backgroundColor: colors.reading, borderTopWidth: 2, borderTopColor: colors.ink, height: 64 + insets.bottom, paddingTop: 5, paddingBottom: Math.max(6, insets.bottom) }, sceneStyle: { backgroundColor: colors.paper } }}>{tabs.map(tab => <Tabs.Screen key={tab.name} name={tab.name} options={{ title: tab.label, tabBarAccessibilityLabel: tab.label, tabBarIcon: ({ focused }) => <View style={{ backgroundColor: focused ? colors.navy : 'transparent', borderRadius: 10, minWidth: 57, padding: 6, alignItems: 'center', gap: 3 }}><Feather name={tab.icon} size={21} color={focused ? colors.reading : colors.ink} /><Text style={{ fontFamily: fonts.bold, fontSize: 10, color: focused ? colors.reading : colors.ink }}>{tab.label}</Text></View> }} />)}</Tabs>; }

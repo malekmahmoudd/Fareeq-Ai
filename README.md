@@ -1,171 +1,82 @@
-# Fareeq — Personal AI Team (MVP)
+# FareeqAI
 
-A personal AI assistant, **Leo**, plus a user-chosen team of nine specialist
-AI agents that share your personal context.
+A personal AI team with Leo and nine specialists for study, travel, shopping, career, finance, fitness, writing, research and email. Talk to any teammate directly, keep separate conversations, and control the context your team remembers.
 
-You open the app, see your team, and talk to whoever you want — directly. You do
-**not** have to go through Leo to reach a specialist. Leo is the assistant
-that learns you, keeps the shared context the whole team draws on, tracks your
-goals, and gives you a daily read on what matters.
+**[Try FareeqAI](https://fareeqai.pages.dev)** — guest access starts without signup. Signing in is optional. This is a technical portfolio project; the mobile client is under development.
 
-| Specialists |
-|---|
-| Nova (Study) · Tessa (Travel) · Nate (Shopping) · Harvey (Career) · Emma (Finance) · Maddie (Fitness) · Alex (Writing) · Clara (Research) · Nora (Email) |
+## Web and mobile share one backend
 
-The three priorities, in order: **excellent UI/UX**, **excellent specialist
-performance**, **shared personal context that makes the whole team feel like it
-knows you**.
+The Next.js website and Expo Android/iOS client call the same FastAPI API and PostgreSQL database. Registered accounts share conversations and saved replies across clients. Anonymous devices have separate guest workspaces.
 
----
+| Directory | Purpose |
+| --- | --- |
+| [frontend](frontend/README.md) | Next.js, React, TypeScript and Tailwind website |
+| [backend](backend/README.md) | FastAPI modular monolith, agent runtime, authentication, memory and documents |
+| [mobile/client](mobile/client/README.md) | Expo SDK 57 / React Native client, guest access, streaming chats and saved replies |
+| [mobile/design](mobile/design/README.md) | Approved visual specification, design tokens and reference artwork |
+| [deploy](docs/public-free-host-runbook.md) | Deployment configuration, backup helpers and isolated verification tools |
+| [docs](docs/README.md) | Architecture, current operational guidance and dated audit evidence |
 
-## Architecture at a glance
+Agents are configurations of one runtime, rather than separate services. The provider abstraction supports mock responses for development and real LLM providers, including Groq. Personal context has shared and per-agent namespaces with account isolation and user controls.
 
-```
-frontend/   Next.js (App Router) + React + TypeScript + Tailwind
-backend/    FastAPI modular monolith — one shared agent runtime, not a service per agent
-            Python · Pydantic · SQLAlchemy · Alembic · PostgreSQL
-docs/       product, architecture, agents, memory
-```
+Current public delivery uses Cloudflare Pages in front of the Netlify website, DockHosting for the Python backend, and Neon PostgreSQL. The Pages proxy is deployed by direct upload; pushing Git alone does not update it. See the [operations runbook](docs/public-free-host-runbook.md) before changing hosting.
 
-- **One agent runtime.** Every agent (Leo + nine specialists) is a
-  *configuration* — `backend/app/agents/<slug>/{config.py,prompt.md,evals.json}` —
-  run through the same `runtime.py`. No LangChain / LangGraph / CrewAI, no tools,
-  no browsing, no autonomous actions.
-- **Two memory layers.** Shared personal context (whole team) and agent-specific
-  memory (one specialist's namespace). Extraction is deterministic and
-  conservative; sensitive data is never stored automatically.
-- **One LLM provider** behind a thin abstraction (`app/llm/`). Ships with a
-  context-aware **mock** provider so the whole product runs with no API key;
-  set `LLM_PROVIDER=anthropic` for real responses. Streaming throughout.
+## Run locally
 
-See [`docs/architecture.md`](docs/architecture.md) for the full picture and
-[`docs/agents.md`](docs/agents.md) for how each specialist is designed.
+Use Python 3.12 and Node.js 22.13 or newer. Docker is optional for local PostgreSQL; SQLite supports a first run without external services. No API key is needed with the mock provider.
 
----
-
-## Local development
-
-Prerequisites: **Python 3.11+**, **Node 20+**, and (optionally) **Docker** for
-PostgreSQL. The backend falls back to SQLite with zero configuration, so you can
-skip Docker entirely for a first run.
-
-### 1. Database (optional but recommended)
-
-```bash
-docker compose up -d db      # PostgreSQL on localhost:5432 (user/pass/db = modeer)
-```
-
-### 2. Backend
-
-```bash
+```sh
 cd backend
-python -m venv .venv
-# Windows:        .venv\Scripts\activate
-# macOS / Linux:  source .venv/bin/activate
-pip install -r requirements-dev.txt      # or requirements.txt for runtime only
-
-cp .env.example .env                      # then edit if you want Postgres / a real LLM
-
-# With PostgreSQL (DATABASE_URL set in .env):
-alembic upgrade head
-
-uvicorn app.main:app --reload             # http://localhost:8000  (docs at /docs)
+python3.12 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+cp .env.example .env
 ```
 
-> Using the SQLite default? Skip `alembic upgrade head` — the schema is created
-> automatically on first start. To use Alembic against SQLite anyway, it works too.
+The backend example selects local PostgreSQL. For SQLite, replace DATABASE_URL with `sqlite+pysqlite:///./modeer.db`; its development schema is created on startup. For PostgreSQL, start the root Compose database with `docker compose up -d db`, then run `alembic upgrade head` from backend.
 
-### 3. Frontend
+```sh
+uvicorn app.main:app --reload
+```
 
-```bash
+In another terminal:
+
+```sh
 cd frontend
-npm install
+npm ci
 cp .env.example .env.local
-npm run dev                               # http://localhost:3000
+npm run dev
 ```
 
-The frontend proxies `/api/*` to the backend (`BACKEND_URL`, default
-`http://localhost:8000`), so no CORS setup is needed for local dev.
+Open http://localhost:3000. The website proxies `/api` to http://localhost:8000 by default. If authentication is enabled locally, FRONTEND_URL must match the browser origin.
 
----
+For the mobile client, see its [setup and Android testing instructions](mobile/client/README.md). The connected preview APK uses the public FareeqAI origin. The design-preview profile uses labeled sample data. Native keyboard, background/resume, accessibility and physical-device behavior still need verification; Goals/Plans, uploads and Markdown/citations are unfinished on mobile.
 
-## Environment variables
+## Validation
 
-### `backend/.env`
+```sh
+# From backend with its virtual environment active
+pytest -q
+ruff check app tests
 
-| Variable | Default | Notes |
-|---|---|---|
-| `DATABASE_URL` | `sqlite+pysqlite:///./modeer.db` | Use `postgresql+psycopg://modeer:modeer@localhost:5432/modeer` for the real stack |
-| `ENVIRONMENT` | `development` | |
-| `FRONTEND_URL` | `http://localhost:3000` | CORS allow-list (comma-separated) |
-| `LLM_PROVIDER` | `mock` | `mock`, `anthropic`, `groq`, or `openai` |
-| `LLM_API_KEY` | _(empty)_ | Required for any real provider |
-| `LLM_MODEL` | `claude-sonnet-5` | e.g. `openai/gpt-oss-120b` for Groq |
-| `LLM_BASE_URL` | _(empty)_ | Override the provider base URL (groq/openai) |
-| `LLM_MAX_TOKENS` / `LLM_TEMPERATURE` | `1024` / `0.6` | Per-agent settings can override |
-| `MEMORY_EXTRACTION` | `auto` | `auto` (LLM when a real provider is set), `llm`, `rules` |
-| `MEMORY_STORE_SENSITIVE` | `false` | Keep sensitive candidates out of storage |
-| `MEMORY_MIN_CONFIDENCE` | `0.55` | Extraction threshold |
-
-### `frontend/.env.local`
-
-| Variable | Default | Notes |
-|---|---|---|
-| `NEXT_PUBLIC_API_URL` | `/api` | Where the browser sends API calls |
-| `BACKEND_URL` | `http://localhost:8000` | Origin the dev server proxies `/api/*` to |
-
-No real API keys are committed. `.env` files are git-ignored.
-
----
-
-## Migrations
-
-```bash
-cd backend
-alembic upgrade head                       # apply
-alembic downgrade -1                        # roll back one
-alembic revision -m "add x"                 # new migration (autogenerate needs a live DB)
-```
-
-Migrations live in `backend/migrations/versions/`. `0001_initial_schema.py`
-creates all tables: `users, agents, conversations, messages, shared_memories,
-agent_memories, goals, briefings`.
-
----
-
-## Testing & evaluation
-
-```bash
-cd backend
-pytest                                      # deterministic; LLM calls mocked
-ruff check .                                 # lint
-
-python -m app.agents.evals                   # agent eval fixtures (mock provider)
-python -m app.agents.evals study career       # a subset
-LLM_PROVIDER=anthropic LLM_API_KEY=... python -m app.agents.evals   # qualitative pass
-```
-
-```bash
-cd frontend
+# From frontend
 npm run typecheck
 npm run lint
+npm test
+npm run build
+
+# From mobile/client
+npm run typecheck
+npm run lint
+npm test
 ```
 
-Tests cover the agent registry, config loading, context construction, memory
-isolation (per user **and** per agent), shared-memory behaviour, conversation
-persistence, the API surface, and the full first-milestone flow end to end
-(`tests/test_milestone_flow.py`).
+Deployment rehearsals operate on disposable databases and test identities. Never point those scripts at production data. Audit and release claims are dated evidence, not a guarantee that every current environment passes.
 
----
+## Configuration and privacy
 
-## The first milestone
+Copy the component-specific `.env.example` files and keep real `.env` files private. Database credentials, signing secrets and provider keys belong only on the backend host. Expo variables prefixed EXPO_PUBLIC_ are embedded in the app; use them only for public configuration.
 
-1. Open the app → talk to **Leo**, share a durable fact ("I'm studying
-   mechanical engineering…").
-2. It lands in **shared personal context**.
-3. Go back to the team, open **Harvey** directly — it already knows.
-4. Open **Nova** — it uses the same fact for its own domain.
-5. Both keep independent conversation histories.
-6. Open **"What my AI team knows about me"** and edit or delete the fact.
+Browser sessions use HttpOnly cookies and Origin protection. Native sessions use a separate signed bearer audience stored in SecureStore. MOBILE_ENABLED defaults to false and must be explicitly enabled for native clients. Guest access shares admission and AI budgets with the public service; account isolation still applies.
 
-This flow is exercised by `pytest` and is the thing to keep excellent.
+See the [architecture](docs/architecture.md), [agent design](docs/agents.md), [memory model](docs/memory.md), [current runbook](docs/public-free-host-runbook.md) and [remaining technical debt](docs/post-mvp-technical-debt.md).

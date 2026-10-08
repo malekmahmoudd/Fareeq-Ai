@@ -1,0 +1,4 @@
+import { Text, View } from 'react-native';
+import { Body, Heading, Page, s } from '../../components/UI';
+import { useWorkspace } from '../../state/Workspace';
+export default function Memory() { const { state, live } = useWorkspace(); const saved = state.chats.flatMap(chat => chat.messages.filter(message => message.saved)); return <Page><Heading>Your memory</Heading><Body>Your context. Your control.</Body><Text style={s.section}>Saved replies</Text>{saved.length ? saved.map(message => <View key={message.id} style={[s.card, { flexDirection: 'column', alignItems: 'stretch' }]}><Body>{message.content}</Body></View>) : <Body>Save a reply from a chat to keep it here.</Body>}<Text style={s.note}>{live ? 'Saved replies are kept in your FareeqAI workspace.' : 'Preview changes last until the app reloads.'}</Text></Page>; }

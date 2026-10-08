@@ -1,0 +1,80 @@
+# EAS archive rules for the mobile client in this repository.
+# --- Python / backend ---
+# Embedding model weights: fetched at image build (see backend/Dockerfile) or by
+# `python -m app.documents.fetch_model` for local development.
+backend/models/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.sqlite3
+*.db
+# Local database backups (e.g. modeer.db.bak-2026-09-25) hold real conversations.
+*.db.bak*
+
+# --- Node / frontend ---
+node_modules/
+.next/
+out/
+dist/
+build/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# --- Environment / secrets ---
+.env
+.env.*
+!.env.example
+!**/.env.example
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Docker ---
+.docker-data/
+pgdata/
+
+# Local QA screenshots (visual review artifacts)
+qa-screenshots/
+# Private backups and generated invitation credentials
+backups/
+invite.json
+
+.git
+/backend/
+/frontend/
+/deploy/
+/docs/
+/.github/
+mobile/client/.expo/
+mobile/client/ios/
+mobile/client/android/
+*.apk
+*.aab
+*.keystore
+credentials.json
+/README.md
+/docker-compose.yml
+/netlify.toml
+/render.yaml
+/mobile/design/*
+!/mobile/design/tokens.json
+
+# Keep local tooling and generated/private artifacts out of cloud uploads.
+.claude/
+expo-env.d.ts
+*.jks
+*.log
+*.tmp

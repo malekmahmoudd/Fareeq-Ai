@@ -1,6 +1,6 @@
 // Pages delivery for the existing Next.js origin. No production secrets here.
 const FRONTEND = "https://fareeqai.netlify.app";
-const BACKEND = "https://fareeqai-api.malekmahmoud.blitz.cloud";
+const BACKEND = "https://fareeqai-api.dockhosting.dev";
 const PUBLIC = "https://fareeqai.pages.dev";
 const preferences = new Set(["fareeq_locale", "fareeq_saver", "fareeq_a11y"]);
 

@@ -1,4 +1,4 @@
-# Only public backend origin belongs on Netlify. AI/auth/database secrets stay on Blitz.
+# Only public backend origin belongs on Netlify. AI/auth/database secrets stay on the backend host.
 [build]
   base = "frontend"
   command = "npm run build"

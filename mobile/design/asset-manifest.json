@@ -1,0 +1,17 @@
+{
+  "approved_preview": "references/approved-mobile-preview.png",
+  "files": [
+    {
+      "path": "references/original-landscape.png",
+      "sha256": "ec1ddde546880ca4de302f0dc62854dfaf0988ae07649c00816b35f9e63c64b2"
+    },
+    {
+      "path": "references/original-mobile-chat.png",
+      "sha256": "46acfb69033cacc579426a06ae80557580e749669f77564c516028619379c52a"
+    },
+    {
+      "path": "references/approved-mobile-preview.png",
+      "sha256": "ace99644ac5988e4ea3c072b11c16f1c973dd22265530f50700eb5dafb5c19f7"
+    }
+  ]
+}
