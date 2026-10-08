@@ -34,7 +34,11 @@ The branded launcher, adaptive and monochrome icons and launch image reuse the e
 
 The first queued 0.2.0 build (7e486327-77b3-47b7-80b7-993c63908f13) was canceled before delivery when lifecycle issues were found during verification. Use the replacement build linked below, not that canceled build or the earlier 0.1.1 APK for these features.
 
-Replacement APK: pending final submission after verification. The existing signing key and Free preview profile are reused. No store submission or paid resource is involved.
+Replacement build: https://expo.dev/accounts/malekmahmoudd/projects/fareeqai-mobile/builds/c10bef9c-cda2-47e9-af8d-752c98486def
+
+Successfully uploaded to Expo Free after the lifecycle/session corrections. Queue/build status must be checked on this page; this report does not claim the APK has finished. The existing signing key and preview profile are reused. No store submission or paid resource is involved.
+
+Final inspected archive: 73 files. The staged GitHub publication snapshot was scanned with gitleaks (about 10 MB); no leaks were found. The feature commit is e4ca70fbef680df0fe72d2969c9c920ab2e6c690.
 
 The archive includes the mobile client and approved tokens, excluding backend/frontend/deploy/Git history/private env/database/signing files. .env.example is a public development template. No production secret is uploaded to Expo.
 
