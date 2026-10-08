@@ -2,7 +2,9 @@ import { fetch } from 'expo/fetch';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 import { SSEParser, type StreamEvent } from './sse';
+import { restoreSession } from './session';
 import { withDeadline } from './deadline';
+import type { Document, Source } from '../features/documents';
 import type { Chat } from '../state/model';
 export const apiURL = process.env.EXPO_PUBLIC_SAMPLE_MODE === 'true' ? '' : (process.env.EXPO_PUBLIC_API_URL ?? '').replace(/\/$/, '');
 export const live = !!apiURL;
@@ -29,12 +31,12 @@ async function persist(value: string | null) {
   else await SecureStore.deleteItemAsync(storageKey);
   token = value;
 }
-export async function request<T>(path: string, method = 'GET', body?: unknown, signal?: AbortSignal): Promise<T> {
+export async function request<T>(path: string, method = 'GET', body?: unknown, signal?: AbortSignal, notifyUnauthorized = true): Promise<T> {
   secureEndpoint();
   return withDeadline(async requestSignal => {
     const response = await fetch(`${apiURL}/api${path}`, { method, headers: await headers(), credentials: native ? 'omit' : 'include', body: body === undefined ? undefined : JSON.stringify(body), signal: requestSignal });
     if (!response.ok) {
-      checkUnauthorized(response.status, path);
+      if (notifyUnauthorized) checkUnauthorized(response.status, path);
       const payload = await response.json().catch(() => null);
       throw new APIError(response.status, typeof payload?.detail === 'string' ? payload.detail : `Request failed (${response.status}).`);
     }
@@ -49,24 +51,23 @@ export async function authenticate(kind: 'guest' | 'login' | 'signup', body?: un
   return result;
 }
 let boot: Promise<Me> | undefined;
-export function bootstrap(): Promise<Me> {
-  return boot ??= (async () => {
-    try { return await request<Me>('/users/me'); }
-    catch (error) { if (!(error instanceof APIError) || error.status !== 401) throw error; }
-    await persist(null);
-    await authenticate('guest');
-    return request<Me>('/users/me');
-  })().finally(() => { boot = undefined; });
+export function bootstrap(onExpired: () => void): Promise<Me> {
+  return boot ??= restoreSession(
+    () => request<Me>('/users/me', 'GET', undefined, undefined, false),
+    async () => { await persist(null); await authenticate('guest'); },
+    error => error instanceof APIError && error.status === 401,
+    onExpired,
+  ).finally(() => { boot = undefined; });
 }
 export async function logout() { await request('/auth/logout', 'POST'); await persist(null); }
-export interface ServerChat { id: string; agent_id: string; title: string; messages?: { id: string; role: string; content: string; pinned_at?: string | null; completion: string; meta?: { notice?: string } }[] }
+export interface ServerChat { id: string; agent_id: string; title: string; messages?: { id: string; role: string; content: string; pinned_at?: string | null; completion: string; meta?: { notice?: string; attachments?: { id: string; filename: string }[]; context?: { documents?: Source[] } } }[] }
 export function toChat(row: ServerChat): Chat {
-  return { id: row.id, agentId: row.agent_id, title: row.title, messages: (row.messages ?? []).filter(m => m.role === 'assistant' || m.role === 'user').map(m => ({ id: m.id, role: m.role as 'user' | 'assistant', content: m.content, saved: !!m.pinned_at, completion: m.completion, notice: m.meta?.notice })) };
+  return { id: row.id, agentId: row.agent_id, title: row.title, messages: (row.messages ?? []).filter(m => m.role === 'assistant' || m.role === 'user').map(m => ({ id: m.id, role: m.role as 'user' | 'assistant', content: m.content, saved: !!m.pinned_at, completion: m.completion, notice: m.meta?.notice, attachments: m.meta?.attachments, sources: m.meta?.context?.documents })) };
 }
-export async function stream(agentId: string, message: string, conversationId: string | undefined, onEvent: (event: StreamEvent) => void, signal: AbortSignal) {
+export async function stream(agentId: string, message: string, conversationId: string | undefined, onEvent: (event: StreamEvent) => void, signal: AbortSignal, attachments: string[] = []) {
   secureEndpoint();
   return withDeadline(async requestSignal => {
-    const response = await fetch(`${apiURL}/api/agents/${encodeURIComponent(agentId)}/chat/stream`, { method: 'POST', headers: { ...await headers(), Accept: 'text/event-stream' }, credentials: native ? 'omit' : 'include', body: JSON.stringify({ message, conversation_id: conversationId }), signal: requestSignal });
+    const response = await fetch(`${apiURL}/api/agents/${encodeURIComponent(agentId)}/chat/stream`, { method: 'POST', headers: { ...await headers(), Accept: 'text/event-stream' }, credentials: native ? 'omit' : 'include', body: JSON.stringify({ message, conversation_id: conversationId, attachments }), signal: requestSignal });
     if (!response.ok) {
       checkUnauthorized(response.status, '/agents/chat');
       const body = await response.json().catch(() => null);
@@ -90,5 +91,19 @@ export async function stream(agentId: string, message: string, conversationId: s
       }
       if (!ended) throw new Error('The connection ended before the reply finished. Check your chat before sending again.');
     } finally { await reader.cancel().catch(() => undefined); reader.releaseLock(); }
+  }, 120000, signal);
+}
+
+export async function uploadDocument(form: FormData, signal: AbortSignal): Promise<Document> {
+  secureEndpoint();
+  return withDeadline(async requestSignal => {
+    const auth = await headers();
+    const response = await fetch(`${apiURL}/api/documents`, { method: 'POST', headers: 'Authorization' in auth ? { Authorization: auth.Authorization! } : {}, credentials: native ? 'omit' : 'include', body: form, signal: requestSignal });
+    if (!response.ok) {
+      checkUnauthorized(response.status, '/documents');
+      const payload = await response.json().catch(() => null);
+      throw new APIError(response.status, typeof payload?.detail === 'string' ? payload.detail : `Upload failed (${response.status}).`);
+    }
+    return await response.json();
   }, 120000, signal);
 }

@@ -7,6 +7,7 @@ Start with the [project overview](../README.md). Dated reports record the enviro
 - [Public free-host runbook](public-free-host-runbook.md): Cloudflare/Netlify, DockHosting and Neon operations.
 - [DockHosting verification](dockhosting-verification-2026-10-08.md): migration and live checks.
 - [Android live testing](android-live-testing-2026-10-08.md): connected APK, backend rollout and device checklist.
+- [Android 0.2.0 features](android-features-2026-10-08.md): Goals/Plans, files, formatted replies and verification.
 - [Mobile client](../mobile/client/README.md) and [approved design](../mobile/design/README.md).
 - [Remaining technical debt](post-mvp-technical-debt.md).
 

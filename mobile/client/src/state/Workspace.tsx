@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useRef, useState, type Dispatch, type PropsWithChildren } from 'react';
+import { createContext, useCallback, useContext, useEffect, useReducer, useRef, useState, type Dispatch, type PropsWithChildren } from 'react';
 import { initialWorkspace, workspaceReducer, type Workspace, type Action, type Chat } from './model';
 import { APIError, authenticate, bootstrap, live, logout, observeUnauthorized, request, toChat, type Me, type ServerChat } from '../api/client';
 interface Value {
@@ -16,6 +16,7 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   const [loading, setLoading] = useState(live);
   const [error, setError] = useState('');
   const generation = useRef(0);
+  const getScope = useCallback(() => generation.current, []);
   useEffect(() => observeUnauthorized(() => {
     generation.current++; dispatch({ type: 'clear' }); setMe(null); setLoading(false);
     setError('Your session ended. Reconnect to continue, or sign in to your account.');
@@ -31,10 +32,14 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   async function refresh() {
     if (!live) return;
     await Promise.resolve();
-    const current = generation.current;
+    let current = generation.current;
     setLoading(true); setError('');
     try {
-      const user = await bootstrap();
+      const user = await bootstrap(() => {
+        if (current !== generation.current) return;
+        generation.current++; current = generation.current;
+        dispatch({ type: 'clear' }); setMe(null);
+      });
       const rows = await request<ServerChat[]>('/conversations');
       const pinned = await request<{ message_id: string; conversation_id: string; content: string }[]>('/conversations/pinned');
       const chats = rows.map(toChat).map(chat => ({ ...chat, messages: pinned.filter(m => m.conversation_id === chat.id).map(m => ({ id: m.message_id, role: 'assistant' as const, content: m.content, saved: true })) }));
@@ -49,9 +54,10 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
   useEffect(() => { const timer = setTimeout(() => { void refresh(); }, 0); return () => { clearTimeout(timer); generation.current++; }; }, []); // eslint-disable-line react-hooks/exhaustive-deps
   async function save(chatId: string, messageId: string) {
     if (!live) { dispatch({ type: 'save', chatId, messageId }); return; }
+    const scope = generation.current;
     const message = stateRef.current.chats.find(chat => chat.id === chatId)?.messages.find(m => m.id === messageId);
     await request(`/conversations/${encodeURIComponent(chatId)}/messages/${encodeURIComponent(messageId)}`, 'PATCH', { pinned: !message?.saved });
-    await loadChat(chatId);
+    if (scope === generation.current) await loadChat(chatId);
   }
   async function signIn(kind: 'login' | 'signup', body: unknown) {
     const result = await authenticate(kind, body);
@@ -64,6 +70,6 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     await logout(); generation.current++; dispatch({ type: 'clear' }); setMe(null);
     await refresh();
   }
-  return <Context.Provider value={{ state, dispatch, live, me, loading, error, getScope: () => generation.current, refresh, loadChat, save, signIn, signOut }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ state, dispatch, live, me, loading, error, getScope, refresh, loadChat, save, signIn, signOut }}>{children}</Context.Provider>;
 }
 export function useWorkspace() { const value = useContext(Context); if (!value) throw new Error('Workspace provider missing'); return value; }

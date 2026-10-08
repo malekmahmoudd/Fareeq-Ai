@@ -27,3 +27,8 @@ test('saving targets only assistant reply and can be undone', () => {
   assert.equal(state.chats[0].messages[1].saved, false);
   assert.equal(initialWorkspace.chats[0].messages[1].saved, undefined);
 });
+
+test('session clearing removes messages, saved replies, attachments, sources and drafts', () => {
+  const state = { drafts: { career: 'Private draft' }, chats: [{ id: 'old', agentId: 'career', title: 'Private chat', messages: [{ id: 'reply', role: 'assistant' as const, content: 'Private', saved: true, sources: [{ label: 'D1', document_id: 'doc', filename: 'private.txt' }], attachments: [{ id: 'doc', filename: 'private.txt' }] }] }] };
+  assert.deepEqual(workspaceReducer(state, { type: 'clear' }), { chats: [], drafts: {} });
+});

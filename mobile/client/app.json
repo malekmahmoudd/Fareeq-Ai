@@ -3,7 +3,7 @@
     "name": "FareeqAI",
     "slug": "fareeqai-mobile",
     "scheme": "fareeqai",
-    "version": "0.1.1",
+    "version": "0.2.0",
     "orientation": "default",
     "userInterfaceStyle": "light",
     "ios": {
@@ -11,15 +11,29 @@
     },
     "android": {
       "package": "com.fareeqai.mobile",
-      "versionCode": 2,
+      "versionCode": 3,
       "allowBackup": false,
       "softwareKeyboardLayoutMode": "resize",
-      "predictiveBackGestureEnabled": true
+      "predictiveBackGestureEnabled": true,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/brand/adaptive-foreground.png",
+        "monochromeImage": "./assets/brand/monochrome.png",
+        "backgroundColor": "#FFD24D"
+      }
     },
     "plugins": [
       "expo-router",
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#FFF7DF",
+          "image": "./assets/brand/splash.png",
+          "imageWidth": 180,
+          "resizeMode": "contain"
+        }
+      ]
     ],
     "web": {
       "bundler": "metro",
@@ -34,6 +48,8 @@
         "projectId": "594c923a-e7c3-425d-89b7-11e2c3b919ba"
       }
     },
-    "owner": "malekmahmoudd"
+    "owner": "malekmahmoudd",
+    "icon": "./assets/brand/icon.png",
+    "backgroundColor": "#FFF7DF"
   }
 }

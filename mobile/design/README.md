@@ -13,3 +13,7 @@ All images are copied into the repository; implementation must not depend on dow
 ## First working client
 
 The first runnable client is in [../client](../client/README.md). Its actual phone-size screenshots and milestone checks are in [verification](verification/milestone-1.json). Standalone pink-jacket Leo and original-style Harvey portraits now exist in the client assets; the other teammates currently use copied web source artwork. Connected Android builds use the shared backend; physical-device verification remains pending.
+
+## Android 0.2.0
+
+Actual browser checks for Plans and source passages are saved as [Plans](verification/android-020-plans-web.png) and [Sources](verification/android-020-source-web.png). These are working-client web previews, not native APK screenshots. [Feature verification](../../docs/android-features-2026-10-08.md) separates browser/API checks from pending device acceptance.

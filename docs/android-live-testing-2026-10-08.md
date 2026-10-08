@@ -1,5 +1,7 @@
 # Connected Android testing — 8 October 2026
 
+This report describes the initial 0.1.1 APK. The user subsequently reported it working. See [Android 0.2.0 features and checks](android-features-2026-10-08.md) for the next increment.
+
 The Android preview profile uses https://fareeqai.pages.dev as its public API origin, sample mode disabled, dotenv loading disabled. Cloudflare routes to the existing DockHosting backend and Neon database. No backend credentials are included in Expo or the APK.
 
 App 0.1.1, Android version code 2, package com.fareeqai.mobile. Existing Expo signing credentials are reused so this can update the design APK. The design-preview profile remains available with fixtures.

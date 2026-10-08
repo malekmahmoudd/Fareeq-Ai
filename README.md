@@ -50,7 +50,7 @@ npm run dev
 
 Open http://localhost:3000. The website proxies `/api` to http://localhost:8000 by default. If authentication is enabled locally, FRONTEND_URL must match the browser origin.
 
-For the mobile client, see its [setup and Android testing instructions](mobile/client/README.md). The connected preview APK uses the public FareeqAI origin. The design-preview profile uses labeled sample data. Native keyboard, background/resume, accessibility and physical-device behavior still need verification; Goals/Plans, uploads and Markdown/citations are unfinished on mobile.
+For the mobile client, see its [setup and Android testing instructions](mobile/client/README.md). The connected preview APK uses the public FareeqAI origin. The design-preview profile uses labeled sample data. Native keyboard, background/resume, accessibility and physical-device behavior still need verification; Goals/Plans, uploads and Markdown/source passages are implemented in the 0.2.0 client; see [verification and device checks](docs/android-features-2026-10-08.md).
 
 ## Validation
 

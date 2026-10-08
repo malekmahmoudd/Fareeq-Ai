@@ -1,4 +1,5 @@
-export interface Message { id: string; role: 'user' | 'assistant'; content: string; saved?: boolean; completion?: string; notice?: string }
+import type { Source } from '../features/documents';
+export interface Message { id: string; role: 'user' | 'assistant'; content: string; saved?: boolean; completion?: string; notice?: string; attachments?: { id: string; filename: string }[]; sources?: Source[] }
 export interface Chat { id: string; agentId: string; title: string; messages: Message[] }
 export interface Workspace { chats: Chat[]; drafts: Record<string, string> }
 export type Action = { type: 'replace'; chats: Chat[] } | { type: 'upsert'; chat: Chat } | { type: 'clear' } | { type: 'draft'; agentId: string; text: string } | { type: 'send'; chatId: string; agentId: string; text: string; turnId: string } | { type: 'save'; chatId: string; messageId: string };
