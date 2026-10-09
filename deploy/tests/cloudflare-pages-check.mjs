@@ -48,3 +48,22 @@ assert.equal(response.headers.get('X-Fareeq-Wake'), '1');
 assert.match(response.headers.get('content-type'), /application\/json/);
 assert.ok(!(await response.text()).includes('<html>'));
 console.log('Pages transport: credential isolation, origin preservation, cookie/stream passthrough, fixed upstream, preview refusal and error redaction passed.');
+
+let assetsSeen = [];
+const env = { ASSETS: { fetch: async request => {
+  const path = new URL(request.url).pathname;
+  assetsSeen.push(path);
+  return new Response(path === '/mobile/' ? 'Expo shell' : 'missing', { status: path === '/mobile/' ? 200 : 404 });
+} } };
+response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile'), env);
+assert.equal(response.headers.get('location'), 'https://fareeqai.pages.dev/mobile/');
+response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile/agents/career'), env);
+assert.equal(await response.text(), 'Expo shell');
+assert.deepEqual(assetsSeen, ['/mobile/agents/career', '/mobile/']);
+response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile/missing.js'), env);
+assert.equal(response.status, 404, 'missing scripts never receive the HTML fallback');
+response = await worker.fetch(new Request('https://preview.fareeqai.pages.dev/mobile/'), env);
+assert.equal(response.status, 307, 'mobile previews stay on the canonical auth origin');
+response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile/', { method:'POST' }), env);
+assert.equal(response.status, 405);
+console.log('Separate Safari client: scoped assets, deep links, missing asset 404 and canonical origin passed.');

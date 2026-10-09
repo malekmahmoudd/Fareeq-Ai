@@ -81,7 +81,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html
       style={a11y.style}
       lang={locale}
-      dir={locale === "ar" ? "rtl" : "ltr"}
+      dir="ltr"
       className={`${inter.variable} ${display.variable} ${brush.variable} ${hand.variable} ${arabic.variable}${dataSaver ? " data-saver" : ""} ${a11y.className}`.trim()}
     >
       <body className="font-sans">

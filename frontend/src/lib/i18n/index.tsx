@@ -93,7 +93,8 @@ export function PrefsProvider({
     active = next;
     writeCookie(LOCALE_COOKIE, next);
     document.documentElement.lang = next;
-    document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
+    // Keep navigation in place; Arabic message and input text uses dir="auto".
+    document.documentElement.dir = "ltr";
     setLocaleState(next);
   }, []);
 
@@ -106,7 +107,7 @@ export function PrefsProvider({
   const value = useMemo<Prefs>(
     () => ({
       locale,
-      dir: locale === "ar" ? "rtl" : "ltr",
+      dir: "ltr",
       dataSaver,
       setLocale,
       setDataSaver,

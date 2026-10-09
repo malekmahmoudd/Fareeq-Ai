@@ -5,7 +5,7 @@ const PUBLIC = "https://fareeqai.pages.dev";
 const preferences = new Set(["fareeq_locale", "fareeq_saver", "fareeq_a11y"]);
 
 export default {
-  async fetch(request) {
+  async fetch(request, env) {
     const source = new URL(request.url);
     const api = source.pathname === "/api" || source.pathname.startsWith("/api/");
     // Preview addresses must not become alternate authentication origins.
@@ -20,6 +20,24 @@ export default {
     }
     if (!api && !["GET", "HEAD"].includes(request.method)) {
       return new Response("Method not allowed", { status: 405 });
+    }
+    // Separate Expo client: the main Next.js site is never replaced or restyled.
+    if (source.pathname === "/mobile") return Response.redirect(`${PUBLIC}/mobile/`, 308);
+    if (source.pathname.startsWith("/mobile/")) {
+      let asset = await env.ASSETS.fetch(request);
+      // SPA fallback for app screens only. Missing JS/images remain real 404s.
+      const last = source.pathname.split("/").pop();
+      if (asset.status === 404 && !last.includes(".")) {
+        const entry = new URL("/mobile/", source);
+        asset = await env.ASSETS.fetch(new Request(entry, { method: request.method }));
+      }
+      const safe = new Headers(asset.headers);
+      safe.set("Cache-Control", "no-store");
+      safe.set("X-Content-Type-Options", "nosniff");
+      safe.set("X-Frame-Options", "DENY");
+      safe.set("Referrer-Policy", "same-origin");
+      safe.set("Strict-Transport-Security", "max-age=31536000");
+      return new Response(asset.body, { status: asset.status, headers: safe });
     }
     const destination = new URL(api ? BACKEND : FRONTEND);
     // Assign path rather than resolve it, so //host paths cannot change upstream.

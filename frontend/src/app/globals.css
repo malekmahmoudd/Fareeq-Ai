@@ -897,30 +897,14 @@ body {
 
 }
 
-/* ============================================================
-   Right to left (Arabic). Layout flips through logical properties above;
-   these mirror what has a drawn direction: slants, arrows, the hero art.
-   ============================================================ */
-[dir="rtl"] select.field { background-position: left 12px center; }
-[dir="rtl"] .name-tab { clip-path: polygon(0 0, 100% 0, 100% 100%, 11px 100%); }
-[dir="rtl"] .sunshine-hero::before { clip-path: polygon(100% 0, 76% 0, 100% 82%); }
-[dir="rtl"] .sunshine-hero-art { transform: scaleX(-1); }
-[dir="rtl"] .team-page > header:after,
-[dir="rtl"] .journal-page > header:after { transform: skew(25deg); }
-[dir="rtl"] .rtl-flip { transform: scaleX(-1); }
-[dir="rtl"] .rtl-flip-g { transform: scaleX(-1); transform-origin: 12px 12px; }
-[dir="rtl"] .wordmark { transform: skewX(7deg) !important; }
-@media (max-width: 599px) {
-  [dir="rtl"] .sunshine-hero::before { clip-path: polygon(24% 0, 0 0, 0 44%, 56% 44%); }
-}
 /* Arabic reads better a touch larger and looser than the Latin sizes. */
-[dir="rtl"] body { line-height: 1.7; }
-[dir="rtl"] .eyebrow, [dir="rtl"] .tab-label { letter-spacing: 0; }
-[dir="rtl"] .display { letter-spacing: 0; }
+html[lang="ar"] body { line-height: 1.7; }
+html[lang="ar"] .eyebrow, html[lang="ar"] .tab-label { letter-spacing: 0; }
+html[lang="ar"] .display { letter-spacing: 0; }
 /* Archivo Black has one heavy weight and no Arabic; the Arabic fallback is
    variable, so headings ask it for the same visual weight. */
-[dir="rtl"] .display, [dir="rtl"] .wordmark, [dir="rtl"] .name-tab, [dir="rtl"] .tab-label { font-weight: 800; }
-[dir="rtl"] .hand { font-weight: 600; letter-spacing: 0; }
+html[lang="ar"] .display, html[lang="ar"] .wordmark, html[lang="ar"] .name-tab, html[lang="ar"] .tab-label { font-weight: 800; }
+html[lang="ar"] .hand { font-weight: 600; letter-spacing: 0; }
 
 /* ============================================================
    Data saver: system fonts instead of the decorative ones (which are not
@@ -979,3 +963,6 @@ body:has(.reading-focus) header.sticky, body:has(.reading-focus) nav[aria-label]
     zoom: 1;
   }
 }
+
+/* Text reads naturally without moving the surrounding navigation. */
+html[lang="ar"] :is(h1,h2,h3,p,legend) { unicode-bidi:plaintext; }

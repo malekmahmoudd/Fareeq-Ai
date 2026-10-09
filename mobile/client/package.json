@@ -53,7 +53,8 @@
     "preios": "node tools/sync-design.cjs",
     "preweb": "node tools/sync-design.cjs",
     "preexport:web": "node tools/sync-design.cjs",
-    "preexport:native": "node tools/sync-design.cjs"
+    "preexport:native": "node tools/sync-design.cjs",
+    "export:safari": "node tools/build-safari.cjs"
   },
   "private": true,
   "overrides": {

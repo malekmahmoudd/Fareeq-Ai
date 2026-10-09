@@ -34,3 +34,21 @@ References:
 - https://developers.cloudflare.com/pages/get-started/direct-upload/
 - https://developers.cloudflare.com/pages/functions/advanced-mode/
 - https://developers.cloudflare.com/pages/framework-guides/nextjs/
+
+## Separate Safari app
+
+`https://fareeqai.pages.dev/mobile/` serves the Expo client from Pages static
+assets. `/`, `/team`, and the other existing website routes still go to Next.js;
+there is no device detection and no desktop or phone website redesign.
+Both clients use the existing same-origin `/api` proxy and HttpOnly web session.
+
+Build with `npm run export:safari --prefix mobile/client`, then zip the contents
+of `deploy/dist/safari-pages` with `_worker.js`, `index.html` and `mobile/` at the
+archive root. Upload that package to the existing Pages project. Do not upload
+only the proxy anymore: doing so would omit the separate mobile assets.
+
+On iPhone, open `/mobile/` in Safari, choose Share → Add to Home Screen and
+Open as Web App if offered. Its manifest starts and stays within `/mobile/`.
+AI calls require an internet connection. This is the mobile app's web client,
+not an App Store binary. No private responses or credentials are cached in a
+service worker. Native builds do not receive the web-only `/mobile` base path.

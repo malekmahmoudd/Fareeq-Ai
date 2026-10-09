@@ -1,0 +1,24 @@
+{
+  "id": "/mobile/",
+  "name": "FareeqAI",
+  "short_name": "FareeqAI",
+  "start_url": "/mobile/",
+  "scope": "/mobile/",
+  "display": "standalone",
+  "background_color": "#FFF7DF",
+  "theme_color": "#FFF7DF",
+  "icons": [
+    {
+      "src": "/mobile/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/mobile/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

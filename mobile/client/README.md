@@ -77,3 +77,11 @@ The earlier APK was reported working by the user. The new 0.2.1 APK and AAB are 
 ## Safari home-screen app
 
 The public web app provides installation instructions at https://fareeqai.pages.dev/install. In Safari on iPhone/iPad, use Share → Add to Home Screen and enable Open as Web App if shown. This uses the website and shared backend; AI requests require internet. The in-app wordmark is unchanged. Actual iPhone standalone behavior remains a device verification step.
+
+## Separate Safari release
+
+Run `npm run export:safari` to assemble the public Cloudflare upload package at
+`deploy/dist/safari-pages`. The separate client lives at
+https://fareeqai.pages.dev/mobile/ and uses the same backend and cookie session
+as the website. Safari Share → Add to Home Screen installs this mobile design.
+It requires internet for AI; it is not an offline or native iOS build.

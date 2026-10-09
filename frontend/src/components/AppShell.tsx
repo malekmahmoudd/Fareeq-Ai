@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Brand } from "@/components/Brand";
 import { SearchPalette } from "@/components/search/SearchPalette";
@@ -198,23 +198,7 @@ function Shell({ children }: { children: React.ReactNode }) {
             </button>
             <LanguageToggle signedIn />
             <Link href="/install" className="hidden min-h-11 items-center px-2 text-sm underline sm:flex">{t("app.install")}</Link>
-            {user?.is_guest && <>
-              <Link href="/login" className="min-h-11 px-2 py-3 text-sm underline">{t("common.signIn")}</Link>
-              {auth?.signup_enabled && <Link href="/signup" className="min-h-11 px-2 py-3 text-sm font-bold underline">{t("guest.save")}</Link>}
-            </>}
-            {!atHome && <Link href="/account" className="grid min-h-11 place-items-center px-2 text-sm font-bold underline decoration-pink decoration-2 underline-offset-4">{t("nav.account")}</Link>}
-            {!user?.is_guest && auth?.required && <button className="text-xs underline" onClick={async () => { await apiFetch("/auth/logout", { method: "POST" }); clearDrafts(); window.location.assign(auth?.guest_enabled ? "/" : "/login"); }}>{t("nav.signOut")}</button>}
-            {name && (
-              <Link href="/account" aria-label={t("nav.yourAccount")} className="flex min-h-11 items-center gap-2">
-                <span className="hidden text-[13px] font-semibold text-ink-soft sm:inline">{name}</span>
-                <span
-                  className="grid h-9 w-9 place-items-center rounded-full border-2 border-ink bg-sun text-[13px] font-black"
-                  aria-hidden
-                >
-                  {name.charAt(0).toUpperCase()}
-                </span>
-              </Link>
-            )}
+            <AccountMenu key={pathname} user={user} auth={auth} name={name} />
           </div>
         </div>
       </header>
@@ -261,4 +245,53 @@ function Shell({ children }: { children: React.ReactNode }) {
       </nav>
     </div>
   );
+}
+
+/** Account actions stay behind the avatar on every screen size. */
+function AccountMenu({ user, auth, name }: { user: UserProfile | null; auth: AuthStatus | null; name: string | undefined }) {
+  const { t } = usePrefs();
+  const [open, setOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const ref = useRef<HTMLDivElement>(null);
+  const button = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+    function outside(event: PointerEvent) {
+      if (!ref.current?.contains(event.target as Node)) setOpen(false);
+    }
+    function escape(event: KeyboardEvent) {
+      if (event.key === "Escape") { setOpen(false); button.current?.focus(); }
+    }
+    document.addEventListener("pointerdown", outside);
+    document.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("pointerdown", outside);
+      document.removeEventListener("keydown", escape);
+    };
+  }, [open]);
+  return <div ref={ref} className="relative">
+    <button ref={button} type="button" aria-label={t("nav.yourAccount")} aria-expanded={open} aria-controls="account-actions"
+      className="flex min-h-11 min-w-11 items-center justify-center gap-2" onClick={() => setOpen(!open)}>
+      {name && !user?.is_guest && <span className="hidden text-[13px] font-semibold text-ink-soft sm:inline">{name}</span>}
+      <span className="grid h-10 w-10 place-items-center rounded-full border-2 border-ink bg-paper-hi text-[13px] font-black" aria-hidden>
+        {name && !user?.is_guest ? name.charAt(0).toUpperCase() : <Icon name="team" size={23} />}
+      </span>
+    </button>
+    {open && <div id="account-actions" className="absolute right-0 top-full z-50 mt-2 w-60 rounded-lg border-2 border-ink bg-paper-hi p-2 shadow-pop-xs">
+      <Link href="/account" className="block min-h-11 rounded px-3 py-3 font-bold hover:bg-sun-pale">{t("nav.account")}</Link>
+      {user?.is_guest && <>
+        <Link href="/login" className="block min-h-11 rounded px-3 py-3 hover:bg-sun-pale">{t("common.signIn")}</Link>
+        {auth?.signup_enabled && <Link href="/signup" className="block min-h-11 rounded px-3 py-3 font-bold hover:bg-sun-pale">{t("guest.save")}</Link>}
+      </>}
+      {user && !user.is_guest && auth?.required && <button disabled={busy} className="block min-h-11 w-full rounded px-3 py-3 text-left hover:bg-sun-pale" onClick={async () => {
+        setBusy(true); setError("");
+        try {
+          await apiFetch("/auth/logout", { method: "POST" });
+          clearDrafts(); window.location.assign(auth.guest_enabled ? "/" : "/login");
+        } catch (err) { setError(err instanceof Error ? err.message : t("common.tryAgain")); setBusy(false); }
+      }}>{t("nav.signOut")}</button>}
+      {error && <p role="alert" className="px-3 py-2 text-sm">{error}</p>}
+    </div>}
+  </div>;
 }
