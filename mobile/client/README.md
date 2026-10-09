@@ -68,7 +68,7 @@ npm run export:native
 
 Current pass: typecheck/lint, 25 automated tests and Expo Doctor 21/21 passed. Android/iOS JavaScript exports passed. Phone-width browser checks covered real local Goals/Plans, Markdown/Arabic text, upload/attachment/source passages, account switching and guest recovery. The public API also passed goals, document ingestion/sharing, real AI streaming with attachments, source authorization, plan progress/idempotence and cross-guest isolation; synthetic resources were deleted and sessions revoked.
 
-The earlier APK was reported working by the user. The new 0.2.0 build is a separate test build; native keyboard/back, weak connection recovery, file picking and launch artwork need device checks. npm reports 26 transitive advisories (8 moderate, 18 high); no force downgrade or clean dependency-audit claim is made. See the [0.2.0 verification report](../../docs/android-features-2026-10-08.md).
+The earlier APK was reported working by the user. The new 0.2.1 APK and AAB are separate release candidates; native keyboard/back, weak connection recovery, file picking and launch artwork need device checks. npm reports 26 transitive advisories (8 moderate, 18 high); no force downgrade or clean dependency-audit claim is made. See the [0.2.0 verification report](../../docs/android-features-2026-10-08.md).
 
 ## Design sources
 

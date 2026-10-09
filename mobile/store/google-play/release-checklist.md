@@ -47,3 +47,10 @@ Official references:
 - Production AAB completed: https://expo.dev/artifacts/eas/sMqE-gk7Ayr8NmnkNCink3l7-bKw-2nTbe0adpIfCMY.aab
 
 - Production AAB signature verified with jarsigner; self-signed upload certificate matches Android signing workflow. Bundle acceptance still requires Play Console checks.
+
+- Google bundletool 1.18.3 `validate` passed for the AAB. The APK contains pixel-identical copies of all three selected Leo/Harvey artwork assets (Android repackages their file bytes).
+- Release files retained in ignored `mobile/releases/`; signing keys and credentials are not committed.
+- Before store submission, assess the existing Expo dependency advisories documented in the mobile README; do not force incompatible React Native downgrades.
+- The owner has not created the public support email yet; this remains required.
+
+- Installer recovery fix published as 8544611ca8fdf0db87455d2976478c86f75aad3f. pip 26.2.1 was force-installed locally from the hash-pinned lock successfully. DockHosting redeploy is queued; the old backend remains healthy. Local Docker build was unavailable because its daemon is not running.
