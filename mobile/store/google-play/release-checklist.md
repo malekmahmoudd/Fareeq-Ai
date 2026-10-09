@@ -8,6 +8,7 @@ Prepared version: 0.2.1, Android versionCode 4, package com.fareeqai.mobile.
 - Account/workspace deletion and AI-reply reporting implemented.
 - Public deletion instructions and Safari installation route implemented.
 - 512×512 store icon prepared.
+- English store description and initial-release notes prepared in `listing.md` and `release-notes.md` on 10 October 2026.
 
 ## Must finish before Play submission
 - APK signing verified; production AAB signature verified and retained locally; keep signing credentials secure.
@@ -16,11 +17,17 @@ Prepared version: 0.2.1, Android versionCode 4, package com.fareeqai.mobile.
 - Publish a support email; verify data processing and backup retention; complete Data Safety, app access, content rating, audience and AI declarations accurately.
 - Capture at least two genuine Android phone screenshots from the release. Do not substitute concept art or browser screenshots.
 - Review the feature graphic and store listing.
-- Owner creates/verifies Google Play developer account LAST. Register the app, enroll Play App Signing, upload the AAB to internal testing, then satisfy account-specific testing requirements. New personal accounts generally require 12 continuously opted-in testers for 14 days before applying for production access.
+- Owner has created the Google Play developer account and completed payment. Finish the pending account verification, then register the app, enroll Play App Signing, upload the AAB to internal testing and satisfy the testing requirements shown in Play Console. See the official testing reference below.
 - Do not auto-submit or purchase any service.
 
 ## Safari
-Visit https://fareeqai.pages.dev/install in Safari. Share → Add to Home Screen → enable Open as Web App if shown → Add. Verify the icon, standalone launch, chat and return from background on an actual iPhone/iPad. AI still needs internet. This is the web app; no iOS binary/App Store submission is involved.
+The separate mobile experience is published at https://fareeqai.pages.dev/mobile/. The owner confirmed it is working after checking it. To install in Safari: Share → Add to Home Screen → enable Open as Web App if shown → Add. Complete the remaining checks for the icon, standalone launch and return from background on an actual iPhone/iPad. AI still needs internet. No iOS binary/App Store submission is involved; the main desktop website retains its existing design.
+
+## Owner tasks deferred until 11 October 2026
+
+- Retry creating the public support inbox after the Google SMS verification delay. The requested address is not yet confirmed or ready to publish.
+- Test the current release APK on a real Android device and capture polished, genuine screenshots.
+- Review the feature graphic and listing presentation before submission.
 
 ## Build tracking
 APK: https://expo.dev/accounts/malekmahmoudd/projects/fareeqai-mobile/builds/fc003f90-873b-4fc6-a82e-208c5888facf
