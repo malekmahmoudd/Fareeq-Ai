@@ -24,12 +24,16 @@ export default {
     // Separate Expo client: the main Next.js site is never replaced or restyled.
     if (source.pathname === "/mobile") return Response.redirect(`${PUBLIC}/mobile/`, 308);
     if (source.pathname.startsWith("/mobile/")) {
-      let asset = await env.ASSETS.fetch(request);
-      // SPA fallback for app screens only. Missing JS/images remain real 404s.
       const last = source.pathname.split("/").pop();
-      if (asset.status === 404 && !last.includes(".")) {
-        const entry = new URL("/mobile/", source);
-        asset = await env.ASSETS.fetch(new Request(entry, { method: request.method }));
+      // Pages can return the root site's fallback with status 200 for unknown
+      // paths. Route Expo screens to its own shell before requesting assets.
+      const screen = !last.includes(".");
+      const assetRequest = screen
+        ? new Request(new URL("/mobile/", source), { method: request.method })
+        : request;
+      const asset = await env.ASSETS.fetch(assetRequest);
+      if (!screen && !last.endsWith(".html") && (asset.headers.get("content-type") || "").includes("text/html")) {
+        return new Response("Asset not found", { status: 404 });
       }
       const safe = new Headers(asset.headers);
       safe.set("Cache-Control", "no-store");

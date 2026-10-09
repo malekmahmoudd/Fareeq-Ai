@@ -59,7 +59,7 @@ response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile'), 
 assert.equal(response.headers.get('location'), 'https://fareeqai.pages.dev/mobile/');
 response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile/agents/career'), env);
 assert.equal(await response.text(), 'Expo shell');
-assert.deepEqual(assetsSeen, ['/mobile/agents/career', '/mobile/']);
+assert.deepEqual(assetsSeen, ['/mobile/']);
 response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile/missing.js'), env);
 assert.equal(response.status, 404, 'missing scripts never receive the HTML fallback');
 response = await worker.fetch(new Request('https://preview.fareeqai.pages.dev/mobile/'), env);
@@ -67,3 +67,8 @@ assert.equal(response.status, 307, 'mobile previews stay on the canonical auth o
 response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile/', { method:'POST' }), env);
 assert.equal(response.status, 405);
 console.log('Separate Safari client: scoped assets, deep links, missing asset 404 and canonical origin passed.');
+
+response = await worker.fetch(new Request('https://fareeqai.pages.dev/mobile/missing.js'), {
+  ASSETS: { fetch: async () => new Response('Root fallback', { headers: { 'content-type':'text/html' } }) },
+});
+assert.equal(response.status, 404, 'Pages 200 HTML fallback cannot masquerade as a JavaScript asset');
