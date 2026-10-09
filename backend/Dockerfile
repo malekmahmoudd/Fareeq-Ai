@@ -3,6 +3,14 @@
 # docs/DEPLOYMENT.md, "Backend dependency lock".
 FROM python:3.12-slim@sha256:78387bc3881b8273120a12ebe6c1ab22b018ccc2c9adf565ae1ac9b536e184ea
 WORKDIR /app
+# The base image's pip 25.0.1 crashes on interrupted downloads. Pin the
+# installer with verified hashes before downloading the application lock.
+COPY installer.lock .
+RUN for attempt in 1 2 3; do \
+        python -m pip install --no-cache-dir --progress-bar off --require-hashes --no-deps -r installer.lock && break; \
+        if [ "$attempt" = 3 ]; then exit 1; fi; \
+        sleep 2; \
+    done
 # requirements.lock pins every package, transitive ones included, to the version
 # the test suite ran against, with hashes; requirements.txt only states ranges.
 # --no-deps: nothing outside the lock can be pulled in; pip check proves the
@@ -10,7 +18,7 @@ WORKDIR /app
 COPY requirements.lock .
 # Retry interrupted host downloads, but still fail after three attempts.
 RUN for attempt in 1 2 3; do \
-        pip install --no-cache-dir --progress-bar off --require-hashes --no-deps -r requirements.lock && break; \
+        python -m pip install --no-cache-dir --progress-bar off --resume-retries 10 --retries 10 --timeout 60 --require-hashes --no-deps -r requirements.lock && break; \
         if [ "$attempt" = 3 ]; then exit 1; fi; \
         sleep 2; \
     done \

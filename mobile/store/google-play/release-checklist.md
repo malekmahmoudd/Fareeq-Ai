@@ -4,13 +4,13 @@ Prepared version: 0.2.1, Android versionCode 4, package com.fareeqai.mobile.
 
 ## Prepared
 - Approved Leo seamless artwork and Harvey portrait; original inside-app wordmark retained.
-- Expo preview APK and production AAB requested with existing signing credentials.
+- Expo preview APK completed with existing signing credentials; production AAB completed.
 - Account/workspace deletion and AI-reply reporting implemented.
 - Public deletion instructions and Safari installation route implemented.
 - 512×512 store icon prepared.
 
 ## Must finish before Play submission
-- Confirm both Expo builds succeeded; download and retain the signed AAB securely.
+- APK signing verified; production AAB signature verified and retained locally; keep signing credentials secure.
 - Test the new APK on a real Android device: guest chat/streaming, optional signup/sign-in, resume/background, uploads, reporting, privacy, deletion, slow/offline transport and large text.
 - Verify the deployed backend accepts reports and an authorized operator can review them.
 - Publish a support email; verify data processing and backup retention; complete Data Safety, app access, content rating, audience and AI declarations accurately.
@@ -31,3 +31,19 @@ Official references:
 - https://support.google.com/googleplay/android-developer/answer/13327111
 - https://support.google.com/googleplay/android-developer/answer/9866151
 - https://support.apple.com/guide/iphone/iphea86e5236/ios
+
+## Verified on 9 October 2026
+- Backend: 574 passed, 4 skipped; Ruff passed.
+- Mobile: 25 passed; lint and typecheck passed.
+- Frontend: checks, typecheck and production build passed; lint has 19 warnings and no errors.
+- Published source commit: 1b12af37abbbec81ff358939a153103d5148de52.
+- Netlify deploy 6ac91d1555f264000762223d published. Live /install, /delete-account, /privacy and apple-icon.png returned 200. Manifest serves 192/512 PNG icons.
+- APK signature verified, package com.fareeqai.mobile, version 0.2.1/code 4, min API 24, target API 36. Overlay and legacy broad-storage permissions absent.
+- Live API health/database OK. Native guest authentication returned 200; disposable guest deletion returned 204; guest admin access blocked.
+- Live reporting route still returned 404 at verification time. The source deployment failed during package downloads; host connection errors occurred in pip 25.0.1. A pinned installer upgrade with resumable downloads is being verified.
+- New APK download: https://expo.dev/artifacts/eas/FFMTsfMHQJaH4HYhssIqMPGcMWJZZAHui_jdRQNgTRo.apk
+
+- APK zip alignment and all 46 bundled 64-bit native library ELF alignments passed 16 KB checks.
+- Production AAB completed: https://expo.dev/artifacts/eas/sMqE-gk7Ayr8NmnkNCink3l7-bKw-2nTbe0adpIfCMY.aab
+
+- Production AAB signature verified with jarsigner; self-signed upload certificate matches Android signing workflow. Bundle acceptance still requires Play Console checks.

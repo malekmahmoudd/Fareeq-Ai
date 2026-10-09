@@ -1,6 +1,6 @@
 # FareeqAI mobile client
 
-Expo SDK 57 / React Native 0.86 client for the existing FareeqAI backend. App 0.2.0, Android version code 3, package `com.fareeqai.mobile`. Android is distributed as a signed APK; no App Store submission is planned.
+Expo SDK 57 / React Native 0.86 client for the existing FareeqAI backend. App 0.2.1, Android version code 4, package `com.fareeqai.mobile`. Android is distributed as a signed APK; no App Store submission is planned.
 
 ## What works
 
@@ -11,6 +11,7 @@ Expo SDK 57 / React Native 0.86 client for the existing FareeqAI backend. App 0.
 - Plans: save an assistant checklist with “Make plan,” tick steps, rename, complete/reopen, archive/restore and delete.
 - Files: system picker, 10 MB validation, processing/ready/failed states, up to five attachments, team sharing and deletion. Supported formats: PDF, DOCX, TXT, Markdown, PNG, JPEG and WebP. Only extracted text is stored by the backend.
 - Replies: headings, lists, emphasis, code blocks, horizontally scrollable tables and HTTP(S) links. Retrieved sources open authenticated passages inside the app. Arbitrary HTML is rendered as text; remote images are not loaded.
+- Account/workspace deletion, privacy notice and in-app AI reply reporting. Reporting requires the updated backend and an authorized operator review process.
 - Branded launcher/adaptive/themed icon and cream launch screen, using the existing F mark and approved colors.
 
 ## Run locally
@@ -44,7 +45,7 @@ npx eas-cli@latest build:inspect --platform android --profile preview --stage ar
 npx eas-cli@latest build --platform android --profile preview --non-interactive --freeze-credentials
 ```
 
-`preview` builds an installable APK using `https://fareeqai.pages.dev`, sample mode false and dotenv loading disabled. The public origin forwards API requests to the current backend; a hosting migration does not require a new APK. `design-preview` builds fixtures with no backend. The legacy `production` profile builds an AAB but is not used for this APK distribution workflow.
+`preview` builds an installable APK using `https://fareeqai.pages.dev`, sample mode false and dotenv loading disabled. The public origin forwards API requests to the current backend; a hosting migration does not require a new APK. `design-preview` builds fixtures with no backend. The `production` profile builds the Google Play AAB with the same connected backend configuration. See `../store/google-play/release-checklist.md` before submission.
 
 Inspect the archive before uploading. Repository `.easignore` includes only the client and approved design tokens. Backend, frontend, deploy, Git history, private env files, databases and signing keys must be absent. `.env.example` is a public development template. Public build variables must never contain a database/signing secret or provider key. The pre-install guard rejects insecure/development API origins and public credential variables. Use the Free queue; do not choose a paid upgrade.
 
@@ -72,3 +73,7 @@ The earlier APK was reported working by the user. The new 0.2.0 build is a separ
 ## Design sources
 
 [Approved design](../design/README.md) and tokens remain the source of truth. Launch/export scripts synchronize approved tokens into `src/tokens.json`. Portraits are bundled locally. `assets/brand/mark.svg` is the editable F mark; PNGs supply native icon/splash inputs. Font notices and template license are retained.
+
+## Safari home-screen app
+
+The public web app provides installation instructions at https://fareeqai.pages.dev/install. In Safari on iPhone/iPad, use Share → Add to Home Screen and enable Open as Web App if shown. This uses the website and shared backend; AI requests require internet. The in-app wordmark is unchanged. Actual iPhone standalone behavior remains a device verification step.
