@@ -1,13 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useReducer, useRef, useState, type Dispatch, type PropsWithChildren } from 'react';
 import { initialWorkspace, workspaceReducer, type Workspace, type Action, type Chat } from './model';
-import { APIError, authenticate, bootstrap, live, logout, observeUnauthorized, request, toChat, type Me, type ServerChat } from '../api/client';
+import { APIError, eraseAccount, authenticate, bootstrap, live, logout, observeUnauthorized, request, toChat, type Me, type ServerChat } from '../api/client';
 interface Value {
   state: Workspace; dispatch: Dispatch<Action>; live: boolean; me: Me | null; loading: boolean; error: string;
   getScope: () => number;
   refresh: () => Promise<void>; loadChat: (id: string) => Promise<Chat>;
   save: (chatId: string, messageId: string) => Promise<void>;
   signIn: (kind: 'login' | 'signup', body: unknown) => Promise<string[] | 'two-factor'>;
-  signOut: () => Promise<void>;
+  signOut: () => Promise<void>; deleteAccount: () => Promise<void>;
 }
 const Context = createContext<Value | null>(null);
 export function WorkspaceProvider({ children }: PropsWithChildren) {
@@ -66,10 +66,14 @@ export function WorkspaceProvider({ children }: PropsWithChildren) {
     await refresh();
     return result.recovery_codes ?? [];
   }
+  async function deleteAccount() {
+    await eraseAccount(); generation.current++; dispatch({ type: 'clear' }); setMe(null);
+    await refresh();
+  }
   async function signOut() {
     await logout(); generation.current++; dispatch({ type: 'clear' }); setMe(null);
     await refresh();
   }
-  return <Context.Provider value={{ state, dispatch, live, me, loading, error, getScope, refresh, loadChat, save, signIn, signOut }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ state, dispatch, live, me, loading, error, getScope, refresh, loadChat, save, signIn, signOut, deleteAccount }}>{children}</Context.Provider>;
 }
 export function useWorkspace() { const value = useContext(Context); if (!value) throw new Error('Workspace provider missing'); return value; }

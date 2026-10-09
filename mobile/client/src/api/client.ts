@@ -59,6 +59,7 @@ export function bootstrap(onExpired: () => void): Promise<Me> {
     onExpired,
   ).finally(() => { boot = undefined; });
 }
+export async function eraseAccount() { await request('/users/me/delete', 'POST', { confirm: 'DELETE' }); await persist(null); }
 export async function logout() { await request('/auth/logout', 'POST'); await persist(null); }
 export interface ServerChat { id: string; agent_id: string; title: string; messages?: { id: string; role: string; content: string; pinned_at?: string | null; completion: string; meta?: { notice?: string; attachments?: { id: string; filename: string }[]; context?: { documents?: Source[] } } }[] }
 export function toChat(row: ServerChat): Chat {

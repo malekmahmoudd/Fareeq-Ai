@@ -4,7 +4,11 @@ import { router } from 'expo-router';
 import { Body, Heading, Page, s } from '../components/UI';
 import { useWorkspace } from '../state/Workspace';
 export default function Account() {
-  const { live, me, signIn, signOut, getScope, error: connectionError } = useWorkspace();
+  const { live, me, signIn, signOut, deleteAccount, getScope, error: connectionError } = useWorkspace();
+  const [confirmation, setConfirmation] = useState({ owner: '', scope: -1, text: '' });
+  const deleteConfirm = confirmation.owner === me?.id && confirmation.scope === getScope() ? confirmation.text : '';
+  function setDeleteConfirm(text: string) { setConfirmation({ owner: me?.id ?? '', scope: getScope(), text }); }
+  const [deleted, setDeleted] = useState(false);
   const [kind, setKind] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState(''); const [password, setPassword] = useState(''); const [name, setName] = useState('');
   const [code, setCode] = useState(''); const [secondStep, setSecondStep] = useState(false);
@@ -33,6 +37,15 @@ export default function Account() {
       <Pressable accessibilityRole="button" disabled={busy} onPress={() => { setKind(kind === 'login' ? 'signup' : 'login'); setSecondStep(false); setError(''); }}><Text style={s.role}>{kind === 'login' ? 'Create an account instead' : 'Already have an account? Sign in'}</Text></Pressable>
     </View>}
     {live && me && !me.is_guest && <Pressable accessibilityRole="button" disabled={busy} style={s.button} onPress={async () => { setBusy(true); try { await signOut(); setCodes([]); setEmail(''); setName(''); setPassword(''); setCode(''); setSecondStep(false); } catch (failure) { setError(failure instanceof Error ? failure.message : 'Could not sign out.'); } finally { setBusy(false); } }}><Text style={s.buttonText}>Sign out</Text></Pressable>}
+    <Pressable accessibilityRole="button" style={s.button} onPress={() => router.push('./privacy')}><Text style={s.buttonText}>Privacy and your data</Text></Pressable>
+    {deleted && <Body>Your previous workspace was deleted. You can continue as a new guest.</Body>}
+    {live && me && <View style={{ gap: 12 }}><Heading>{me.is_guest ? 'Delete guest workspace' : 'Delete account'}</Heading><Body>This permanently deletes your account, chats, files, memories, goals and plans from the live service. There is no undo. Existing backups expire under the operator’s retention policy. Type DELETE to confirm.</Body><TextInput accessibilityLabel="Type DELETE to confirm account deletion" value={deleteConfirm} onChangeText={setDeleteConfirm} autoCapitalize="characters" style={s.field} editable={!busy} /><Pressable accessibilityRole="button" disabled={busy || deleteConfirm !== 'DELETE'} accessibilityState={{ disabled: busy || deleteConfirm !== 'DELETE' }} style={s.button} onPress={async () => {
+      if (busy || deleteConfirm !== 'DELETE') return;
+      setBusy(true); setError('');
+      try { await deleteAccount(); setCodes([]); setEmail(''); setName(''); setPassword(''); setCode(''); setSecondStep(false); setDeleteConfirm(''); setDeleted(true); }
+      catch (failure) { setError(failure instanceof Error ? failure.message : 'Deletion could not be confirmed. Reconnect before trying again.'); }
+      finally { setBusy(false); }
+    }}><Text style={s.buttonText}>{busy ? 'Please wait…' : me.is_guest ? 'Permanently delete guest workspace' : 'Permanently delete account'}</Text></Pressable></View>}
     {!live && <Body>This design preview uses sample data. Connect the local backend to try accounts.</Body>}
     <Pressable accessibilityRole="button" style={s.button} onPress={() => router.back()}><Text style={s.buttonText}>Back to the app</Text></Pressable>
   </Page>;

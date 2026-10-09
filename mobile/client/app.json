@@ -3,7 +3,7 @@
     "name": "FareeqAI",
     "slug": "fareeqai-mobile",
     "scheme": "fareeqai",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "orientation": "default",
     "userInterfaceStyle": "light",
     "ios": {
@@ -11,15 +11,20 @@
     },
     "android": {
       "package": "com.fareeqai.mobile",
-      "versionCode": 3,
+      "versionCode": 4,
       "allowBackup": false,
       "softwareKeyboardLayoutMode": "resize",
       "predictiveBackGestureEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/brand/adaptive-foreground.png",
         "monochromeImage": "./assets/brand/monochrome.png",
-        "backgroundColor": "#FFD24D"
-      }
+        "backgroundColor": "#FFFFFF"
+      },
+      "blockedPermissions": [
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE"
+      ]
     },
     "plugins": [
       "expo-router",

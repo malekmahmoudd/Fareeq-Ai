@@ -242,3 +242,14 @@ operator should tell you before it takes effect.
 ## Trying FareeqAI as a guest
 
 You can use FareeqAI without providing an email address or creating a password. A signed session cookie gives this browser access to a separate guest workspace. Guest conversations and extracted document text are stored on the server, just like account work; AI requests are sent to the configured model provider. Automatic personal-memory extraction is off for new guests. The browser session expires after seven days with the current hosting configuration. Clearing cookies or losing the session means you cannot recover guest work. Expired guest work is automatically erased by the hourly cleanup, including conversations, extracted document text and account usage records. Cleanup also runs when the backend starts; while free hosting is asleep, erasure waits until it wakes. You can delete your guest workspace from Account, or optionally create an account there to keep access across devices. Do not submit confidential or sensitive information to this public demonstration. Shared usage limits protect the free hosting and AI allowance.
+
+
+## Android access and reporting
+
+The Android app uses a signed session token stored in the device's protected credential storage instead of a browser cookie. It authenticates to the same service and database as the website. The system file picker grants access only to files you choose; upload cache copies are removed after transfer. There is no advertising SDK or advertising identifier collection.
+
+Use Account → Privacy and your data to read this notice. Use Account → Delete account (or Delete guest workspace), type DELETE, then confirm to erase the live workspace. The website also provides deletion at https://fareeqai.pages.dev/delete-account, including for registered users accessing their account without the Android app. If you cannot sign in, contact the operator; public contact details must be configured before store publication.
+
+Use Report beneath an AI reply to flag unsafe, hateful, sexual, misleading or other inappropriate content. The category and submission time are stored with that reply for operator review; no second copy of the conversation is created. The report is erased when its message, conversation or account is erased, including expired guest and incognito cleanup. No report text is sent to another service. Reporting is not an emergency service.
+
+Some controls described above are available on the website only. The mobile app currently supports chat, files, sources, saved replies, goals, plans, memory viewing, optional sign-in and workspace deletion. It does not currently request camera, microphone, location or contact-book access.

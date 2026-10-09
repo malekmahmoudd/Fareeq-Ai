@@ -36,7 +36,11 @@ The first queued 0.2.0 build (7e486327-77b3-47b7-80b7-993c63908f13) was canceled
 
 Replacement build: https://expo.dev/accounts/malekmahmoudd/projects/fareeqai-mobile/builds/c10bef9c-cda2-47e9-af8d-752c98486def
 
-Successfully uploaded to Expo Free after the lifecycle/session corrections. Queue/build status must be checked on this page; this report does not claim the APK has finished. The existing signing key and preview profile are reused. No store submission or paid resource is involved.
+The replacement Expo Free build finished on 8 October 2026 at 19:07 UTC. Its APK was downloaded from Expo, its signature verified, and package/version checked as com.fareeqai.mobile, 0.2.0, version code 3. Installation into the API 37 Android emulator succeeded. The existing signing key and preview profile are reused. No store submission or paid resource is involved.
+
+Follow-up verification: all 25 mobile tests, typecheck and lint passed again. The public API health endpoint returned HTTP 200 with database status ok in about 1.49 seconds; this is a single response measurement, not a cold-start or uptime guarantee. Native UI controls still could not attach reliably to the emulator/Android Studio, so APK installation is verified but its native user journeys remain unverified.
+
+The requested cream/yellow/pink diagonal avatar artwork sample is saved at mobile/design/references/avatar-artwork-preview-v2.png. It preserves Leo's pink jacket and Harvey's navy blazer. This is a generated design preview, not an implemented change or an Android screenshot; the existing APK retains its original artwork.
 
 Final inspected archive: 73 files. The staged GitHub publication snapshot was scanned with gitleaks (about 10 MB); no leaks were found. The feature commit is e4ca70fbef680df0fe72d2969c9c920ab2e6c690.
 

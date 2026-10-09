@@ -29,6 +29,11 @@
       "environment": "production",
       "android": {
         "buildType": "app-bundle"
+      },
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://fareeqai.pages.dev",
+        "EXPO_PUBLIC_SAMPLE_MODE": "false",
+        "EXPO_NO_DOTENV": "1"
       }
     }
   }

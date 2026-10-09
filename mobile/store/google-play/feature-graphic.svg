@@ -1,6 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500"><rect width="1024" height="500" fill="#FFF7DF"/><path d="M0 460L520 500H0Z" fill="#FFD94D"/><path d="M880 0H1024V160Z" fill="#F8B9CB"/><svg xmlns="http://www.w3.org/2000/svg" x="0" y="110" width="280" height="280" viewBox="0 0 1024 1024">
   <!-- Split F derived from the user-approved FareeqAI wordmark. -->
   <path fill="#102B3F" d="M330 370V312C330 270 364 236 406 236H678C688 236 692 242 688 253C674 296 646 326 598 326H449C409 326 377 342 351 367C340 378 330 380 330 370Z"/>
   <path fill="#102B3F" d="M330 733V484C330 430 373 390 425 390H630C640 390 644 395 640 406C626 450 598 479 551 479H451C430 479 419 491 419 512V733C419 742 414 748 405 748H344C335 748 330 742 330 733Z"/>
   <path fill="#26877F" d="M599 326C646 326 674 296 688 253C692 242 688 236 678 236H626C640 259 625 301 599 326Z"/>
 </svg>
+<text x="290" y="240" font-family="Arial,sans-serif" font-weight="bold" font-size="82" fill="#102B3F">FareeqAI</text><text x="294" y="305" font-family="Arial,sans-serif" font-size="31" fill="#102B3F">Your personal AI team</text></svg>

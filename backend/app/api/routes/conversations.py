@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import hashlib
+from datetime import UTC, datetime
+from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
@@ -114,6 +116,25 @@ def _own_reply(db, user_id: str, conversation_id: str, message_id: str):
     if msg is None:
         raise HTTPException(404, "Reply not found")
     return msg
+
+
+class ReplyReport(BaseModel):
+    reason: Literal["unsafe", "hateful", "sexual", "misleading", "other"]
+
+
+@router.post("/{conversation_id}/messages/{message_id}/report", status_code=201)
+def report_reply(
+    conversation_id: str, message_id: str, data: ReplyReport, user: CurrentUser, db: DbSession
+):
+    """Flag an owned AI reply once, without storing a second copy of its content."""
+    msg = _own_reply(db, user.id, conversation_id, message_id)
+    if not (msg.meta or {}).get("safety_report"):
+        msg.meta = {
+            **(msg.meta or {}),
+            "safety_report": {"reason": data.reason, "created_at": datetime.now(UTC).isoformat()},
+        }
+        db.flush()
+    return {"received": True}
 
 
 @router.patch("/{conversation_id}/messages/{message_id}/design")

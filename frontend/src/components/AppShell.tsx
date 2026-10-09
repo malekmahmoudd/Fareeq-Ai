@@ -144,10 +144,7 @@ function Shell({ children }: { children: React.ReactNode }) {
         <div className="fixed end-3 top-3 z-50">
           <LanguageToggle signedIn={false} className="bg-paper-hi" />
         </div>
-        {user ? children : <div role="status" className="p-6">
-          <p>{userError || t("common.loading")}</p>
-          {userError && <button className="btn btn-sun mt-4" onClick={() => void retryUser()}>{t("common.tryAgain")}</button>}
-        </div>}
+        {children}
       </main>
     );
   }
@@ -200,6 +197,7 @@ function Shell({ children }: { children: React.ReactNode }) {
               <Icon name="search" size={20} />
             </button>
             <LanguageToggle signedIn />
+            <Link href="/install" className="hidden min-h-11 items-center px-2 text-sm underline sm:flex">{t("app.install")}</Link>
             {user?.is_guest && <>
               <Link href="/login" className="min-h-11 px-2 py-3 text-sm underline">{t("common.signIn")}</Link>
               {auth?.signup_enabled && <Link href="/signup" className="min-h-11 px-2 py-3 text-sm font-bold underline">{t("guest.save")}</Link>}

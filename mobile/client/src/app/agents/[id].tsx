@@ -10,6 +10,7 @@ import { ComicEdges } from '../../components/ComicEdges';
 import { useWorkspace } from '../../state/Workspace';
 import { Markdown } from '../../components/Markdown';
 import { Documents } from '../../components/Documents';
+import { ReportReply } from '../../components/ReportReply';
 import { Sources } from '../../components/Sources';
 import { stream, request } from '../../api/client';
 import type { Chat } from '../../state/model';
@@ -25,6 +26,7 @@ function ChatContent() {
   const { state, dispatch, live, me, loading, loadChat, save, getScope } = useWorkspace();
   const [filesOpen, setFilesOpen] = useState(false);
   const [attachments, setAttachments] = useState<string[]>([]);
+  const [reportMessage, setReportMessage] = useState<string>();
   const [sourceMessage, setSourceMessage] = useState<string>();
   const [planPending, setPlanPending] = useState(false);
   const planActive = useRef<AbortController | null>(null);
@@ -36,7 +38,7 @@ function ChatContent() {
   const backgroundInterrupted = useRef(false);
   const [resumeVersion, setResumeVersion] = useState(0);
   const focused = useIsFocused();
-  useFocusEffect(useCallback(() => () => { active.current?.abort(); planActive.current?.abort(); setFilesOpen(false); setSourceMessage(undefined); }, [setFilesOpen, setSourceMessage]));
+  useFocusEffect(useCallback(() => () => { active.current?.abort(); planActive.current?.abort(); setFilesOpen(false); setSourceMessage(undefined); setReportMessage(undefined); }, [setFilesOpen, setSourceMessage, setReportMessage]));
   useEffect(() => {
     const subscription = AppState.addEventListener('change', next => {
       if (next !== 'active') planActive.current?.abort();
@@ -133,6 +135,7 @@ function ChatContent() {
             <Pressable accessibilityRole="button" accessibilityLabel={message.saved ? 'Unsave reply' : 'Save reply'} accessibilityState={{ selected: !!message.saved }} disabled={pending || chatLoading} onPress={() => { void save(chatId, message.id).catch(error => setProblem(error.message)); }} style={{ padding: 12, flexDirection: 'row', gap: 6 }}><Feather name={message.saved ? 'check' : 'bookmark'} size={19} color={colors.navy} /><Text style={s.role}>{message.saved ? 'Saved' : 'Save'}</Text></Pressable>
             <Pressable accessibilityRole="button" accessibilityLabel="Copy reply" onPress={async () => { try { await Clipboard.setStringAsync(message.content); Alert.alert('Copied', 'Reply copied to your clipboard.'); } catch { Alert.alert('Copy unavailable', 'Select the reply text to copy it.'); } }} style={{ padding: 12, flexDirection: 'row', gap: 6 }}><Feather name="copy" size={19} color={colors.navy} /><Text style={s.role}>Copy</Text></Pressable>
             {live && <Pressable accessibilityRole="button" disabled={pending || chatLoading || planPending || message.completion === 'streaming'} onPress={() => { void makePlan(message.id); }} style={{ padding: 12, flexDirection: 'row', gap: 6 }}><Feather name="list" size={19} color={colors.navy} /><Text style={s.role}>{planPending ? 'Saving…' : 'Make plan'}</Text></Pressable>}
+            {live && message.completion !== 'streaming' && <Pressable accessibilityRole="button" accessibilityLabel="Report AI reply" onPress={() => setReportMessage(message.id)} style={{ padding: 12 }}><Text style={s.role}>Report</Text></Pressable>}
             {!!message.sources?.length && <Pressable accessibilityRole="button" onPress={() => setSourceMessage(message.id)} style={{ padding: 12 }}><Text style={s.role}>Sources ({message.sources.length})</Text></Pressable>}
           </View>}
         </View>)}
@@ -147,5 +150,5 @@ function ChatContent() {
     </KeyboardAvoidingView>
     {filesOpen && me && <Documents key={me.id} agentId={agent.id} selected={attachments} onSelect={setAttachments} onClose={() => setFilesOpen(false)} />}
     {sourceMessage && sources && me && <Sources key={me.id} conversationId={chatId} messageId={sourceMessage} sources={sources} onClose={() => setSourceMessage(undefined)} />}
-  </SafeAreaView>;
+  {reportMessage && <ReportReply conversationId={chatId} messageId={reportMessage} onClose={() => setReportMessage(undefined)} />}</SafeAreaView>;
 }

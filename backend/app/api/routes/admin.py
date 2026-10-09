@@ -27,7 +27,7 @@ from app.core.alerts import _deliver
 from app.core.alerts import enabled as alerts_enabled
 from app.core.config import settings
 from app.core.observability import health
-from app.db.models import UsageBucket, User
+from app.db.models import Conversation, Message, UsageBucket, User
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -244,3 +244,25 @@ since {esc(snapshot["started_at"])} · alerts {alert_block}</p>
 worth noticing. This page cannot tell you the app is down: it is served by the
 app. Downtime needs a check from outside.</p>
 """)
+
+
+@router.get("/reply-reports")
+def reply_reports(user: CurrentUser, db: DbSession, limit: int = 50):
+    """Private operator review queue. Content is never written to request logs."""
+    _require_admin(user)
+    rows = db.execute(
+        select(Message, Conversation)
+        .join(Conversation)
+        .where(Message.meta["safety_report"]["reason"].as_string().is_not(None))
+        .order_by(Message.created_at.desc())
+        .limit(max(1, min(limit, 100)))
+    )
+    result = []
+    for msg, conversation in rows:
+        report = (msg.meta or {}).get("safety_report")
+        if report:
+            result.append({"message_id": msg.id, "agent_id": conversation.agent_id,
+                           "content": msg.content, "report": report})
+        if len(result) >= max(1, min(limit, 100)):
+            break
+    return result

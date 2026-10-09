@@ -55,6 +55,7 @@ export default function AccountPage() {
         clearDrafts(); window.location.assign("/");
       });
     }}>{t("account.deleteButton")}</button>
+    <Link href="/install" className="block min-h-11 py-3 underline">{t("app.install")}</Link>
     <Link href="/privacy" className="block py-3 underline">{t("common.privacy")}</Link>
   </div>;
   return <div className="max-w-2xl space-y-7 pb-8">
@@ -179,6 +180,7 @@ export default function AccountPage() {
         <button disabled={!!busy || confirm !== "DELETE"} className="btn btn-pink mt-4">{busy === "delete" ? t("account.deleting") : t("account.deleteButton")}</button>
       </form>
     </section>
+    <Link href="/install" className="block min-h-11 py-3 underline">{t("app.install")}</Link>
     <Link href="/privacy" className="inline-block min-h-11 py-2 underline font-bold">{t("common.privacy")}</Link>
   </div>;
 }

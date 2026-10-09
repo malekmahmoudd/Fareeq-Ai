@@ -8,7 +8,7 @@ import { clearDrafts } from "@/lib/offline";
 export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 /** Pages a signed-out person can use. A 401 there is an answer, not a reason to leave. */
-export const PUBLIC_PAGES = ["/login", "/privacy", "/signup", "/recover"];
+export const PUBLIC_PAGES = ["/login", "/privacy", "/delete-account", "/install", "/signup", "/recover"];
 
 export class ApiError extends Error {
   status: number;
