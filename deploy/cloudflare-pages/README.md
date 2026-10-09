@@ -2,8 +2,9 @@
 
 Public entry point: `https://fareeqai.pages.dev`.
 
-This is a Pages advanced-mode delivery proxy, not a static export or a native
+The main website uses a Pages advanced-mode delivery proxy rather than a native
 Next.js deployment to Pages. The existing dynamic Next.js app stays on Netlify.
+The separate `/mobile/` client is an Expo static web export served by Pages assets.
 The proxy serves that frontend through Cloudflare and sends `/api` requests
 directly to the DockHosting API. Netlify's regional connection timeouts were
 reproduced on Wi-Fi/mobile data and match reports on Netlify's support forum.
@@ -19,8 +20,8 @@ buffering. The 35-second timeout applies to response headers only.
 
 Local regression: `node deploy/tests/cloudflare-pages-check.mjs`.
 
-Upload only `_worker.js` and `index.html` in a zip with both at its root.
-Cloudflare's dashboard supports `_worker.js` via Direct Upload. This project
+Upload the generated package with `_worker.js`, `index.html` and the `mobile/`
+folder at its root. Cloudflare supports `_worker.js` via Direct Upload. This project
 does not have automatic Git deployment; each change to this delivery proxy needs
 another explicit upload. Next.js source changes still deploy through Netlify.
 Do not upload this README, tests, `.env` files or credentials.
