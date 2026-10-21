@@ -1,6 +1,6 @@
 # FareeqAI — Android release notes
 
-Prepared 10 October 2026 for the initial Google Play release of version 0.2.1 (versionCode 4). Draft only: no Google Play release has been published. Paste the following English text into the release-notes field after completing the release checklist.
+Updated 21 October 2026 for the initial Google Play release of version 0.2.1 (versionCode 5), including the latest dependency security fixes. Draft only: no Google Play release has been published. Paste the following English text into the release-notes field after completing the release checklist.
 
 ## English release notes
 
@@ -16,4 +16,4 @@ Internet access is required. AI can make mistakes; check important answers.
 
 ## Review before submission
 
-These notes describe the initial release rather than changes from an earlier public version. Recheck the version and features if another build replaces versionCode 4. Live reply reporting and the other open release checks remain prerequisites for submission.
+These notes describe the initial release rather than changes from an earlier public version. Recheck the version and features if another build replaces versionCode 5. Report review and the other open release checks remain prerequisites for submission.
