@@ -16,15 +16,18 @@ tzdata>=2024.1
 # Documents (RAG): PDF text extraction, and local embeddings for search by
 # meaning. The model itself is fetched and checksum-verified at image build by
 # app/documents/fetch_model.py; nothing is downloaded while the server runs.
-pypdf>=6.1,<7
+pypdf>=6.20.1,<7
 onnxruntime>=1.20,<2
 tokenizers>=0.20,<1
 numpy>=2.0,<3
 # OCR for scanned PDFs and photos: Pillow cleans the image up, pypdfium2 renders
 # scanned PDF pages, and the Tesseract binary (apt/brew, not pip) reads them.
 # Its Arabic and English data are fetched and verified by app/documents/fetch_ocr.py.
-pillow>=11,<13
+pillow>=13.0.0,<14
 pypdfium2>=4.30,<6
 # Web Push (reminders on the lock screen): VAPID signatures and RFC 8291
 # payload encryption, implemented in app/push/webpush.py on top of this.
 cryptography>=44,<51
+
+# Excludes compromised CA certificates from outbound TLS trust.
+certifi>=2026.10.19

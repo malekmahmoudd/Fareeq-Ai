@@ -62,3 +62,11 @@ Official references:
 - At this verification date the support inbox was pending; resolved by owner confirmation on 21 October 2026 (see Prepared).
 
 - Installer recovery fix published as 8544611ca8fdf0db87455d2976478c86f75aad3f. pip 26.2.1 was force-installed locally from the hash-pinned lock successfully. DockHosting redeploy is queued; the old backend remains healthy. Local Docker build was unavailable because its daemon is not running.
+
+
+## 21 October 2026 verification update
+
+- Live AI-reply report submission and repeat submission both returned 201; guest access to report review was blocked. Authorized operator review remains unverified at the owner’s request to continue without signing in.
+- Dependency patches validated: backend lock audit zero; website runtime audit zero; remaining website/mobile build-tool findings assessed in `docs/play-release-verification-2026-10-21.md`.
+- Fresh signed Android builds are required after the revised mobile dependency lock; the existing code 4 artifacts predate these updates.
+- The support address is committed, but its live privacy notice and deployment of the backend security fixes still need confirmation after DockHosting completes its pending release.
