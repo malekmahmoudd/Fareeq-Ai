@@ -15,4 +15,4 @@ No advertising or analytics SDK is bundled in the mobile client. No camera, micr
 
 Transport uses HTTPS. Do not claim every provider’s at-rest encryption without checking its documentation. Check actual DockHosting/Neon backup retention and the configured AI provider’s retention and processing terms. Determine Play’s service-provider sharing exemption from those terms; do not automatically select “no sharing.”
 
-Deletion removes live workspace data; already-created backups follow provider retention. Document actual retention, publish the support address and align privacy text before submission. Complete each Play Console category based on verified release behavior.
+Deletion removes live workspace data; already-created backups follow provider retention. The owner confirmed fareeqai.support@gmail.com as the public support address on 21 October 2026; it is now included in the privacy source. Document actual retention and verify the live privacy notice before submission. Complete each Play Console category based on verified release behavior.

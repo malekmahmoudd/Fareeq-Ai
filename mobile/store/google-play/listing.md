@@ -35,7 +35,7 @@ FareeqAI requires an internet connection. Shared usage limits may temporarily pa
 ## Listing settings and submission gates
 
 - Suggested category: Productivity.
-- Support email: pending creation and verification. Do not publish an unconfirmed address.
+- Support email: fareeqai.support@gmail.com (confirmed by the owner on 21 October 2026).
 - Website: https://fareeqai.pages.dev
 - Privacy notice: https://fareeqai.pages.dev/privacy
 - Account deletion instructions: https://fareeqai.pages.dev/delete-account

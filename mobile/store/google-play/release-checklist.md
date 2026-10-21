@@ -8,24 +8,25 @@ Prepared version: 0.2.1, Android versionCode 4, package com.fareeqai.mobile.
 - Account/workspace deletion and AI-reply reporting implemented.
 - Public deletion instructions and Safari installation route implemented.
 - 512×512 store icon prepared.
+- Public support inbox confirmed by the owner on 21 October 2026: fareeqai.support@gmail.com.
+- Google Play developer account creation, payment and verification confirmed by the owner on 16 October 2026.
 - English store description and initial-release notes prepared in `listing.md` and `release-notes.md` on 10 October 2026.
 
 ## Must finish before Play submission
 - APK signing verified; production AAB signature verified and retained locally; keep signing credentials secure.
 - Test the new APK on a real Android device: guest chat/streaming, optional signup/sign-in, resume/background, uploads, reporting, privacy, deletion, slow/offline transport and large text.
 - Verify the deployed backend accepts reports and an authorized operator can review them.
-- Publish a support email; verify data processing and backup retention; complete Data Safety, app access, content rating, audience and AI declarations accurately.
+- Verify the support address appears in the live privacy notice and enter it in Play Console. Verify data processing and backup retention; complete Data Safety, app access, content rating, audience and AI declarations accurately.
 - Capture at least two genuine Android phone screenshots from the release. Do not substitute concept art or browser screenshots.
 - Review the feature graphic and store listing.
-- Owner has created the Google Play developer account and completed payment. Finish the pending account verification, then register the app, enroll Play App Signing, upload the AAB to internal testing and satisfy the testing requirements shown in Play Console. See the official testing reference below.
+- Developer account verification is complete per the owner. Register the app, enroll Play App Signing, upload the AAB to internal testing and satisfy the testing requirements shown in Play Console. See the official testing reference below.
 - Do not auto-submit or purchase any service.
 
 ## Safari
 The separate mobile experience is published at https://fareeqai.pages.dev/mobile/. The owner confirmed it is working after checking it. To install in Safari: Share → Add to Home Screen → enable Open as Web App if shown → Add. Complete the remaining checks for the icon, standalone launch and return from background on an actual iPhone/iPad. AI still needs internet. No iOS binary/App Store submission is involved; the main desktop website retains its existing design.
 
-## Owner tasks deferred until 11 October 2026
+## Owner tasks still pending
 
-- Retry creating the public support inbox after the Google SMS verification delay. The requested address is not yet confirmed or ready to publish.
 - Test the current release APK on a real Android device and capture polished, genuine screenshots.
 - Review the feature graphic and listing presentation before submission.
 
@@ -58,6 +59,6 @@ Official references:
 - Google bundletool 1.18.3 `validate` passed for the AAB. The APK contains pixel-identical copies of all three selected Leo/Harvey artwork assets (Android repackages their file bytes).
 - Release files retained in ignored `mobile/releases/`; signing keys and credentials are not committed.
 - Before store submission, assess the existing Expo dependency advisories documented in the mobile README; do not force incompatible React Native downgrades.
-- The owner has not created the public support email yet; this remains required.
+- At this verification date the support inbox was pending; resolved by owner confirmation on 21 October 2026 (see Prepared).
 
 - Installer recovery fix published as 8544611ca8fdf0db87455d2976478c86f75aad3f. pip 26.2.1 was force-installed locally from the hash-pinned lock successfully. DockHosting redeploy is queued; the old backend remains healthy. Local Docker build was unavailable because its daemon is not running.
