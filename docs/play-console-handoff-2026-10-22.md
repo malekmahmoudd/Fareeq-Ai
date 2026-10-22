@@ -21,6 +21,7 @@
 - All 46 arm64/x86_64 libraries passed ELF PT_LOAD alignment >=16 KB. This is not a replacement for Google Play acceptance or installation testing.
 - Permissions: INTERNET, VIBRATE, USE_BIOMETRIC, USE_FINGERPRINT and app-specific DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION. No AD_ID, camera, microphone, location or broad-storage permissions.
 - Mobile lint, typecheck and all 25 tests passed before this build was queued. The old code 4 APK/AAB are historical artifacts, not evidence of the new fixes.
+- Matching code 5 preview APK requested on 22 October for direct physical-device testing: https://expo.dev/accounts/malekmahmoudd/projects/fareeqai-mobile/builds/b2cac88f-8cac-4fbf-bfbd-0030e7fec16e . Completion, download and signature verification must be checked before calling this APK ready.
 
 ## Forms to finish when Console controls are available
 
@@ -33,9 +34,11 @@
 7. Upload **code 5** to internal testing, enter the prepared release notes, and complete Play's validation. Do not upload the older code 4 under the claim that it contains the new security updates.
 8. Complete actual-device testing; then configure closed testing using real, owner-supplied tester accounts. Console explicitly requires 12 testers opted in continuously for 14 days before applying for production access.
 
+The owner confirmed on 22 October that the 12 tester addresses are not available yet. Recruit willing participants; do not create dummy accounts, invent addresses, or mark the closed test completed. Internal testing can be prepared independently of recruitment.
+
 ## Backend and privacy gate
 
-On 22 October, direct `/api/health` returned 200 with status/database OK. `/api/legal/privacy` returned 200 but did **not** include `fareeqai.support@gmail.com`. The source includes it; deployment completion is unverified. Fix/verify deployment before submitting the app for review. A healthy API does not prove the revised lock or notice is deployed.
+Initially on 22 October, direct `/api/health` returned 200 with status/database OK, but `/api/legal/privacy` did not include the public support email. Later that day the owner reported the DockHosting deployment successful. A fresh check then returned 200 for both endpoints, with the API/database healthy and `fareeqai.support@gmail.com` present in the live notice. The privacy-notice deployment gate is resolved. These public endpoints do not independently expose the installed dependency lock or prove every security patch is live.
 
 Authorized operator review remains unverified because the owner instructed continuing without signing in. Do not silently mark that test passed.
 

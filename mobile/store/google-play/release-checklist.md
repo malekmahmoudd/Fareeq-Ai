@@ -79,6 +79,6 @@ Official references:
 - Public support email, HTTPS website, Productivity category, privacy-policy URL, no-ads and no-advertising-ID declarations saved. Government-app declaration saved as No.
 - IARC terms accepted with the owner's explicit action-time approval. Rating questionnaire remains unfinished; no rating issued. Partial answers are drafts, not certified completed declarations.
 - Sign-in details, content rating, target audience, Data Safety, financial features and health forms still require completion. Browser control became unavailable during the questionnaire; no alternative Play Console integration was found.
-- `/api/health` returns 200 with database OK. `/api/legal/privacy` returns 200 but still lacks the public support email. New backend privacy/security deployment is not verified.
+- After the owner reported a successful DockHosting deployment, fresh `/api/health` and `/api/legal/privacy` checks returned 200, database OK, and the public support email present in the live notice. Privacy-notice deployment is verified. Installed runtime dependency versions are not exposed by these endpoints.
 - Closed testing still needs the account-specific requirement shown by Console: at least 12 opted-in testers continuously for 14 days. No testers were enrolled and no testing release was published.
 - Detailed handoff and artifact checksum: `docs/play-console-handoff-2026-10-22.md`.
