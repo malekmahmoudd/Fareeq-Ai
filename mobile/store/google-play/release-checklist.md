@@ -1,6 +1,6 @@
 # Android / Safari release readiness
 
-Prepared version: 0.2.1, Android versionCode 4, package com.fareeqai.mobile.
+Prepared store version: 0.2.1, Android versionCode 5, package com.fareeqai.mobile. The previous preview APK remains code 4; it does not contain the latest dependency fixes.
 
 ## Prepared
 - Approved Leo seamless artwork and Harvey portrait; original inside-app wordmark retained.
@@ -17,7 +17,7 @@ Prepared version: 0.2.1, Android versionCode 4, package com.fareeqai.mobile.
 - Test the new APK on a real Android device: guest chat/streaming, optional signup/sign-in, resume/background, uploads, reporting, privacy, deletion, slow/offline transport and large text.
 - Verify the deployed backend accepts reports and an authorized operator can review them.
 - Verify the support address appears in the live privacy notice and enter it in Play Console. Verify data processing and backup retention; complete Data Safety, app access, content rating, audience and AI declarations accurately.
-- Capture at least two genuine Android phone screenshots from the release. Do not substitute concept art or browser screenshots.
+- Owner explicitly approved using the seven existing promotional screenshots unchanged. Their source is the actual Expo mobile web preview with synthetic example content, not native-device captures. Preserve that provenance; see `creative-v1/approval.json`.
 - Review the feature graphic and store listing.
 - Developer account verification is complete per the owner. Register the app, enroll Play App Signing, upload the AAB to internal testing and satisfy the testing requirements shown in Play Console. See the official testing reference below.
 - Do not auto-submit or purchase any service.
@@ -27,7 +27,7 @@ The separate mobile experience is published at https://fareeqai.pages.dev/mobile
 
 ## Owner tasks still pending
 
-- Test the current release APK on a real Android device and capture polished, genuine screenshots.
+- Test the updated release through a Play testing track on a real Android device. The existing promotional screenshot set is approved unchanged.
 - Review the feature graphic and listing presentation before submission.
 
 ## Build tracking
@@ -70,3 +70,15 @@ Official references:
 - Dependency patches validated: backend lock audit zero; website runtime audit zero; remaining website/mobile build-tool findings assessed in `docs/play-release-verification-2026-10-21.md`.
 - Fresh signed Android builds are required after the revised mobile dependency lock; the existing code 4 artifacts predate these updates.
 - The support address is committed, but its live privacy notice and deployment of the backend security fixes still need confirmation after DockHosting completes its pending release.
+
+## 22 October 2026 store-preparation update
+
+- Build 5 finished on EAS from source `e7b4acbaf763fb81740b21b26b61eeea3eca7564`; downloaded as ignored `mobile/releases/fareeqai-0.2.1-code5.aab`.
+- Google bundletool 1.18.3 validation passed. Package, version code, min/target SDK and restricted permission inventory checked. Cryptographic signature and all 1,413 signed application-entry hashes verified; certificate matches the previous release. All 46 bundled 64-bit native libraries pass 16 KB ELF alignment checks. Play has not accepted this bundle yet: upload remains pending.
+- Store listing saved in Console and marked Ready to send for review: app icon, name, short/full descriptions, seven approved phone screenshots and feature graphic. No review or public release submitted.
+- Public support email, HTTPS website, Productivity category, privacy-policy URL, no-ads and no-advertising-ID declarations saved. Government-app declaration saved as No.
+- IARC terms accepted with the owner's explicit action-time approval. Rating questionnaire remains unfinished; no rating issued. Partial answers are drafts, not certified completed declarations.
+- Sign-in details, content rating, target audience, Data Safety, financial features and health forms still require completion. Browser control became unavailable during the questionnaire; no alternative Play Console integration was found.
+- `/api/health` returns 200 with database OK. `/api/legal/privacy` returns 200 but still lacks the public support email. New backend privacy/security deployment is not verified.
+- Closed testing still needs the account-specific requirement shown by Console: at least 12 opted-in testers continuously for 14 days. No testers were enrolled and no testing release was published.
+- Detailed handoff and artifact checksum: `docs/play-console-handoff-2026-10-22.md`.
