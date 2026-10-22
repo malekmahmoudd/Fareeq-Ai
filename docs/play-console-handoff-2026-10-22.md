@@ -2,7 +2,7 @@
 
 ## Current result
 
-All 10 App Content declarations are actioned, including completed IARC, Data Safety, 18+ target audience and reviewer access. Android build 5 is uploaded, processed and retained as internal-testing draft **0.2.1 (5)**, with zero blocking validation errors. No rollout, production application or app review request was submitted. Actual-phone testing and the required closed-test recruitment/run remain deferred by the owner. See **Current status — direct browser completion** below for exact evidence; earlier checkpoints are historical.
+All 10 App Content declarations are actioned, including completed IARC, Data Safety, 18+ target audience and reviewer access. Android build 5 is uploaded, processed and retained as internal-testing draft **0.2.1 (5)**, with zero blocking validation errors. No rollout, production application or app review request was submitted. The owner subsequently confirmed a successful Android-device functional test with no serious problems; the installed version/build and individual checklist cases were not specified. Required closed-test recruitment/run remains deferred. See **Current status — direct browser completion** below for exact evidence; earlier checkpoints are historical.
 
 ## Initial checkpoint (superseded by current result)
 
@@ -116,3 +116,10 @@ Real Android phone testing, recruitment/enrollment of 12 willing closed testers,
 - `docs/remediation/play-build5-draft-saved-2026-10-22.png`
 
 Screenshots are ignored local verification aids. No website/mobile design or application code changed in this session.
+
+
+## Owner Android-device test report — 22 October 2026
+
+The owner reported: “i tested the application on an android device, it works good, no serious problems”. Record the owner-performed functional smoke test as passed. The device model, installed version/code, distribution source and individual scenarios were not supplied; this does not independently verify every edge-case checklist item, code 5 installation, operator report review, or the Google Play closed-testing requirement.
+
+The remaining release path is closed-test track setup/rollout, at least 12 willing testers continuously opted in for 14 days, then production-access application and review submission. No Console changes, testing enrollment or rollout were made in response to this report.

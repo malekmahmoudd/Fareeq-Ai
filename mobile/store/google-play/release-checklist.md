@@ -102,3 +102,10 @@ Official references:
 - Code 5 AAB uploaded and accepted in internal draft **0.2.1 (5)**, with release notes. Play validation has zero blocking errors and two warnings (no testers; optional deobfuscation file). No release published or review request sent.
 - Owner deferred actual-phone testing, 12-person/14-day closed test, production-access application and production submission. Internal rollout is also still a draft. Operator report review remains unverified per earlier owner instruction.
 - Updated detailed evidence and private-file handling in `docs/play-console-handoff-2026-10-22.md`.
+
+
+## Owner device-test confirmation — 22 October 2026
+
+- Owner tested the app on a real Android device and reported it works well with no serious problems: functional smoke test passed per owner report.
+- Device/build identifiers and per-scenario results were not specified; do not claim independently verified code 5 installation or exhaustive edge-case testing.
+- Closed testing still requires track rollout and 12 willing testers continuously opted in for 14 days, followed by production-access application and review. No rollout or enrollment occurred from this update.
