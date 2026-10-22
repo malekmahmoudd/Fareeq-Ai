@@ -78,8 +78,16 @@ Official references:
 - Store listing saved in Console and marked Ready to send for review: app icon, name, short/full descriptions, seven approved phone screenshots and feature graphic. No review or public release submitted.
 - Public support email, HTTPS website, Productivity category, privacy-policy URL, no-ads and no-advertising-ID declarations saved. Government-app declaration saved as No.
 - IARC terms accepted with the owner's explicit action-time approval. Rating questionnaire remains unfinished; no rating issued. Partial answers are drafts, not certified completed declarations.
-- Content rating, target audience and Data Safety remain incomplete. Financial features (`Financial advice`) and health (`Activity and fitness`) were subsequently saved using the owner-authorized TinyFish session. Sign-in-details answers still need verification; a later overview no longer listed them among items requiring attention. No rating or release has been confirmed.
+- At that checkpoint these three forms were incomplete; see the later declaration update below. Financial features (`Financial advice`) and health (`Activity and fitness`) were subsequently saved using the owner-authorized TinyFish session. Sign-in-details answers still need verification; a later overview no longer listed them among items requiring attention. No rating or release has been confirmed.
 - After the owner reported a successful DockHosting deployment, fresh `/api/health` and `/api/legal/privacy` checks returned 200, database OK, and the public support email present in the live notice. Privacy-notice deployment is verified. Installed runtime dependency versions are not exposed by these endpoints.
 - Closed testing still needs the account-specific requirement shown by Console: at least 12 opted-in testers continuously for 14 days. No testers were enrolled and no testing release was published.
 - Detailed handoff and artifact checksum: `docs/play-console-handoff-2026-10-22.md`.
 - Matching code 5 APK completed and downloaded. Official apksigner verified its signature/certificate, matching the AAB; aapt2 confirms code 5 and API 24/36. APK ZIP integrity, 16 KB ZIP alignment and all 46 64-bit ELF alignment checks passed. The updated APK still needs physical-device testing.
+
+
+## Latest declaration update — 22 October 2026
+
+- Target audience **18 and over** saved and confirmed by Console.
+- Owner confirmed the Data Safety CSV imported, but a subsequent run still found handling sections Not started. Preview/final save remain pending. Clear the incorrectly selected passwordless “Username and other authentication” method; retain password and password-plus-2FA methods. Verify all 15 types against the prepared JSON, including Other personal info.
+- IARC remains incomplete; latest automation reported contradictory/incorrect online-content answers. Review the draft before submission; no rating has been issued.
+- Prepared CSV and JSON are tracked with the worksheet. No changes sent for review. Metered attempts stopped within the owner’s $5 total limit; see detailed handoff for evidence and exact corrections.

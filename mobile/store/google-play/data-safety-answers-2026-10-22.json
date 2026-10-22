@@ -1,0 +1,176 @@
+{
+  "status": "Owner confirmed CSV imported; later Console handling sections still Not started. Preview/final submission NOT verified. Correct account methods and verify all 15 types in Console.",
+  "source_template": "https://storage.googleapis.com/support-kms-prod/b5v9It2EgwrgyY1gPFVB3jPUypc5lL3oNg2G",
+  "date": "2026-10-22",
+  "data_types": {
+    "PSL_NAME": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_ACCOUNT_MANAGEMENT",
+        "PSL_PERSONALIZATION"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_EMAIL": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_ACCOUNT_MANAGEMENT",
+        "PSL_FRAUD_PREVENTION_SECURITY"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_USER_ACCOUNT": {
+      "collection": "required",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_ACCOUNT_MANAGEMENT",
+        "PSL_FRAUD_PREVENTION_SECURITY"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_OTHER": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_PERSONALIZATION"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_HEALTH": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_PERSONALIZATION"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_FITNESS": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_PERSONALIZATION"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_EMAILS": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_OTHER_MESSAGES": {
+      "collection": "required",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_PERSONALIZATION",
+        "PSL_FRAUD_PREVENTION_SECURITY"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_PHOTOS": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_FILES_AND_DOCS": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_USER_INTERACTION": {
+      "collection": "required",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_FRAUD_PREVENTION_SECURITY"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_USER_GENERATED_CONTENT": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_PERSONALIZATION"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_DEVICE_ID": {
+      "collection": "required",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_ACCOUNT_MANAGEMENT",
+        "PSL_FRAUD_PREVENTION_SECURITY"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_APPROX_LOCATION": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_PERSONALIZATION"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    },
+    "PSL_OTHER_PERSONAL": {
+      "collection": "optional",
+      "purposes": [
+        "PSL_APP_FUNCTIONALITY",
+        "PSL_PERSONALIZATION"
+      ],
+      "collected": true,
+      "shared_under_play_definition": false,
+      "ephemeral": false
+    }
+  },
+  "account_creation": [
+    "username and password",
+    "username, password and other authentication"
+  ],
+  "account_deletion_url": "https://fareeqai.pages.dev/delete-account",
+  "can_delete_workspace_without_account": true,
+  "all_data_automatically_deleted_within_90_days": false,
+  "independent_security_badge": false,
+  "processing_basis": [
+    "https://support.google.com/googleplay/android-developer/answer/10787469",
+    "https://console.groq.com/docs/legal/customer-data-processing-addendum"
+  ],
+  "notes": [
+    "Approximate location is user-provided city/country retained by the memory extractor; no GPS permission or IP geolocation.",
+    "Other personal info covers age and work/study context intentionally extracted for personalization.",
+    "CSV is a preparation artifact; Console import/submission and newer account/deletion fields are separate checks."
+  ]
+}

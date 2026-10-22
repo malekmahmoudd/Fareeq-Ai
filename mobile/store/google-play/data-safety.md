@@ -33,3 +33,20 @@ Account-specific retention, processing scope and backup settings still need veri
 - Account sessions store user ID, a session identifier, user-agent text and a truncated IP/network prefix (`app/core/sessions.py`). Review **User IDs**, **Device or other IDs**, and security purposes. The app does not request GPS or perform IP geolocation in this code; do not claim device-location collection solely from the presence of a request IP.
 
 These checks refine the worksheet; they are not a completed or submitted Play attestation.
+
+## Reviewed declaration answers — 22 October
+
+The memory extractor intentionally retains user-provided city/location, age, studies and job context (`app/memory/llm_extraction.py`). Include **Approximate location** and **Other personal info** as optional collection for app functionality/personalization. This is user-entered context, without GPS access or IP geolocation.
+
+The reviewed inventory has 15 types: Name, Email address, User IDs, Other personal info, Approximate location, Other financial info, Health info, Fitness info, Emails, Other in-app messages, Photos, Files and docs, App interactions, Other user-generated content, and Device or other IDs. User IDs, session/device IDs, chat messages and usage interactions are required for the corresponding core functions; other listed types are optional. Stored workspace data is not processed ephemerally.
+
+### Service-provider transfer classification
+
+Google's [Data Safety guidance](https://support.google.com/googleplay/android-developer/answer/10787469) excludes processors acting on the developer's behalf from its definition of sharing. Groq's [current DPA](https://console.groq.com/docs/legal/customer-data-processing-addendum), sections 2.1 and 2.3, defines processor roles and limits processing to the service/customer instructions. Based on those terms and the configured GroqCloud integration, the prepared answers classify these processor transfers as **collected, not shared under Play's definition**. Cloud hosting/database providers operate the developer's service; there is no independent advertising recipient. This classification does not mean data stays on the device or never reaches Groq. The privacy notice continues to disclose AI processing. Zero Data Retention is not claimed.
+
+Prepared machine-readable answers: `data-safety-answers-2026-10-22.json`. The CSV `data-safety-import-2026-10-22.csv` follows Google's published sample schema and has selection/optionality/purpose consistency checks. It is an offline preparation artifact, not evidence that Console imported or submitted it; current account-creation and deletion questions also need verification in Console. The account supports email/password and optional password-plus-authenticator/recovery-code login, not passwordless username/other-authentication login. Partial data deletion instructions are in the public privacy notice at https://fareeqai.pages.dev/privacy.
+
+
+### Console verification after owner import
+
+The owner confirmed import success. A later automation still saw “Not started” handling sections and did not reach Preview/final save. The import is not evidence of a submitted declaration. Its reported account methods included the incorrect passwordless “Username and other authentication”; clear that option and retain the two password-based methods. Verify Other personal info is selected alongside the other 14 types. See the dated Console handoff for remaining corrections.
