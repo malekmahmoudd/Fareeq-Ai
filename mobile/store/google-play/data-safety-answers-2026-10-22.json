@@ -1,5 +1,5 @@
 {
-  "status": "Owner confirmed CSV imported; later Console handling sections still Not started. Preview/final submission NOT verified. Correct account methods and verify all 15 types in Console.",
+  "status": "Imported, reviewed in full Console preview, and saved on 22 October 2026. Console confirmed: Change saved. Send for review in Publishing overview. Not sent for app review.",
   "source_template": "https://storage.googleapis.com/support-kms-prod/b5v9It2EgwrgyY1gPFVB3jPUypc5lL3oNg2G",
   "date": "2026-10-22",
   "data_types": {
@@ -171,6 +171,7 @@
   "notes": [
     "Approximate location is user-provided city/country retained by the memory extractor; no GPS permission or IP geolocation.",
     "Other personal info covers age and work/study context intentionally extracted for personalization.",
-    "CSV is a preparation artifact; Console import/submission and newer account/deletion fields are separate checks."
-  ]
+    "CSV includes current account/deletion fields; imported successfully and all 15 handling sections were Completed. Password and password-plus-2FA methods verified; passwordless method not selected."
+  ],
+  "schema_supplement_source": "https://github.com/owenbean400/fastlane-plugin-google_data_safety/blob/main/lib/fastlane/plugin/google_data_safety/helper/prompt_create_data_safety_csv_helper.rb"
 }

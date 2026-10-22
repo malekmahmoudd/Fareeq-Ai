@@ -50,3 +50,8 @@ Prepared machine-readable answers: `data-safety-answers-2026-10-22.json`. The CS
 ### Console verification after owner import
 
 The owner confirmed import success. A later automation still saw “Not started” handling sections and did not reach Preview/final save. The import is not evidence of a submitted declaration. Its reported account methods included the incorrect passwordless “Username and other authentication”; clear that option and retain the two password-based methods. Verify Other personal info is selected alongside the other 14 types. See the dated Console handoff for remaining corrections.
+
+
+### Direct Console verification — completed later on 22 October
+
+Direct browser control revealed the old CSV failed validation: `Response missing for PSL_SUPPORTED_ACCOUNT_CREATION_METHODS`. Its earlier reported import success was not proof that the questionnaire had applied. Supplemented the old Google sample with the current account/deletion schema from the upstream Fastlane plugin source, then verified Google accepted the updated 783-row CSV. The Console explicitly showed **Answers imported from CSV**, all 15 handling sections **Completed**, and the full Preview matched the JSON purposes/optionality, zero sharing, HTTPS transfer and both deletion links. Password and password-plus-other-authentication methods were selected; passwordless was not. Final Save returned **Change saved. Send for review in Publishing overview.** No app review request was sent. This supersedes the preceding incomplete-state notes, which remain as history.

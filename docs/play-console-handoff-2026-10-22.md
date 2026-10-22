@@ -1,6 +1,10 @@
 # FareeqAI Play Console handoff — 22 October 2026
 
-## Completed and verified
+## Current result
+
+All 10 App Content declarations are actioned, including completed IARC, Data Safety, 18+ target audience and reviewer access. Android build 5 is uploaded, processed and retained as internal-testing draft **0.2.1 (5)**, with zero blocking validation errors. No rollout, production application or app review request was submitted. Actual-phone testing and the required closed-test recruitment/run remain deferred by the owner. See **Current status — direct browser completion** below for exact evidence; earlier checkpoints are historical.
+
+## Initial checkpoint (superseded by current result)
 
 - App: FareeqAI, package `com.fareeqai.mobile`, Console app ID `4976299166303475649`, default language en-GB.
 - Default listing is **Ready to send for review**, not publicly released. Saved the existing 512×512 icon, seven owner-approved promotional screenshots in their approved order, 1024×500 feature graphic, short description and full description. No design assets were changed.
@@ -23,7 +27,7 @@
 - Mobile lint, typecheck and all 25 tests passed before this build was queued. The old code 4 APK/AAB are historical artifacts, not evidence of the new fixes.
 - Matching code 5 preview APK completed on 22 October: https://expo.dev/accounts/malekmahmoudd/projects/fareeqai-mobile/builds/b2cac88f-8cac-4fbf-bfbd-0030e7fec16e . Download: https://expo.dev/artifacts/eas/2x1QYe7uhLJxhx3fqTnueXQ-ZqLwT-yFT-fA36zW_TE.apk . Ignored local copy: `mobile/releases/fareeqai-0.2.1-code5.apk`; SHA-256 `3b6e8de7ed9ffda295232b33cd546f747d9a2f09f457a500ae4546b401c4a251`. Official Android build-tools 36.0.0 apksigner verified the v2 signature and certificate matching the AAB. aapt2 confirms package/version/code and min/target APIs 24/36. ZIP integrity, zipalign 16 KB page checks and all 46 64-bit ELF alignments passed. Physical-device installation testing remains pending.
 
-## Forms to finish when Console controls are available
+## Earlier checklist (use current completion below)
 
 1. **Review access:** guest access covers the main experience; optional account functions exist. Explain the guest path and account creation accurately. Do not claim protected account features need no authentication or invent review credentials. Existing operator credentials must never be published.
 2. **Content rating:** finish IARC based on actual app behavior. AI-generated content is online content; there is no native user-to-user social exchange. Do not claim a final age rating until IARC issues it.
@@ -59,7 +63,7 @@ Subsequent short runs confirmed **Financial features saved** with `Financial adv
 - The draft's release name was empty and the upload area still said `Drop app bundles here to upload`. The user can upload the verified local `mobile/releases/fareeqai-0.2.1-code5.aab`, verify package/code, enter `0.2.1 (5)` and the prepared notes, then Save as draft. No rollout, testing release or production release was completed.
 
 
-## Latest declaration verification — 22 October, 05:30 UTC
+## Historical declaration checkpoint — 22 October, 05:30 UTC (superseded below)
 
 - **Target audience saved: 18 and over only.** Run `ebee345a-2699-4caf-b3f3-c78913a6fdec` confirmed “Change saved. Send for review in Publishing overview.” This is an audience selection, not an issued IARC rating.
 - **Data Safety not submitted.** Owner confirmed successful CSV import. Subsequent automation reached Data usage and handling, where Name and Email still showed “Not started”; it did not reach Preview or final save. Its assertion that imported purposes were populated conflicts with that state and is not accepted as proof. The reported 15-type count listed only 14 names, omitting Other personal info, so verify all 15 against the JSON worksheet.
@@ -74,3 +78,41 @@ Subsequent short runs confirmed **Financial features saved** with `Financial adv
 1. In the regular Console browser, confirm the imported Data Safety handling answers are present. If sections remain Not started, re-import the prepared CSV into that same active form, inspect one section, and complete all required sections using the JSON worksheet. Do not claim an import alone proves a submitted declaration.
 2. Correct account methods as above; verify https://fareeqai.pages.dev/delete-account and https://fareeqai.pages.dev/privacy; inspect the full preview and save the declaration. Do not claim all data automatically expires within 90 days or independent security certification.
 3. Review the IARC draft from the beginning, correcting the parent answers before completing online-content questions. Reach Summary and save; record actual issued regional ratings only after Console displays them.
+
+
+## Current status — direct browser completion on 22 October 2026
+
+This supersedes the earlier unfinished-state records. No further TinyFish credits were used; direct local browser control became available again.
+
+### Completed declarations
+
+- **Data Safety saved.** Direct import of the prior file failed with `Response missing for PSL_SUPPORTED_ACCOUNT_CREATION_METHODS`; the earlier user/automation success report did not establish successful application. Added 20 current account/deletion schema rows to the old Google sample (783 data rows total), using the upstream Fastlane helper schema, and imported through the browser file chooser. Google confirmed upload validation and **Answers imported from CSV**. All 15 handling sections showed **Completed**. Full expanded Preview matched collection, optionality and purposes, zero sharing under the processor exemption, encrypted transfer, account deletion and partial-deletion links. Save confirmed **Change saved. Send for review in Publishing overview.**
+- **Content Rating completed and saved.** Corrected downloaded mature content = No; user-to-user content exchange = No; online AI text = Yes. Incidental text references to violence, sexuality, offensive language and drugs disclosed conservatively, without generated mature imagery, sales or purchasing. Google returned **IARC status Completed**, submitted 22 October 2026, 08:41 Cairo time. Certificate ID displayed `-`; do not invent one.
+- Regional ratings displayed: Brazil **14+**; North America **Teen**; Europe **Parental guidance**; Germany **12+**; rest of world, Russia and South Korea **12+**. These are regional content ratings; the intended target audience remains **18+**.
+- **Financial features final save completed.** Financial advice remains selected; Documentation said no additional documents required. Earlier automation had saved only a draft/partial state. Final Save now confirmed.
+- App Content now explicitly says **You've caught up with everything**, with **10 actioned declarations** and no items needing attention.
+- **Review access corrected and saved.** Previous No-restrictions answer was inaccurate for optional account-only security/settings. Owner expressly requested creating a dedicated ordinary review account. Created through the normal native signup API using the support Gmail plus-address; verified password login and 2FA disabled. Saved its credentials and guest/account instructions in Google Play, marked restricted access Yes. Optional Google/trusted-partner device feedback switch disabled. No operator/admin credentials supplied. Private local record: `deploy/.env.play-review.json`, git-ignored, mode 0600; never commit, print or include it in screenshots/release notes. Reviewer account contains no personal content and has normal user privileges only.
+
+### Android release draft accepted
+
+- Verified **code 5 / version 0.2.1 AAB uploaded and processed by Google Play**, with native debug symbols attached. API 24+, target 36. Existing upload-signing configuration accepted; no new signing agreement was presented.
+- Internal track ID `4701173333119666010`, draft release `1`, name **0.2.1 (5)**. English release notes saved. Navigated to Preview and confirm, which persists the prepared release.
+- Play release validation: **no blocking errors**, **two warnings**: no testers configured; no deobfuscation file. Tester configuration remains owner-deferred. Generated Android Gradle uses minification false by default and there is no enable-minification override in the checked build config; a Java mapping file is not produced for that mode. Native debug symbols are separately attached.
+- Estimated new-install download **43.7 MB**. This estimate is not a device test.
+- **Save and publish was not clicked.** Release remains draft, not rolled out to internal/closed/production users. No app review request or production application submitted.
+
+### Deliberately deferred by owner
+
+Real Android phone testing, recruitment/enrollment of 12 willing closed testers, the continuous 14-day test, production-access application and production submission. Do not mark these complete. Existing operator report-review test remains unverified under the owner's prior instruction to continue without signing in; a new ordinary review account does not verify operator authorization.
+
+### Local proof
+
+- `docs/remediation/play-content-all-complete-2026-10-22.png`
+- `docs/remediation/play-data-safety-saved-2026-10-22.png`
+- `docs/remediation/play-rating-completed-2026-10-22.png`
+- `docs/remediation/play-review-access-saved-2026-10-22.png`
+- `docs/remediation/play-build5-validation-2026-10-22.png`
+- `docs/remediation/play-build5-uploaded-2026-10-22.png`
+- `docs/remediation/play-build5-draft-saved-2026-10-22.png`
+
+Screenshots are ignored local verification aids. No website/mobile design or application code changed in this session.

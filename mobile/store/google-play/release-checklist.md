@@ -91,3 +91,14 @@ Official references:
 - Owner confirmed the Data Safety CSV imported, but a subsequent run still found handling sections Not started. Preview/final save remain pending. Clear the incorrectly selected passwordless “Username and other authentication” method; retain password and password-plus-2FA methods. Verify all 15 types against the prepared JSON, including Other personal info.
 - IARC remains incomplete; latest automation reported contradictory/incorrect online-content answers. Review the draft before submission; no rating has been issued.
 - Prepared CSV and JSON are tracked with the worksheet. No changes sent for review. Metered attempts stopped within the owner’s $5 total limit; see detailed handoff for evidence and exact corrections.
+
+
+## Current completion — direct browser verification, 22 October 2026
+
+- Data Safety imported with corrected current schema, all 15 handling sections Completed, full Preview reviewed, final Save confirmed.
+- IARC completed and saved: Brazil 14+, ESRB Teen, PEGI Parental guidance, Germany/rest-of-world/Russia/South Korea 12+. Target audience remains 18+.
+- Financial declaration completed through final Documentation/Save; no supporting documents requested. App Content has no pending declarations.
+- App access corrected to restricted Yes for optional account settings, with owner-authorized dedicated ordinary reviewer credentials and guest instructions saved. Password login verified, no 2FA, no personal data/admin privileges; credential file is ignored and private.
+- Code 5 AAB uploaded and accepted in internal draft **0.2.1 (5)**, with release notes. Play validation has zero blocking errors and two warnings (no testers; optional deobfuscation file). No release published or review request sent.
+- Owner deferred actual-phone testing, 12-person/14-day closed test, production-access application and production submission. Internal rollout is also still a draft. Operator report review remains unverified per earlier owner instruction.
+- Updated detailed evidence and private-file handling in `docs/play-console-handoff-2026-10-22.md`.
