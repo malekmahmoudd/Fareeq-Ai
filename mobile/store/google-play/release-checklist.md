@@ -1,6 +1,6 @@
 # Android / Safari release readiness
 
-Prepared store version: 0.2.1, Android versionCode 5, package com.fareeqai.mobile. The previous preview APK remains code 4; it does not contain the latest dependency fixes.
+Prepared version: 0.2.1, Android versionCode 5, package com.fareeqai.mobile. Both the store AAB and matching preview APK have completed with the latest dependency fixes.
 
 ## Prepared
 - Approved Leo seamless artwork and Harvey portrait; original inside-app wordmark retained.
@@ -78,7 +78,8 @@ Official references:
 - Store listing saved in Console and marked Ready to send for review: app icon, name, short/full descriptions, seven approved phone screenshots and feature graphic. No review or public release submitted.
 - Public support email, HTTPS website, Productivity category, privacy-policy URL, no-ads and no-advertising-ID declarations saved. Government-app declaration saved as No.
 - IARC terms accepted with the owner's explicit action-time approval. Rating questionnaire remains unfinished; no rating issued. Partial answers are drafts, not certified completed declarations.
-- Sign-in details, content rating, target audience, Data Safety, financial features and health forms still require completion. Browser control became unavailable during the questionnaire; no alternative Play Console integration was found.
+- Content rating, target audience and Data Safety remain incomplete. Financial features (`Financial advice`) and health (`Activity and fitness`) were subsequently saved using the owner-authorized TinyFish session. Sign-in-details answers still need verification; a later overview no longer listed them among items requiring attention. No rating or release has been confirmed.
 - After the owner reported a successful DockHosting deployment, fresh `/api/health` and `/api/legal/privacy` checks returned 200, database OK, and the public support email present in the live notice. Privacy-notice deployment is verified. Installed runtime dependency versions are not exposed by these endpoints.
 - Closed testing still needs the account-specific requirement shown by Console: at least 12 opted-in testers continuously for 14 days. No testers were enrolled and no testing release was published.
 - Detailed handoff and artifact checksum: `docs/play-console-handoff-2026-10-22.md`.
+- Matching code 5 APK completed and downloaded. Official apksigner verified its signature/certificate, matching the AAB; aapt2 confirms code 5 and API 24/36. APK ZIP integrity, 16 KB ZIP alignment and all 46 64-bit ELF alignment checks passed. The updated APK still needs physical-device testing.

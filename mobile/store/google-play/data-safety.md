@@ -24,3 +24,12 @@ Deletion removes live workspace data; already-created backups follow provider re
 - [DockHosting privacy policy](https://www.dockhosting.dev/privacy), updated 7 October: hosted content is processed to operate the service. Project/database/account deletion is described as taking up to 30 days, subject to legal exceptions. Operational/security logs roll over without a fixed public retention period. This does not establish a per-user record deletion deadline inside FareeqAI or confirm runtime logging settings.
 
 Account-specific retention, processing scope and backup settings still need verification. The public documentation alone does not justify certifying zero retention or selecting Play's service-provider sharing exemption.
+
+## Additional code-level inventory checked on 22 October
+
+- `src/components/Documents.tsx` in the mobile client explicitly accepts PNG, JPEG and WebP through the system picker, as well as documents/text. Review **Photos** as optional collection alongside **Files and docs**; absence of camera/media-library permission does not mean selected images stay on-device.
+- The backend agent context includes the user's display name and populated profile fields (`app/agents/context.py`, `_about_user`). Relevant context goes to the AI provider. Do not declare that names are never transmitted to the provider merely because the account field is optional.
+- Maddie's prompt intentionally uses exercise history, goals and user-provided injury/health limitations; Emma's prompt intentionally uses user-provided income/debt/savings context. Review **Fitness info**, **Health info** and **Other financial info** as optional data types instead of treating all intentional coaching data solely as generic chat text.
+- Account sessions store user ID, a session identifier, user-agent text and a truncated IP/network prefix (`app/core/sessions.py`). Review **User IDs**, **Device or other IDs**, and security purposes. The app does not request GPS or perform IP geolocation in this code; do not claim device-location collection solely from the presence of a request IP.
+
+These checks refine the worksheet; they are not a completed or submitted Play attestation.

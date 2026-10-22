@@ -21,7 +21,7 @@
 - All 46 arm64/x86_64 libraries passed ELF PT_LOAD alignment >=16 KB. This is not a replacement for Google Play acceptance or installation testing.
 - Permissions: INTERNET, VIBRATE, USE_BIOMETRIC, USE_FINGERPRINT and app-specific DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION. No AD_ID, camera, microphone, location or broad-storage permissions.
 - Mobile lint, typecheck and all 25 tests passed before this build was queued. The old code 4 APK/AAB are historical artifacts, not evidence of the new fixes.
-- Matching code 5 preview APK requested on 22 October for direct physical-device testing: https://expo.dev/accounts/malekmahmoudd/projects/fareeqai-mobile/builds/b2cac88f-8cac-4fbf-bfbd-0030e7fec16e . Completion, download and signature verification must be checked before calling this APK ready.
+- Matching code 5 preview APK completed on 22 October: https://expo.dev/accounts/malekmahmoudd/projects/fareeqai-mobile/builds/b2cac88f-8cac-4fbf-bfbd-0030e7fec16e . Download: https://expo.dev/artifacts/eas/2x1QYe7uhLJxhx3fqTnueXQ-ZqLwT-yFT-fA36zW_TE.apk . Ignored local copy: `mobile/releases/fareeqai-0.2.1-code5.apk`; SHA-256 `3b6e8de7ed9ffda295232b33cd546f747d9a2f09f457a500ae4546b401c4a251`. Official Android build-tools 36.0.0 apksigner verified the v2 signature and certificate matching the AAB. aapt2 confirms package/version/code and min/target APIs 24/36. ZIP integrity, zipalign 16 KB page checks and all 46 64-bit ELF alignments passed. Physical-device installation testing remains pending.
 
 ## Forms to finish when Console controls are available
 
@@ -46,4 +46,14 @@ Authorized operator review remains unverified because the owner instructed conti
 
 Local screenshots: `docs/remediation/play-listing-complete-2026-10-21.jpg` and `docs/remediation/play-iarc-terms-2026-10-21.jpg`. These record earlier UI state and are not live Console snapshots for 22 October.
 
-Browser control is unavailable in this session. Plugin discovery found no suitable Console integration; unrelated Google plugins were not installed. No new account access or permissions were granted.
+The original local browser control became unavailable. The owner then connected TinyFish, approved Google sign-in and saved the browser profile, and authorized at most $2 of existing credits with no purchases/top-ups. A content-form run was stopped after it reported steps beyond the configured bound, to protect that spending ceiling. It returned no completion report, so its edits must not be assumed saved. A separate read-only verification reported five declarations still needing attention: Content ratings (Edit), Target audience, Data safety, Financial features and Health apps (Start). No rating or release was confirmed. No admin/operator credentials were used.
+
+Subsequent short runs confirmed **Financial features saved** with `Financial advice` selected for Emma's educational guidance, and **Health apps saved** with `Activity and fitness` only. The health form showed no regional requirements and confirmed `Change saved. Send for review in Publishing overview.` No medical device or diagnosis was declared. These two declarations are no longer pending; no review request was sent. The original cancelled run's other changes remain unverified.
+
+### Remaining automation limitations verified later on 22 October
+
+- The rating overview has an incomplete/in-progress draft with Edit and Start new questionnaire controls. Direct navigation to the questionnaire can show a blank category form; this does not establish that the saved draft was discarded. Resume through Edit.
+- A later editing run reported a saved `invited friends only = Yes` answer. This is **incorrect for FareeqAI**, which has no user-to-user chat or friends list. A correction attempt did not reach/verify the questionnaire answer. Before any final rating submission, set user-to-user interaction to No, any applicable friends-only feature answer to No, and online AI-generated text content to Yes. No final rating was issued. Do not treat the saved draft as certified accurate.
+- Content rating, target audience and Data Safety remain incomplete. No additional forms should be assumed completed from a partially executed run.
+- The upload attempt reached internal-testing draft release ID `4701173333119666010`, but **no bundle was uploaded**. TinyFish could initiate the Expo AAB download but could not transfer it into Play Console's file chooser. This is a limitation of this automation interface, not a general claim that Playwright cannot upload files.
+- The draft's release name was empty and the upload area still said `Drop app bundles here to upload`. The user can upload the verified local `mobile/releases/fareeqai-0.2.1-code5.aab`, verify package/code, enter `0.2.1 (5)` and the prepared notes, then Save as draft. No rollout, testing release or production release was completed.
