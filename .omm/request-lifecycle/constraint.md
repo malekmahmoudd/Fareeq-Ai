@@ -1,0 +1,1 @@
+The production route is POST /api/agents/{agent_id}/chat/stream. Non-streaming chat is disabled in production. Identity, account state and conversation ownership are resolved before HTTP streaming begins.

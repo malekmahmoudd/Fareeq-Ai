@@ -1,0 +1,11 @@
+created: 2026-10-25T00:15:59.364Z
+updated: 2026-10-25T00:16:06.030Z
+update_count: 2
+last_field: diagram
+kind: nested-class
+title: web-client
+children:
+  - routes
+  - shell
+  - transport
+parentPath: []

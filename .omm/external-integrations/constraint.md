@@ -1,0 +1,1 @@
+The Pages package uses direct upload: Git pushes alone do not publish proxy/mobile assets. Provider API keys, signing secrets and database credentials stay on the backend; EXPO_PUBLIC variables are public app configuration.

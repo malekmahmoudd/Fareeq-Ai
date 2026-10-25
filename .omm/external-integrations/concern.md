@@ -1,0 +1,1 @@
+Website delivery still depends on Netlify behind Cloudflare. Host free-plan limits/cold starts and external model quotas can affect both clients. Do not interpret a source diagram as proof of live availability.

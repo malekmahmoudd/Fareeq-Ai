@@ -1,0 +1,7 @@
+graph LR
+    routes["Expo Router screens\nmobile/client/src/app/"]
+    workspace["Workspace state boundary\nmobile/client/src/state/Workspace.tsx"]
+    transport["Native and web transport\nmobile/client/src/api/"]
+    routes -->|"read and update account-scoped state"| workspace
+    workspace -->|"authenticate and load server resources"| transport
+    transport -->|"deliver chat events and resource results"| routes

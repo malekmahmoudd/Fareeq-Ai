@@ -1,0 +1,1 @@
+Process-local conversation locks, parsing admission and lifespan maintenance belong to the single application process. Multiple replicas require coordination analysis. Some older docs still describe demo-user identity or the former Blitz host; use source and the current runbook.

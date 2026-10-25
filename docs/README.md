@@ -13,6 +13,8 @@ Start with the [project overview](../README.md). Dated reports record the enviro
 
 ## Architecture and product
 
+- [Interactive architecture map](architecture-map.md): oh-my-mermaid setup, four perspectives and nested source diagrams.
+
 - [Architecture](architecture.md), [agents](agents.md) and [memory](memory.md).
 - [Mobile architecture](mobile-design-and-architecture-2026-10-06.md) and [integration verification](mobile-integration-2026-10-06.md).
 - [Guest access](guest-access-2026-10-05.md) and [usage limits](usage-limits.md).

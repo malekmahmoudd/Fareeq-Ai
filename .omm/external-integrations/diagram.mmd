@@ -1,0 +1,14 @@
+graph LR
+    pages["Cloudflare Pages\ndeploy/cloudflare-pages/"]
+    netlify["Netlify website origin\nfrontend/; deploy/cloudflare-pages/_worker.js"]
+    dockhosting["DockHosting API container\nbackend/Dockerfile"]
+    neon["Neon PostgreSQL\nbackend/app/db/session.py"]
+    model-provider["Configured LLM provider\nbackend/app/llm/provider.py"]
+    eas["Expo EAS builds\nmobile/client/eas.json"]
+    model-assets["Pinned local model assets\nbackend/app/documents/fetch_model.py; backend/app/documents/fetch_ocr.py"]
+    pages -->|"forward desktop website reads"| netlify
+    pages -->|"forward API requests and SSE"| dockhosting
+    dockhosting -->|"SQLAlchemy database connection"| neon
+    dockhosting -->|"configured HTTPS text inference"| model-provider
+    model-assets -->|"baked into container image"| dockhosting
+    eas -->|"native app calls public API origin"| pages

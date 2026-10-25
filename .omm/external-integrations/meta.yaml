@@ -1,0 +1,14 @@
+created: 2026-10-25T00:16:04.191Z
+updated: 2026-10-25T00:16:05.013Z
+update_count: 7
+last_field: diagram
+git_commit: 10c53c0
+git_branch: hardening/quality-auth-deploy
+children:
+  - dockhosting
+  - eas
+  - model-assets
+  - model-provider
+  - neon
+  - netlify
+  - pages

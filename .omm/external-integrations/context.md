@@ -1,0 +1,1 @@
+Evidence: deploy/cloudflare-pages/_worker.js and README.md; backend/Dockerfile; backend/app/llm/provider.py; mobile/client/eas.json; docs/public-free-host-runbook.md. Host reachability and account settings were not re-audited in this scan.

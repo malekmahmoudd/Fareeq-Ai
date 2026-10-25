@@ -1,0 +1,11 @@
+graph LR
+    registry["Agent configuration registry\nbackend/app/agents/registry.py"]
+    context["Context packet builder\nbackend/app/agents/context.py"]
+    runtime["Turn orchestration\nbackend/app/agents/runtime.py"]
+    provider["LLM interface and budget wrapper\nbackend/app/llm/; backend/app/core/usage.py"]
+    learning["Memory and planning extraction\nbackend/app/memory/"]
+    registry -->|"supply identity, prompt and model settings"| runtime
+    runtime -->|"build per-turn scoped prompt"| context
+    context -->|"send bounded system and history"| provider
+    provider -->|"yield text or typed failure"| runtime
+    runtime -->|"analyze completed user turn"| learning

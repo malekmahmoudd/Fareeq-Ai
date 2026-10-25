@@ -1,0 +1,1 @@
+The diagram names providers and repository paths only. No .env values, review credentials, signing materials, user records or private dashboards were scanned into the documentation. No oh-my-mermaid cloud login/link/push was run.

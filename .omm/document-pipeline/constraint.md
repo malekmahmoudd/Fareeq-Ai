@@ -1,0 +1,1 @@
+Processing is an in-process FastAPI background task, not a durable external queue. Raw file bytes are transient. Ready documents are filtered by account and shared/agent visibility in SQL before ranking.

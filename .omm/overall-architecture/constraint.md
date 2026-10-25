@@ -1,0 +1,1 @@
+Agents are configuration, not independent services. PostgreSQL is the deployed store; SQLite is a development option. No application UI, backend behavior or hosting configuration was changed by this scan.

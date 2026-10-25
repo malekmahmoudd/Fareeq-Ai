@@ -1,0 +1,11 @@
+graph LR
+    web-client["Next.js website\nfrontend/src/"]
+    mobile-client["Expo mobile and Safari client\nmobile/client/src/"]
+    delivery-proxy["Pages delivery proxy\ndeploy/cloudflare-pages/_worker.js"]
+    backend["Shared FastAPI backend\nbackend/app/"]
+    database["Relational persistence\nbackend/app/db/"]
+    web-client -->|"same-origin page and API requests"| delivery-proxy
+    mobile-client -->|"public HTTPS API and Safari assets"| delivery-proxy
+    delivery-proxy -->|"website pages from Netlify"| web-client
+    delivery-proxy -->|"API forwarding and SSE passthrough"| backend
+    backend -->|"scoped SQLAlchemy reads and writes"| database

@@ -1,0 +1,20 @@
+graph LR
+    entry["ASGI entry and admission\nbackend/app/main.py; backend/app/core/ingress.py"]
+    authentication["Accounts and sessions\nbackend/app/api/routes/auth.py; backend/app/core/"]
+    api-routes["HTTP feature routes\nbackend/app/api/routes/"]
+    agent-engine["Shared agent engine\nbackend/app/agents/"]
+    workspace-services["Workspace domain services\nbackend/app/conversations/; backend/app/memory/; backend/app/goals/; backend/app/tracking/"]
+    documents["Document subsystem\nbackend/app/documents/"]
+    persistence["ORM and migrations\nbackend/app/db/; backend/migrations/"]
+    maintenance["Process-local maintenance\nbackend/app/main.py; backend/app/users/guest_cleanup.py"]
+    entry -->|"check body and identity constraints"| authentication
+    entry -->|"dispatch /api routes"| api-routes
+    authentication -->|"verify account and session records"| persistence
+    api-routes -->|"execute chat or team workflows"| agent-engine
+    api-routes -->|"perform owned domain operations"| workspace-services
+    api-routes -->|"upload, inspect or remove documents"| documents
+    agent-engine -->|"retrieve allowed source passages"| documents
+    agent-engine -->|"load history and learn eligible facts"| workspace-services
+    workspace-services -->|"persist owned records"| persistence
+    documents -->|"store text chunks and status"| persistence
+    maintenance -->|"retention sweeps and due reminders"| persistence

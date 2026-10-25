@@ -1,0 +1,12 @@
+created: 2026-10-25T00:15:58.408Z
+updated: 2026-10-25T00:15:59.227Z
+update_count: 7
+last_field: diagram
+git_commit: 10c53c0
+git_branch: hardening/quality-auth-deploy
+children:
+  - backend
+  - database
+  - delivery-proxy
+  - mobile-client
+  - web-client

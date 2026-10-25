@@ -1,0 +1,15 @@
+created: 2026-10-25T00:16:02.223Z
+updated: 2026-10-25T00:16:03.048Z
+update_count: 7
+last_field: diagram
+git_commit: 10c53c0
+git_branch: hardening/quality-auth-deploy
+children:
+  - admission
+  - chunks
+  - embedding
+  - parser
+  - record
+  - retrieval
+  - storage
+  - upload

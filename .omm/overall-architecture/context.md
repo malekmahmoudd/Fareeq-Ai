@@ -1,0 +1,1 @@
+Source scan: 2026-10-25. Evidence: README.md; backend/app/main.py; backend/app/api/__init__.py; frontend/next.config.mjs; mobile/client/src/api/client.ts; deploy/cloudflare-pages/_worker.js. This is a code/configuration map, not a fresh live-host audit.

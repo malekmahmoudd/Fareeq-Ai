@@ -1,0 +1,1 @@
+Recheck extraction limits, visibility filters and model identity before changing accepted formats, parser isolation or search. Introduce a durable job design only if reliability requirements exceed current behavior.

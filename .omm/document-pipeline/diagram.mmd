@@ -1,0 +1,18 @@
+graph LR
+    upload["Selected file upload\nfrontend/src/components/chat/AttachFile.tsx; mobile/client/src/components/Documents.tsx"]
+    admission["Pre-parse limits and identity\nbackend/app/core/ingress.py; backend/app/api/routes/documents.py"]
+    record["Processing document record\nbackend/app/documents/service.py"]
+    parser["Isolated parse and OCR\nbackend/app/documents/parse.py; backend/app/documents/ocr.py"]
+    chunks["Bound and chunk extracted text\nbackend/app/documents/chunking.py; backend/app/documents/service.py"]
+    embedding["Optional local embeddings\nbackend/app/documents/embedding.py"]
+    storage["Ready or failed state\nbackend/app/db/models.py; backend/app/documents/service.py"]
+    retrieval["Visibility and hybrid ranking\nbackend/app/documents/retrieval.py"]
+    upload -->|"multipart bytes and agent choice"| admission
+    admission -->|"accepted bounded file"| record
+    record -->|"background ingest with transient bytes"| parser
+    parser -->|"extracted pages or controlled failure"| chunks
+    chunks -->|"bounded text batches"| embedding
+    embedding -->|"chunks with optional vectors"| storage
+    chunks -->|"keyword-searchable text fallback"| storage
+    storage -->|"ready visible document chunks"| retrieval
+    retrieval -->|"source passages shown with the AI answer"| upload

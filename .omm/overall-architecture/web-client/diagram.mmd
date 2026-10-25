@@ -1,0 +1,7 @@
+graph LR
+    routes["App Router pages\nfrontend/src/app/"]
+    shell["Shared presentation shell\nfrontend/src/components/AppShell.tsx"]
+    transport["Browser API and chat state\nfrontend/src/lib/api.ts; frontend/src/features/chat/"]
+    routes -->|"render common navigation and controls"| shell
+    routes -->|"request scoped workspace data"| transport
+    transport -->|"surface connectivity and session state"| shell

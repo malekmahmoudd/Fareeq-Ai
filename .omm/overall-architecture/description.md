@@ -1,0 +1,1 @@
+FareeqAI is one FastAPI modular monolith shared by a Next.js website and an Expo/React Native mobile client. Anonymous devices receive isolated guest workspaces; registered accounts can use the same backend data across clients.

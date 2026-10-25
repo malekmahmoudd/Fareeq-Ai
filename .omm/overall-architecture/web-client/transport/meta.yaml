@@ -1,0 +1,9 @@
+created: 2026-10-25T00:16:06.406Z
+updated: 2026-10-25T00:16:06.407Z
+update_count: 1
+last_field: description
+kind: nested-class
+title: transport
+children: []
+parentPath:
+  - web-client

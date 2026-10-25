@@ -1,0 +1,17 @@
+created: 2026-10-25T00:16:00.010Z
+updated: 2026-10-25T00:16:00.837Z
+update_count: 7
+last_field: diagram
+git_commit: 10c53c0
+git_branch: hardening/quality-auth-deploy
+children:
+  - client
+  - context
+  - conversation
+  - identity
+  - ingress
+  - learning
+  - persistence
+  - provider
+  - runtime
+  - stream-ui

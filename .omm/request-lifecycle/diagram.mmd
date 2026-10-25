@@ -1,0 +1,22 @@
+graph LR
+    client["Chat client\nfrontend/src/features/chat/; mobile/client/src/api/"]
+    ingress["Body admission\nbackend/app/core/ingress.py"]
+    identity["Session and usage gate\nbackend/app/core/auth.py; backend/app/core/usage.py"]
+    conversation["Owned conversation resolution\nbackend/app/api/routes/chat.py"]
+    context["Scoped context packet\nbackend/app/agents/context.py; backend/app/documents/retrieval.py"]
+    runtime["Serialized turn runtime\nbackend/app/agents/runtime.py"]
+    provider["Budgeted model adapter\nbackend/app/llm/provider.py; backend/app/core/usage.py"]
+    persistence["Messages and metadata\nbackend/app/conversations/service.py"]
+    learning["Post-reply learning\nbackend/app/memory/llm_extraction.py; backend/app/agents/runtime.py"]
+    stream-ui["SSE rendering\nfrontend/src/features/chat/useChatStream.ts; mobile/client/src/api/sse.ts"]
+    client -->|"POST chat request"| ingress
+    ingress -->|"bounded request body"| identity
+    identity -->|"validated caller and admission"| conversation
+    conversation -->|"owned conversation and agent"| runtime
+    runtime -->|"load allowed context and passages"| context
+    context -->|"system and message packet"| provider
+    provider -->|"incremental model text"| runtime
+    runtime -->|"save answer before end"| persistence
+    runtime -->|"start, delta, end or error events"| stream-ui
+    persistence -->|"post-reply fact and plan analysis"| learning
+    learning -->|"separate memory/update event"| stream-ui

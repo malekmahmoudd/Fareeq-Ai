@@ -52,6 +52,10 @@ Open http://localhost:3000. The website proxies `/api` to http://localhost:8000 
 
 For the mobile client, see its [setup and Android testing instructions](mobile/client/README.md). The connected preview APK uses the public FareeqAI origin. The design-preview profile uses labeled sample data. Native keyboard, background/resume, accessibility and physical-device behavior still need verification; Goals/Plans, uploads and Markdown/source passages are implemented in the 0.2.0 client; see [verification and device checks](docs/android-features-2026-10-08.md).
 
+## Explore the architecture
+
+An [interactive architecture map](docs/architecture-map.md) documents the shared web/mobile backend, chat lifecycle, document pipeline and hosting integrations. Its Mermaid sources and descriptions live in `.omm/`. After installing oh-my-mermaid, run `omm view --port 4317` from the repository root.
+
 ## Validation
 
 ```sh

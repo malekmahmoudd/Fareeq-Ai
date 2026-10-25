@@ -1,0 +1,1 @@
+Files become bounded, owner-scoped document records and searchable text chunks. Parsing/OCR runs in an isolated subprocess; semantic embeddings are local and keyword retrieval remains available without the model.

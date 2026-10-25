@@ -1,0 +1,1 @@
+An interrupted connection can leave a partial answer, which the runtime saves with completion metadata. Memory learning happens after the end event and can fail independently; clients must not turn that into a duplicate reply.

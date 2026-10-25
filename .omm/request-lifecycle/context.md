@@ -1,0 +1,1 @@
+Evidence: backend/app/api/routes/chat.py; backend/app/agents/runtime.py; backend/app/agents/context.py; backend/app/core/usage.py; frontend/src/features/chat/useChatStream.ts; mobile/client/src/api/sse.ts.

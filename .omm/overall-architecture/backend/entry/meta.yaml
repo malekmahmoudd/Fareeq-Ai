@@ -1,0 +1,9 @@
+created: 2026-10-25T00:16:07.162Z
+updated: 2026-10-25T00:16:07.162Z
+update_count: 1
+last_field: description
+kind: nested-class
+title: entry
+children: []
+parentPath:
+  - backend
