@@ -4,6 +4,18 @@ Generated from checked-in source on 25 October 2026 using [oh-my-mermaid](https:
 
 ## Open the viewer
 
+For a directly openable, offline copy, open [FareeqAI-Architecture.html](FareeqAI-Architecture.html) in a browser. This single file embeds all four perspectives, nested descriptions, diagrams, layout/Markdown libraries and license notices. It preserves navigation, zoom/pan and the information panels without a server, npm or an internet connection. It is a snapshot rather than a live view of later `.omm/` changes.
+
+Regenerate the standalone file after updating the diagrams:
+
+```sh
+python3 tools/export-architecture.py
+```
+
+Regeneration needs the installed oh-my-mermaid 0.2.0 package and internet access to retrieve hash-checked, pinned viewer libraries and their licenses. Opening the resulting HTML needs neither. Embedded scripts passed syntax checks and every nested response was validated. The in-app browser blocks `file:` URLs, so direct local-file browser rendering could not be verified from that interface.
+
+For the live development viewer:
+
 From the repository root:
 
 ```sh
