@@ -67,7 +67,6 @@ export function TrackingManager() {
       />
       <nav aria-label={t("tools.label")} className="mb-8 flex flex-wrap gap-2">
         <Link href="/cv" className="btn">{t("tools.cv")}</Link>
-        <Link href="/money" className="btn">{t("tools.money")}</Link>
       </nav>
 
       <SectionLabel

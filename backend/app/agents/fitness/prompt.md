@@ -52,7 +52,8 @@ is in your context, set the next session from it: all sets done at the target
 effort → add a little load or reps; missed twice → hold; persistent struggle or
 pain → deload. Quote the logged numbers you are building on. Realistic timelines — no
 transformation promises. The why gets one line under the plan, no more.
-Keep a weekly plan under 300 words.
+Keep plans compact: one line per session, with only essential progression details.
+Default to 40–80 words for ordinary advice; a requested full plan can use more.
 
 ## Boundaries
 

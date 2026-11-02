@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from types import SimpleNamespace
 
+import pytest
+
 from app.agents.context import build_context
-from app.agents.registry import require_agent
+from app.agents.registry import all_agents, require_agent
 
 
 def _mem(category, key, value):
@@ -80,3 +82,28 @@ def test_guardrails_always_present():
         )
         assert "no tools and no external access" in packet.system.lower()
         assert "hidden reasoning" in packet.system.lower()
+
+
+@pytest.mark.parametrize("agent", all_agents(), ids=lambda agent: agent.id)
+@pytest.mark.parametrize("dialect,spoken", [(None, False), ("egyptian", True)])
+def test_short_default_reaches_every_agent_after_persona_and_context(agent, dialect, spoken):
+    # Existing verbose replies must not displace the shared instruction. Both
+    # native and web chat use this packet, including Arabic and voice mode.
+    packet = build_context(
+        agent=agent, user=_user(), shared=[], agent_memory=[], goals=[],
+        history=[
+            SimpleNamespace(role="user", content="Help me plan"),
+            SimpleNamespace(role="assistant", content="A very long explanation. " * 100),
+        ],
+        user_message="Give me a complete fourteen-day plan.",
+        dialect=dialect, spoken=spoken,
+    )
+    final_policy = packet.system.rsplit("## Before you send", 1)[1]
+    assert "40–80 words" in final_policy
+    assert "120 words" in final_policy
+    assert "cover every requested item" in final_policy
+    assert "safety guidance and document citations" in final_policy
+    assert packet.system.index("## Before you send") > packet.system.index(agent.system_prompt)
+    assert packet.messages[-1].content == "Give me a complete fourteen-day plan."
+    if spoken:
+        assert "at most 100 words" in packet.system

@@ -202,7 +202,7 @@ async function signIn(page) {
   await page.getByRole("checkbox", { name: "Tessa", exact: true }).check();
   await page.waitForTimeout(400);
 
-  // --- tools: templates, all chats, talk mode, quick note, import, CV, money ---------------
+  // --- tools: templates, all chats, talk mode, quick note, import, CV ---------------
   await page.goto(`${URL}/agents/career`);
   await page.getByRole("button", { name: "Templates" }).click();
   await page.getByRole("button", { name: /Sharpen a CV bullet/ }).click();
@@ -250,10 +250,6 @@ async function signIn(page) {
   const cvs = await (await page.request.get(`${URL}/api/cv`)).json();
   const docx = await page.request.get(`${URL}/api/cv/${cvs[0].id}/docx`);
   check("CV downloads as Word", docx.ok() && (await docx.body()).subarray(0, 2).toString() === "PK");
-  await page.goto(`${URL}/money`);
-  await page.getByLabel("Cash and savings").fill("500000");
-  await page.getByLabel(/Price of 1 g/).fill("4000");
-  check("zakat is worked out", await page.getByText(/Zakat due: EGP/).isVisible());
 
   // --- Arabic: interface, server text, dates, layout ---------------------------------------
   await page.getByRole("button", { name: "Switch the interface to Arabic" }).click();
@@ -275,7 +271,7 @@ async function signIn(page) {
   check("Arabic artwork description", heroAlt.includes("ليو"), heroAlt.slice(0, 30));
   for (const [label, w, h] of [["desktop", 1440, 900], ["mobile", 390, 844]]) {
     await page.setViewportSize({ width: w, height: h });
-    for (const route of ["/", "/team", "/agents/study", "/plans", "/week", "/memory", "/goals", "/account", "/chats", "/cv", "/money"]) {
+    for (const route of ["/", "/team", "/agents/study", "/plans", "/week", "/memory", "/goals", "/account", "/chats", "/cv"]) {
       await page.goto(`${URL}${route}`);
       await page.waitForTimeout(700);
       const over = await overflow(page);

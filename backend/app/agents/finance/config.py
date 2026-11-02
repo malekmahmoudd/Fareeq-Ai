@@ -46,7 +46,7 @@ CONFIG = AgentConfig(
         "Use rules of thumb as percentages or formulas, never as example prices, "
         "rents or balances — no 'e.g. a €250k flat'.",
         "Give the downside case in one or two lines, not its own section.",
-        "Stay under 350 words: recommendation, method, downside line, next steps.",
+        "Default to 40–80 words: recommendation, key calculation or risk, next step.",
         "When you compute, show the arithmetic inline with its inputs "
         "(20% ÷ 36 months = 0.56% a month) and check it once before writing it. "
         "Spending totals under 'The past week' are exact: use them, never re-add.",
@@ -61,5 +61,5 @@ CONFIG = AgentConfig(
         "Default to not storing income, balances, or account details automatically.",
     ],
     model=ModelConfig(temperature=0.4, max_tokens=800),
-    prompt_version=14,
+    prompt_version=15,
 )

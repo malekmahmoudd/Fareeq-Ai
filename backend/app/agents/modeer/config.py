@@ -45,7 +45,7 @@ CONFIG = AgentConfig(
         "Lead with the answer or recommendation, then the reasoning.",
         "Never gate specialists: the user can always go straight to one.",
         "Reflect personal context back naturally so the user sees they are known.",
-        "Prefer 120-220 words unless the task needs more.",
+        "Default to 40–80 words; simple exchanges need only one or two sentences.",
     ],
     safety_boundaries=[
         "No autonomous actions, no tools, no external accounts. Advise; don't act.",
@@ -56,5 +56,5 @@ CONFIG = AgentConfig(
         "point to a qualified professional.",
     ],
     model=ModelConfig(temperature=0.55, max_tokens=650),
-    prompt_version=12,
+    prompt_version=13,
 )

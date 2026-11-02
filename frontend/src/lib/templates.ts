@@ -102,15 +102,6 @@ export const STARTERS: Starter[] = [
     },
   },
   {
-    id: "finance-jameya",
-    agent_id: "finance",
-    title: { en: "Savings circle (jameya)", ar: "جمعية" },
-    body: {
-      en: "I'm joining a savings circle of {people} people paying {amount} a month. Which turn should I take if my goal is {goal}?",
-      ar: "سأشترك في جمعية من {العدد} أشخاص، القسط {المبلغ} شهريًا. أي دور آخذ إذا كان هدفي {الهدف}؟",
-    },
-  },
-  {
     id: "fitness-routine",
     agent_id: "fitness",
     title: { en: "A routine that fits", ar: "روتين يناسبني" },

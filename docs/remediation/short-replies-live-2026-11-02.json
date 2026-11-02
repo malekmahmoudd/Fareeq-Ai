@@ -1,0 +1,42 @@
+{
+  "note": "Synthetic prompts against Groq; edited local prompts, not verification of deployed prompts. Word count is whitespace-delimited.",
+  "cases": [
+    {
+      "agent": "career",
+      "model": "openai/gpt-oss-120b",
+      "prompt": "I have a junior software engineer interview tomorrow. Give me a short preparation plan.",
+      "words": 97,
+      "finish": "completed",
+      "within_limit": true,
+      "reply": "- Review the job description; pick two projects where you wrote clean code, solved bugs, or added features, and note the impact (e.g., “improved page load time” or “delivered feature X two weeks early”).  \n- Practice a 60‑second intro: name, current role, one technical strength, and a concise story showing teamwork or problem‑solving.  \n- Re‑run a mock “STAR” answer for a common question (e.g., “Describe a time you debugged a tricky issue”).  \n- Prepare two thoughtful questions about the team’s tech stack, code‑review process, or growth opportunities.  \n\nAnything specific about the role you’d like to focus on?"
+    },
+    {
+      "agent": "career",
+      "model": "openai/gpt-oss-120b",
+      "prompt": "عندي مقابلة شغل بكرة، أجهز لها إزاي؟",
+      "words": 65,
+      "finish": "completed",
+      "within_limit": true,
+      "reply": "جهّز نفسك كده:\n\n- راجع وصف الوظيفة واختار مثالين من شغلك الفعلي يوضحوا المهارات المطلوبة؛ خليك جاهز تحكيهم في 2‑3 دقايق.  \n- تدرب على تقديم نفسك في دقيقة واحدة (اسمك، خبرتك، إنجازك الأهم، وإيه اللي هتضيفه للشركة).  \n- حضّر سؤالين أو ثلاثة عن الفريق، الثقافة أو مشاريع الشركة عشان تبين اهتمامك.  \n\nكلم نفسك قدام المراية أو سجل صوت وتعدل قبل المقابلة بكره (3 نوفمبر). موفق!"
+    },
+    {
+      "agent": "study",
+      "model": "openai/gpt-oss-120b",
+      "prompt": "Give me a complete fourteen-day plan to learn Python basics, one short line per day. Include every day.",
+      "words": 163,
+      "finish": "completed",
+      "within_limit": null,
+      "reply": "Day 1 – Install Python, set up VS Code, run “print('Hello, world!')”.  \nDay 2 – Learn variables, data types (int, float, str, bool) and simple arithmetic.  \nDay 3 – Practice string operations: concatenation, formatting with f‑strings.  \nDay 4 – Explore lists: creation, indexing, slicing, append, pop.  \nDay 5 – Work with loops: `for` over a list, `range()`, basic `while`.  \nDay 6 – Understand conditionals: `if`, `elif`, `else` with comparison operators.  \nDay 7 – Introduce functions: define with `def`, parameters, return values, docstrings.  \nDay 8 – Study dictionaries: key‑value pairs, access, `items()`, `get()`.  \nDay 9 – Handle user input with `input()`, convert types, basic validation.  \nDay 10 – Learn list comprehensions for concise transformations.  \nDay 11 – Practice error handling: `try/except`, catching specific exceptions.  \nDay 12 – Read and write files: open, read, write, `with` context manager.  \nDay 13 – Combine concepts in a small project (e.g., a contact manager).  \nDay 14 – Review all topics, solve a mixed‑skill quiz, note areas to revisit.",
+      "all_14_days": true
+    },
+    {
+      "agent": "writing",
+      "model": "qwen/qwen3.8-27b",
+      "prompt": "Write a short, confident introduction for my junior software engineer interview. I am a computer science graduate. Do not invent experience.",
+      "words": 55,
+      "finish": "completed",
+      "within_limit": true,
+      "reply": "Hi, I’m Demo. I’m a recent Computer Science graduate with a strong foundation in core programming concepts and problem-solving. I’m eager to apply my academic training to real-world challenges and grow as a junior software engineer. I’m confident in my ability to learn quickly, collaborate well, and contribute to your team’s goals from day one."
+    }
+  ]
+}

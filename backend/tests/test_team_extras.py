@@ -193,7 +193,8 @@ def test_the_week_adds_up_spending_in_code_and_flags_quiet_goals(db):
             Goal(
                 user_id=user.id,
                 title="Learn Spanish",
-                updated_at=datetime.now(UTC) - timedelta(days=40),
+                # Keep this old relative to the review date, not the machine clock.
+                updated_at=datetime(2026, 8, 20, tzinfo=UTC),
             ),
         ]
     )

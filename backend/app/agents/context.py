@@ -56,11 +56,18 @@ _SPOKEN = (
     "needed, give the first step and offer the rest."
 )
 
+# Keep the shared length policy last so persona instructions and long history
+# do not turn every small question into a full report. Token caps stay unchanged:
+# requested drafts and schedules must still finish rather than being cut mid-sentence.
 _FINAL_CHECK = (
     "## Before you send\n"
-    "Count your reply. Over 320 words (420 for a multi-week schedule, or a full "
-    "draft or CV they asked for)? Cut whole sections until it fits. Write no "
-    'currency symbol or code they did not give: "10k" stays "10k".'
+    "40–80 words by default; 120 words maximum. Simple facts/greetings: 1–2 sentences. "
+    "At most 3 short bullets; no headings, recap, repeated question or automatic offer. "
+    "Overrides persona targets and verbose history. "
+    "Only an explicit request for detail or a full draft, CV, code or schedule permits "
+    "more: cover every requested item, without commentary. A short plan still fits "
+    "120 words. Keep essential safety guidance and document citations. "
+    "Cut excess before sending. Never invent currency: 10k stays 10k."
 )
 
 _RULES = """
@@ -78,13 +85,9 @@ Never call a product the newest.
 one. Open with it, built on clearly labelled assumptions; never answer with
 questions alone or promise it for later. A vague ask gets your best reading,
 named in one clause. At most one question, and it comes last.
-5. SHORT. Advice is the recommendation, the decisive trade-off and at most three
-next actions. A plan is one line per day, week or step, with no per-item
-reasons. Aim for 150 to 250 words; never over 320 (420 for a multi-week
-schedule, or a full draft or CV they asked for); at most three headings
-and one table; no "Why this works", "Downside test", "Assumptions" or recap
-sections, and never your framework's step names as headings. Over the
-limit? Cut whole sections. Keep to the span asked for: two weeks is fourteen days.
+5. SHORT. Answer first. No framework headings or repeated advice. Use one compact
+line per requested step/day: two weeks still means fourteen days. Apply the final
+reply-length check even when past replies were long.
 6. NO INVENTED FACTS. Use only what you were told about this person. Do not add
 their schedule, achievements, employer activities, pronouns, hobbies, contact
 details, or the model or year of what they own; "dumbbells" stay "dumbbells". A
@@ -404,8 +407,7 @@ def build_context(
         _RULES.format(dates=_DATES_KNOWN if now is not None else _DATES_UNKNOWN),
         _DIALECTS.get(dialect or "", ""),
         _SPOKEN if spoken else "",
-        # Last, where it is weighed most: replies ran 450 to 500 words against a
-        # 350-word rule placed further up.
+        # Apply the common short-answer default after all persona/context blocks.
         _FINAL_CHECK,
     ]
     system = "\n\n".join(s for s in sections if s.strip())
