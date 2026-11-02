@@ -1,0 +1,111 @@
+{
+  "backend": "https://fareeqai-api.dockhosting.dev",
+  "checks": [
+    {
+      "agent": "career",
+      "http_status": 200,
+      "events": [
+        {
+          "type": "start",
+          "conversation_id": "e038909d-09b9-4d57-b447-c00ecadc6c1c",
+          "agent_id": "career",
+          "context": {
+            "receipt": [
+              {
+                "label": "profile",
+                "text": "## About the user\n- Name: Guest"
+              },
+              {
+                "label": "shared",
+                "text": "<<PERSONAL_CONTEXT>>\n(none recorded yet)\n<</PERSONAL_CONTEXT>>"
+              },
+              {
+                "label": "private",
+                "text": "<<AGENT_MEMORY>>\n(none recorded yet)\n<</AGENT_MEMORY>>"
+              }
+            ],
+            "agent_id": "career",
+            "prompt_version": 14,
+            "shared_memory_used": [],
+            "agent_memory_used": [],
+            "personal_context_count": 0,
+            "history_messages": 0,
+            "system_chars": 10386,
+            "documents": []
+          }
+        },
+        {
+          "type": "end",
+          "conversation_id": "e038909d-09b9-4d57-b447-c00ecadc6c1c",
+          "message_id": "1a7df55a-c391-402d-bdb0-d664e4df1d72",
+          "content": "- Review the job description; note the top three technical skills they emphasize and pick two concrete projects where you used each.  \n- Practice a 60‑second “elevator pitch” that frames your background, a key achievement, and why you’re excited about this role.  \n- Run a mock Q&A: answer “Tell me about a challenging bug you fixed” and “How do you prioritize tasks?” with the STAR format, then write two thoughtful questions about the team’s tech stack or growth roadmap.  \n\nAnything specific about the role you’d like to focus on?",
+          "completion": "completed",
+          "notice": "",
+          "context_used": false
+        }
+      ],
+      "words": 89,
+      "reply": "- Review the job description; note the top three technical skills they emphasize and pick two concrete projects where you used each.  \n- Practice a 60‑second “elevator pitch” that frames your background, a key achievement, and why you’re excited about this role.  \n- Run a mock Q&A: answer “Tell me about a challenging bug you fixed” and “How do you prioritize tasks?” with the STAR format, then write two thoughtful questions about the team’s tech stack or growth roadmap.  \n\nAnything specific about the role you’d like to focus on?",
+      "prompt_version": 14,
+      "completion": "completed",
+      "synthetic_chat_deleted": true,
+      "expected_prompt_version": 14,
+      "new_prompt_live": true,
+      "within_ordinary_limit": true
+    },
+    {
+      "agent": "writing",
+      "http_status": 200,
+      "events": [
+        {
+          "type": "start",
+          "conversation_id": "000fc4db-0b87-4985-8c0a-74499927595f",
+          "agent_id": "writing",
+          "context": {
+            "receipt": [
+              {
+                "label": "profile",
+                "text": "## About the user\n- Name: Guest"
+              },
+              {
+                "label": "shared",
+                "text": "<<PERSONAL_CONTEXT>>\n(none recorded yet)\n<</PERSONAL_CONTEXT>>"
+              },
+              {
+                "label": "private",
+                "text": "<<AGENT_MEMORY>>\n(none recorded yet)\n<</AGENT_MEMORY>>"
+              }
+            ],
+            "agent_id": "writing",
+            "prompt_version": 15,
+            "shared_memory_used": [],
+            "agent_memory_used": [],
+            "personal_context_count": 0,
+            "history_messages": 0,
+            "system_chars": 9855,
+            "documents": []
+          }
+        },
+        {
+          "type": "end",
+          "conversation_id": "000fc4db-0b87-4985-8c0a-74499927595f",
+          "message_id": "4175d871-2eeb-4e0e-9658-f52509ffc250",
+          "content": "Hi, I’m [Name], a recent Computer Science graduate. I’m excited about this junior software engineer role because it offers a chance to apply my academic foundation in problem-solving and coding to real-world projects. I’m eager to learn from your team, contribute to your codebase, and grow as a developer in a collaborative environment.",
+          "completion": "completed",
+          "notice": "",
+          "context_used": false
+        }
+      ],
+      "words": 53,
+      "reply": "Hi, I’m [Name], a recent Computer Science graduate. I’m excited about this junior software engineer role because it offers a chance to apply my academic foundation in problem-solving and coding to real-world projects. I’m eager to learn from your team, contribute to your codebase, and grow as a developer in a collaborative environment.",
+      "prompt_version": 15,
+      "completion": "completed",
+      "synthetic_chat_deleted": true,
+      "expected_prompt_version": 15,
+      "new_prompt_live": true,
+      "within_ordinary_limit": true
+    }
+  ],
+  "mobile_guest_status": 200,
+  "conclusion": "New backend prompts verified live through native bearer guest access; both replies completed and synthetic conversations were deleted."
+}

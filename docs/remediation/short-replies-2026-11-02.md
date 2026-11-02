@@ -42,3 +42,13 @@ Zakat and savings circles entirely.
 These are prompt instructions, not a deterministic output word-count filter.
 Samples do not guarantee every future reply meets the target. Live hosted rollout
 is not verified by these local tests or direct provider calls.
+
+## Hosted deployment verification
+
+After the owner redeployed commit `3b8b6d8` on DockHosting, a fresh native guest
+session confirmed Harvey prompt version 14 and Writing version 15. Their live
+streamed replies completed in 89 and 53 words, respectively. Both synthetic
+incognito conversations were deleted afterward. This checks the same native
+bearer authentication and shared chat API used by Android, without installing a
+new APK. Previously verified public `/money` returns 404; the API/database were
+healthy. See `short-replies-deployed-2026-11-02.json` for hosted evidence.
